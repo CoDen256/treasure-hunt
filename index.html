@@ -486,8 +486,68 @@
             margin-top: 12px;
         }
 
+        /* celebration overlay */
+        .cel-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(23,16,31,0.92);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 32px;
+        }
+        .cel-overlay.show { opacity: 1; pointer-events: all; }
+        .cel-seal-big {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-style: italic; font-size: 58px; color: #3a2210;
+            box-shadow: 0 10px 60px rgba(214,160,92,0.65);
+            animation: bigPop 0.75s cubic-bezier(.34,1.56,.64,1) 0.05s both;
+        }
+        @keyframes bigPop {
+            from { transform: scale(0) rotate(-40deg); opacity: 0; }
+            to   { transform: scale(1) rotate(-6deg); opacity: 1; }
+        }
+        .cel-title-big {
+            font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+            font-size: 34px; color: var(--parchment); margin: 22px 0 8px; text-align: center;
+            animation: slideUpCel 0.5s ease 0.4s both;
+        }
+        .cel-sub-big {
+            font-size: 15px; color: var(--muted); margin: 0 0 36px;
+            text-align: center; line-height: 1.6;
+            animation: slideUpCel 0.5s ease 0.55s both;
+        }
+        .next-btn-big {
+            display: inline-block; padding: 20px 56px;
+            background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+            border: none; border-radius: 12px; color: #3a2210;
+            font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 19px;
+            text-decoration: none; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(214,160,92,0.45);
+            animation: popBtnCel 0.6s cubic-bezier(.34,1.56,.64,1) 0.75s both;
+            transition: transform 0.15s;
+        }
+        .next-btn-big:active { transform: scale(0.96); }
+        .confetti { position: absolute; top: -12px; }
+        @keyframes confetti-fall {
+            0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; }
+            80%  { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(var(--rot,360deg)) translateX(var(--drift,60px)); opacity: 0; }
+        }
+        @keyframes slideUpCel {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popBtnCel {
+            from { opacity: 0; transform: scale(0.75); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            .sparkle { display: none; }
+            .sparkle, .confetti { display: none; }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -499,6 +559,13 @@
 <body>
 
 <div id="sparkles"></div>
+
+<div id="cel-overlay" class="cel-overlay">
+    <div class="cel-seal-big">&amp;</div>
+    <h2 class="cel-title-big">Every seal broken.</h2>
+    <p class="cel-sub-big">You've solved this stop — time to move on.</p>
+    <a href="stop5.html" class="next-btn-big">Next Stop →</a>
+</div>
 
 <div class="wrap">
     <div class="eyebrow" id="eyebrow-label"></div>
@@ -544,7 +611,7 @@
     // ============================================================
 
     // The small line above the title, e.g. "STOP 01 — THE LIBRARY"
-    const STOP_LABEL = "STOP 01 — THE LIBRARY";
+    const STOP_LABEL = "STOP 04 — [LOCATION]";
 
     // Main heading and the line underneath it
     const PAGE_TITLE = "Break Every Seal";
@@ -740,10 +807,36 @@
         const finalSection = document.getElementById('final-section');
         if (finalSection.classList.contains('show')) return;
         finalSection.classList.add('show');
-        burstSparkles();
-        setTimeout(() => {
-            finalSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
+        burstConfetti(55);
+        burstSparkles(28);
+        setTimeout(() => document.getElementById('cel-overlay').classList.add('show'), 80);
+    }
+
+    function burstConfetti(n) {
+        const c = document.getElementById('sparkles');
+        const cols = ['#f0c988','#d6a05c','#8fdba8','#e69090','#f4ecdd','#c9b2e8','#9c6a34','#b2a5c2'];
+        for (let i=0;i<n;i++) {
+            const el = document.createElement('div');
+            el.className = 'confetti';
+            const sz = Math.random()*9+4, circ = Math.random()>0.4;
+            Object.assign(el.style, {
+                width: sz+'px',
+                height: (circ?sz:sz*(Math.random()*1.4+0.5))+'px',
+                borderRadius: circ?'50%':'2px',
+                background: cols[Math.floor(Math.random()*cols.length)],
+                left: Math.random()*100+'%',
+                opacity: (Math.random()*0.7+0.3).toString(),
+                animationDuration: (Math.random()*2+2.5)+'s',
+                animationDelay: (Math.random()*0.9)+'s',
+                animationName: 'confetti-fall',
+                animationTimingFunction: 'ease-in',
+                animationFillMode: 'forwards'
+            });
+            el.style.setProperty('--rot', (Math.random()*720-360)+'deg');
+            el.style.setProperty('--drift', (Math.random()-0.5)*240+'px');
+            c.appendChild(el);
+            setTimeout(() => el.remove(), 4200);
+        }
     }
 
     function toggleHint(type, index) {

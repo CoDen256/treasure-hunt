@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17101f">
+    <title>Break Every Seal – Stop 02</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #17101f; --plum: #2a1a34; --wine: #3a1d30;
+            --parchment: #f4ecdd; --muted: #b2a5c2;
+            --seal: #d6a05c; --seal-light: #f0c988; --seal-deep: #9c6a34;
+            --mint: #8fdba8; --rose: #e69090;
+            --card-bg: rgba(255,255,255,0.035);
+            --card-line: rgba(214,160,92,0.28);
+            --card-line-soft: rgba(214,160,92,0.12);
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { margin: 0; padding: 0; min-height: 100%; overflow-x: hidden; }
+        body {
+            background-image:
+                radial-gradient(circle, rgba(244,236,221,0.035) 1px, transparent 1.2px),
+                linear-gradient(165deg, var(--ink), var(--plum) 55%, var(--wine));
+            background-size: 3px 3px, cover;
+            background-repeat: repeat, no-repeat;
+            background-attachment: fixed, fixed;
+            color: var(--parchment);
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+        #sparkles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+        .sparkle {
+            position: absolute; bottom: -10px; border-radius: 50%;
+            background: var(--seal-light); opacity: 0; will-change: transform, opacity;
+            animation: float-up linear infinite;
+        }
+        .confetti { position: absolute; top: -12px; }
+        @keyframes float-up {
+            0%   { transform: translateY(0) translateX(0); opacity: 0; }
+            10%  { opacity: 0.5; }
+            90%  { opacity: 0.2; }
+            100% { transform: translateY(-110vh) translateX(var(--drift,20px)); opacity: 0; }
+        }
+        @keyframes confetti-fall {
+            0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; }
+            80%  { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(var(--rot,360deg)) translateX(var(--drift,60px)); opacity: 0; }
+        }
+        .wrap {
+            position: relative; z-index: 1;
+            max-width: 480px; margin: 0 auto;
+            padding: 36px 20px calc(64px + env(safe-area-inset-bottom));
+        }
+        .eyebrow {
+            text-align: center; font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--seal); margin-bottom: 14px;
+        }
+        h1.title {
+            font-family: 'Fraunces', serif; font-weight: 600; font-size: 33px;
+            line-height: 1.2; text-align: center; margin: 0 0 10px; color: var(--parchment);
+        }
+        .subtitle {
+            text-align: center; font-size: 14.5px; line-height: 1.5;
+            color: var(--muted); margin: 0 0 28px;
+        }
+        .progress-wrap {
+            display: flex; align-items: center; justify-content: center;
+            flex-wrap: wrap; gap: 10px; margin-bottom: 28px;
+        }
+        .seal-strand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .seal-dot {
+            width: 16px; height: 16px; border-radius: 50%;
+            border: 1.5px solid rgba(214,160,92,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-size: 8px; color: transparent;
+            flex-shrink: 0; transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+        }
+        .seal-dot.opened {
+            background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+            border-color: var(--seal); color: #3a2210; transform: scale(1.08);
+        }
+        .seal-count { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-line), transparent);
+            margin: 26px 0; border: none;
+        }
+        .section-head { margin: 8px 0 6px; }
+        .section-head h2 {
+            font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+            font-size: 20px; margin: 0 0 4px; color: var(--seal-light);
+        }
+        .section-note { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
+        .card {
+            position: relative; background: var(--card-bg);
+            border: 1px solid var(--card-line); border-radius: 6px;
+            padding: 22px 20px; margin-bottom: 14px; overflow: visible;
+        }
+        .card::before {
+            content: ''; position: absolute; inset: 6px;
+            border: 1px solid var(--card-line-soft); border-radius: 3px; pointer-events: none;
+        }
+        .card.shake { animation: shake 0.4s; }
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .stamp {
+            position: absolute; top: -12px; right: -10px;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; color: #3a2210;
+            opacity: 0; transform: scale(0) rotate(-25deg);
+            transition: opacity 0.3s, transform 0.4s cubic-bezier(.34,1.56,.64,1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.35); pointer-events: none;
+        }
+        .stamp.show { opacity: 1; transform: scale(1) rotate(-12deg); }
+        .item-label {
+            font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 10px;
+        }
+        .q-text { font-size: 16px; line-height: 1.55; color: var(--parchment); margin-bottom: 16px; }
+        .input-row { display: flex; align-items: center; gap: 8px; }
+        input[type="text"] {
+            flex: 1; min-width: 0; height: 44px; padding: 0 14px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 6px; color: var(--parchment);
+            font-family: 'Manrope', sans-serif; font-size: 16px; outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus { border-color: var(--seal); }
+        input[type="text"]:disabled { opacity: 0.65; }
+        .btn-check {
+            height: 44px; padding: 0 16px;
+            background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+            border: none; border-radius: 6px; color: #3a2210;
+            font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13.5px;
+            letter-spacing: 0.3px; white-space: nowrap; cursor: pointer; transition: transform 0.15s;
+        }
+        .btn-check:active { transform: scale(0.95); }
+        .btn-check.done { background: transparent; border: 1.5px solid var(--mint); color: var(--mint); }
+        .feedback { min-height: 18px; font-size: 13px; margin-top: 9px; }
+        .feedback.correct { color: var(--mint); }
+        .feedback.wrong { color: var(--rose); }
+        .hint-toggle {
+            display: inline-block; margin-top: 10px; padding: 0;
+            background: none; border: none; font-family: 'Manrope', sans-serif;
+            font-size: 12px; color: var(--muted); text-decoration: underline;
+            text-underline-offset: 2px; cursor: pointer;
+        }
+        .hint-text {
+            display: none; margin-top: 8px; padding: 10px 12px;
+            background: rgba(214,160,92,0.08); border-left: 2px solid var(--seal);
+            border-radius: 0 4px 4px 0; font-size: 13px; font-style: italic; color: var(--seal-light);
+        }
+        .hint-text.show { display: block; }
+        .song-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .song-num {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: rgba(214,160,92,0.14); color: var(--seal-light);
+            font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .song-mask { font-size: 13px; font-style: italic; color: var(--muted); }
+        .player { margin-bottom: 16px; }
+        audio { display: none; }
+        .player-controls { display: flex; align-items: center; gap: 10px; }
+        .play-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+            border: none; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; flex-shrink: 0; transition: transform 0.15s;
+        }
+        .play-btn:active { transform: scale(0.92); }
+        .play-icon { width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-left: 10px solid #3a2210; margin-left: 3px; }
+        .pause-icon { display: flex; gap: 3px; }
+        .pause-icon span { width: 3px; height: 12px; background: #3a2210; border-radius: 1px; display: block; }
+        .player-track {
+            flex: 1; height: 6px; background: rgba(255,255,255,0.12);
+            border-radius: 3px; position: relative; cursor: pointer;
+        }
+        .player-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--seal-deep), var(--seal-light)); border-radius: 3px; }
+        .player-time { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--muted); min-width: 32px; text-align: right; }
+
+        /* celebration overlay */
+        .cel-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(23,16,31,0.92);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 32px;
+        }
+        .cel-overlay.show { opacity: 1; pointer-events: all; }
+        .cel-seal {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-style: italic; font-size: 58px; color: #3a2210;
+            box-shadow: 0 10px 60px rgba(214,160,92,0.65);
+            animation: bigPop 0.75s cubic-bezier(.34,1.56,.64,1) 0.05s both;
+        }
+        @keyframes bigPop {
+            from { transform: scale(0) rotate(-40deg); opacity: 0; }
+            to   { transform: scale(1) rotate(-6deg); opacity: 1; }
+        }
+        .cel-title {
+            font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
+            font-size: 34px; color: var(--parchment); margin: 22px 0 8px; text-align: center;
+            animation: slideUp 0.5s ease 0.4s both;
+        }
+        .cel-sub {
+            font-size: 15px; color: var(--muted); margin: 0 0 36px;
+            text-align: center; line-height: 1.6;
+            animation: slideUp 0.5s ease 0.55s both;
+        }
+        .next-btn {
+            display: inline-block; padding: 20px 56px;
+            background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+            border: none; border-radius: 12px; color: #3a2210;
+            font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 19px;
+            text-decoration: none; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(214,160,92,0.45);
+            animation: popBtn 0.6s cubic-bezier(.34,1.56,.64,1) 0.75s both;
+            transition: transform 0.15s;
+        }
+        .next-btn:active { transform: scale(0.96); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popBtn {
+            from { opacity: 0; transform: scale(0.75); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .sparkle, .confetti { display: none; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sparkles"></div>
+
+<div id="cel-overlay" class="cel-overlay">
+    <div class="cel-seal">&amp;</div>
+    <h2 class="cel-title">Every seal broken.</h2>
+    <p class="cel-sub">You've solved this stop — time to move on.</p>
+    <a href="stop3.html" class="next-btn">Next Stop →</a>
+</div>
+
+<div class="wrap">
+    <div class="eyebrow" id="eyebrow-label"></div>
+    <h1 class="title" id="page-title"></h1>
+    <p class="subtitle" id="page-subtitle"></p>
+
+    <div class="progress-wrap">
+        <div class="seal-strand" id="seal-strand"></div>
+        <div class="seal-count" id="seal-count">0 / 0</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-head"><h2>The Notes</h2></div>
+    <p class="section-note">Work through these together.</p>
+    <div id="riddles-container"></div>
+
+    <hr class="divider">
+
+    <div class="section-head"><h2>Enclosures</h2></div>
+    <p class="section-note">No titles. No names. Just listen.</p>
+    <div id="songs-container"></div>
+</div>
+
+<script>
+    // ============================================================
+    // EDIT YOUR CONTENT HERE
+    // ============================================================
+    const STOP_LABEL   = "STOP 02 — [LOCATION]";
+    const PAGE_TITLE   = "Break Every Seal";
+    const PAGE_SUBTITLE = "Solve what's below to open the final note.";
+
+    const RIDDLES = [
+        {
+            question: "Replace this with your first riddle or question.",
+            answers: ["example answer"],
+            hint: ""
+        },
+        {
+            question: "Replace this with your second riddle or question.",
+            answers: ["example answer"],
+            hint: "You can add an optional nudge here."
+        }
+    ];
+
+    const SONGS = [
+        { src: "", answers: ["song one title"], hint: "" },
+        { src: "", answers: ["song two title"], hint: "" },
+        { src: "", answers: ["song three title"], hint: "" }
+    ];
+    // ============================================================
+
+    const solvedSet = new Set();
+
+    function normalize(str) {
+        return str.trim().toLowerCase()
+            .replace(/æ/g,'ae').replace(/ø/g,'o').replace(/å/g,'a')
+            .replace(/ä/g,'a').replace(/ö/g,'o').replace(/ü/g,'u').replace(/ß/g,'ss')
+            .replace(/[^\w\s]/g,'').replace(/\s+/g,' ');
+    }
+
+    function renderHeader() {
+        document.getElementById('eyebrow-label').textContent = STOP_LABEL;
+        document.getElementById('page-title').textContent    = PAGE_TITLE;
+        document.getElementById('page-subtitle').textContent = PAGE_SUBTITLE;
+        document.title = 'Break Every Seal – ' + STOP_LABEL;
+    }
+
+    function renderSealStrand() {
+        const total = RIDDLES.length + SONGS.length;
+        const container = document.getElementById('seal-strand');
+        container.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'seal-dot';
+            dot.id = 'seal-dot-' + i;
+            dot.textContent = '&';
+            container.appendChild(dot);
+        }
+        document.getElementById('seal-count').textContent = '0 / ' + total;
+    }
+
+    function renderRiddles() {
+        if (!RIDDLES.length) return;
+        const container = document.getElementById('riddles-container');
+        container.innerHTML = RIDDLES.map((r, i) => `
+          <div class="card" id="riddle-card-${i}">
+            <div class="stamp" id="riddle-stamp-${i}">&amp;</div>
+            <div class="item-label">Note ${String(i+1).padStart(2,'0')}</div>
+            <div class="q-text">${r.question}</div>
+            <div class="input-row">
+              <input type="text" id="riddle-input-${i}" placeholder="Your answer" enterkeyhint="go"
+                onkeydown="if(event.key==='Enter')checkAnswer('riddle',${i})">
+              <button class="btn-check" id="riddle-btn-${i}" onclick="checkAnswer('riddle',${i})">Unseal</button>
+            </div>
+            <div class="feedback" id="riddle-feedback-${i}"></div>
+            ${r.hint ? `<button class="hint-toggle" id="riddle-hint-toggle-${i}" onclick="toggleHint('riddle',${i})">Need a nudge?</button>
+              <div class="hint-text" id="riddle-hint-${i}">${r.hint}</div>` : ''}
+          </div>
+        `).join('');
+    }
+
+    function renderSongs() {
+        const container = document.getElementById('songs-container');
+        if (!SONGS.length) {
+            container.closest('div').previousElementSibling.style.display = 'none';
+            container.parentElement.querySelector('.section-head').style.display = 'none';
+            container.parentElement.querySelector('.section-note').style.display = 'none';
+            return;
+        }
+        container.innerHTML = SONGS.map((s, i) => `
+          <div class="card" id="song-card-${i}">
+            <div class="stamp" id="song-stamp-${i}">&amp;</div>
+            <div class="song-top">
+              <div class="song-num">${String(i+1).padStart(2,'0')}</div>
+              <div class="song-mask">Mystery track</div>
+            </div>
+            <div class="player">
+              <audio id="audio-${i}" ${s.src ? 'src="'+s.src+'"' : ''} preload="metadata"></audio>
+              <div class="player-controls">
+                <button class="play-btn" id="play-btn-${i}" onclick="togglePlay(${i})">
+                  <span class="play-icon"></span>
+                </button>
+                <div class="player-track" id="player-track-${i}" onclick="seek(event,${i})">
+                  <div class="player-fill" id="player-fill-${i}"></div>
+                </div>
+                <div class="player-time" id="player-time-${i}">0:00</div>
+              </div>
+            </div>
+            <div class="input-row">
+              <input type="text" id="song-input-${i}" placeholder="Name this song" enterkeyhint="go"
+                onkeydown="if(event.key==='Enter')checkAnswer('song',${i})">
+              <button class="btn-check" id="song-btn-${i}" onclick="checkAnswer('song',${i})">Unseal</button>
+            </div>
+            <div class="feedback" id="song-feedback-${i}"></div>
+            ${s.hint ? `<button class="hint-toggle" id="song-hint-toggle-${i}" onclick="toggleHint('song',${i})">Need a nudge?</button>
+              <div class="hint-text" id="song-hint-${i}">${s.hint}</div>` : ''}
+          </div>
+        `).join('');
+    }
+
+    function checkAnswer(type, index) {
+        const data    = type === 'riddle' ? RIDDLES[index] : SONGS[index];
+        const inputEl = document.getElementById(type+'-input-'+index);
+        const feedbackEl = document.getElementById(type+'-feedback-'+index);
+        const cardEl  = document.getElementById(type+'-card-'+index);
+        const btnEl   = document.getElementById(type+'-btn-'+index);
+        const stampEl = document.getElementById(type+'-stamp-'+index);
+        const userAnswer = normalize(inputEl.value);
+        const isCorrect  = userAnswer.length > 0 && data.answers.some(a => normalize(a) === userAnswer);
+
+        if (isCorrect) {
+            const key = type+'-'+index;
+            if (!solvedSet.has(key)) {
+                solvedSet.add(key);
+                markSealDot(type === 'riddle' ? index : RIDDLES.length + index);
+                updateProgress();
+            }
+            cardEl.classList.remove('shake');
+            inputEl.disabled = true;
+            btnEl.textContent = 'Opened';
+            btnEl.classList.add('done');
+            feedbackEl.textContent = 'Correct — the seal breaks.';
+            feedbackEl.className   = 'feedback correct';
+            stampEl.classList.add('show');
+        } else {
+            feedbackEl.textContent = 'Not quite — try again.';
+            feedbackEl.className   = 'feedback wrong';
+            cardEl.classList.remove('shake');
+            void cardEl.offsetWidth;
+            cardEl.classList.add('shake');
+        }
+    }
+
+    function markSealDot(globalIdx) {
+        const dot = document.getElementById('seal-dot-'+globalIdx);
+        if (dot) dot.classList.add('opened');
+    }
+
+    function updateProgress() {
+        const total = RIDDLES.length + SONGS.length;
+        document.getElementById('seal-count').textContent = solvedSet.size + ' / ' + total;
+        if (solvedSet.size === total && total > 0) {
+            setTimeout(celebrate, 600);
+        }
+    }
+
+    function celebrate() {
+        burstConfetti(55);
+        burstSparkles(28);
+        setTimeout(() => document.getElementById('cel-overlay').classList.add('show'), 80);
+    }
+
+    function toggleHint(type, index) {
+        const el = document.getElementById(type+'-hint-'+index);
+        const toggle = document.getElementById(type+'-hint-toggle-'+index);
+        const showing = el.classList.toggle('show');
+        toggle.textContent = showing ? 'Hide the nudge' : 'Need a nudge?';
+    }
+
+    function iconPlayHTML()  { return '<span class="play-icon"></span>'; }
+    function iconPauseHTML() { return '<span class="pause-icon"><span></span><span></span></span>'; }
+
+    function togglePlay(i) {
+        const audio = document.getElementById('audio-'+i);
+        if (!audio.getAttribute('src')) { alert('No audio file added yet.'); return; }
+        const wasPaused = audio.paused;
+        document.querySelectorAll('audio').forEach(a => a.pause());
+        document.querySelectorAll('.play-btn').forEach(b => b.innerHTML = iconPlayHTML());
+        if (wasPaused) {
+            audio.play().catch(()=>{});
+            document.getElementById('play-btn-'+i).innerHTML = iconPauseHTML();
+        }
+    }
+
+    function seek(evt, i) {
+        const audio = document.getElementById('audio-'+i);
+        if (!audio.duration || !isFinite(audio.duration)) return;
+        const track = document.getElementById('player-track-'+i);
+        const rect  = track.getBoundingClientRect();
+        audio.currentTime = Math.min(Math.max((evt.clientX-rect.left)/rect.width,0),1) * audio.duration;
+    }
+
+    function formatTime(sec) {
+        if (!isFinite(sec) || sec < 0) return '0:00';
+        return Math.floor(sec/60) + ':' + Math.floor(sec%60).toString().padStart(2,'0');
+    }
+
+    function attachAudioEvents() {
+        SONGS.forEach((s, i) => {
+            const audio = document.getElementById('audio-'+i);
+            const fill  = document.getElementById('player-fill-'+i);
+            const timeL = document.getElementById('player-time-'+i);
+            const btn   = document.getElementById('play-btn-'+i);
+            audio.addEventListener('timeupdate', () => {
+                if (audio.duration && isFinite(audio.duration))
+                    fill.style.width = (audio.currentTime/audio.duration*100)+'%';
+                timeL.textContent = formatTime(audio.currentTime);
+            });
+            audio.addEventListener('ended', () => { btn.innerHTML = iconPlayHTML(); fill.style.width='0%'; timeL.textContent='0:00'; });
+            audio.addEventListener('pause',  () => { btn.innerHTML = iconPlayHTML(); });
+        });
+    }
+
+    function spawnSparkle(c, fast) {
+        const el = document.createElement('div');
+        el.className = 'sparkle';
+        const s = Math.random()*4+2;
+        el.style.width  = s+'px';
+        el.style.height = s+'px';
+        el.style.left   = Math.random()*100+'%';
+        el.style.setProperty('--drift', (Math.random()-0.5)*(fast?100:60)+'px');
+        const dur = fast ? Math.random()*2.5+2 : Math.random()*10+12;
+        el.style.animationDuration = dur+'s';
+        if (!fast) el.style.animationDelay = Math.random()*dur+'s';
+        c.appendChild(el);
+        if (fast) setTimeout(() => el.remove(), dur*1000+400);
+    }
+    function initSparkles(n=14) {
+        const c = document.getElementById('sparkles');
+        for (let i=0;i<n;i++) spawnSparkle(c,false);
+    }
+    function burstSparkles(n=22) {
+        const c = document.getElementById('sparkles');
+        for (let i=0;i<n;i++) spawnSparkle(c,true);
+    }
+    function burstConfetti(n=55) {
+        const c = document.getElementById('sparkles');
+        const cols = ['#f0c988','#d6a05c','#8fdba8','#e69090','#f4ecdd','#c9b2e8','#9c6a34','#b2a5c2'];
+        for (let i=0;i<n;i++) {
+            const el = document.createElement('div');
+            el.className = 'confetti';
+            const sz = Math.random()*9+4, circ = Math.random()>0.4;
+            Object.assign(el.style, {
+                width: sz+'px',
+                height: (circ?sz:sz*(Math.random()*1.4+0.5))+'px',
+                borderRadius: circ?'50%':'2px',
+                background: cols[Math.floor(Math.random()*cols.length)],
+                left: Math.random()*100+'%',
+                opacity: (Math.random()*0.7+0.3).toString(),
+                animationDuration: (Math.random()*2+2.5)+'s',
+                animationDelay: (Math.random()*0.9)+'s',
+                animationName: 'confetti-fall',
+                animationTimingFunction: 'ease-in',
+                animationFillMode: 'forwards'
+            });
+            el.style.setProperty('--rot', (Math.random()*720-360)+'deg');
+            el.style.setProperty('--drift', (Math.random()-0.5)*240+'px');
+            c.appendChild(el);
+            setTimeout(() => el.remove(), 4200);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderHeader();
+        renderSealStrand();
+        renderRiddles();
+        renderSongs();
+        attachAudioEvents();
+        initSparkles();
+    });
+</script>
+</body>
+</html>
