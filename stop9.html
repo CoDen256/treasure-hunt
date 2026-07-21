@@ -30,13 +30,7 @@
         <div class="seal-count" id="seal-count">0 / 0</div>
     </div>
     <hr class="divider">
-    <div id="riddles-display" style="display:none">
-        <div class="section-head"><h2>The Notes</h2></div>
-        <p class="section-note" id="riddles-note"></p>
-        <div id="riddle-cards"></div>
-        <hr class="divider">
-    </div>
-    <div id="checks-container"></div>
+    <div id="sections-container"></div>
     <div id="cel-inline" class="inline-action" style="display:none"></div>
 </div>
 
@@ -47,10 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
         stopLabel:   "STOP 09 — [LOCATION]",
         pageTitle:   "Verify Your Solutions",
         pageSubtitle: "Enter what you discovered to break the seals.",
-        checks: [
-            { label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-            { label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-            { label: "Password",                   answers: ["password"], hint: "" }
+        sections: [
+            {
+                items: [
+                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
+                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
+                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                ]
+            }
         ],
         successType: 'normal',
         nextPage:    'stop10.html'

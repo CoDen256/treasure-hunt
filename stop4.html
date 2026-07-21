@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#17101f">
-    <title>Break Every Seal – Stop 04</title>
+    <title>Break Every Seal - Stop 04</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,293 +17,78 @@
 <div id="cel-overlay" class="cel-overlay">
     <div class="cel-seal">&amp;</div>
     <h2 class="cel-title">Every seal broken.</h2>
-    <p class="cel-sub">You've solved this stop — time to move on.</p>
-    <a href="stop5.html" class="next-btn">Next Stop →</a>
+    <p class="cel-sub" id="cel-sub">You've solved this stop.</p>
+    <div id="cel-action"></div>
 </div>
 
 <div class="wrap">
     <div class="eyebrow" id="eyebrow-label"></div>
     <h1 class="title" id="page-title"></h1>
     <p class="subtitle" id="page-subtitle"></p>
-
     <div class="progress-wrap">
         <div class="seal-strand" id="seal-strand"></div>
         <div class="seal-count" id="seal-count">0 / 0</div>
     </div>
-
     <hr class="divider">
-
-    <div class="section-head"><h2>The Notes</h2></div>
-    <p class="section-note">Work through these together.</p>
-    <div id="riddles-container"></div>
-
-    <hr class="divider">
-
-    <div class="section-head"><h2>Enclosures</h2></div>
-    <p class="section-note">No titles. No names. Just listen.</p>
-    <div id="songs-container"></div>
-
-    <hr class="divider">
-
-    <div id="checks-container"></div>
+    <div id="sections-container"></div>
     <div id="cel-inline" class="inline-action" style="display:none"></div>
 </div>
 
 <script src="shared.js"></script>
 <script>
-    // ============================================================
-    // EDIT YOUR CONTENT HERE
-    // ============================================================
-
-    const STOP_LABEL    = "STOP 04 — [LOCATION]";
-    const PAGE_TITLE    = "Break Every Seal";
-    const PAGE_SUBTITLE = "Solve what's below to open the final note.";
-
-    const RIDDLES = [
-        {
-            question: "Replace this with your first riddle or question.",
-            answers: ["example answer"],
-            hint: ""
-        },
-        {
-            question: "Replace this with your second riddle or question.",
-            answers: ["example answer"],
-            hint: "You can add an optional nudge here."
-        }
-    ];
-
-    // "src" — path to an audio file, e.g. "songs/track1.mp3"
-    // Leave "" for now; the player shows a placeholder until a real file is added.
-    const SONGS = [
-        { src: "", answers: ["song one title"],   hint: "" },
-        { src: "", answers: ["song two title"],   hint: "" },
-        { src: "", answers: ["song three title"], hint: "" },
-        { src: "", answers: ["song four title"],  hint: "" },
-        { src: "", answers: ["song five title"],  hint: "" },
-        { src: "", answers: ["song six title"],   hint: "" }
-    ];
-
-    // Verification fields shown at the bottom — same as all other stops.
-    const CHECKS = [
-        { label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-        { label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-        { label: "Password",                   answers: ["21-07-2026"], hint: "", type: "date" }
-    ];
-
-    // ============================================================
-
-    const solvedSet = new Set();
-    const TOTAL = () => RIDDLES.length + SONGS.length + CHECKS.length;
-
-    function renderHeader() {
-        document.getElementById('eyebrow-label').textContent = STOP_LABEL;
-        document.getElementById('page-title').textContent    = PAGE_TITLE;
-        document.getElementById('page-subtitle').textContent = PAGE_SUBTITLE;
-        document.title = 'Break Every Seal – ' + STOP_LABEL;
-    }
-
-    function renderSealStrand() {
-        const total = TOTAL();
-        const container = document.getElementById('seal-strand');
-        container.innerHTML = '';
-        for (let i = 0; i < total; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'seal-dot';
-            dot.id = 'seal-dot-' + i;
-            dot.textContent = '&';
-            container.appendChild(dot);
-        }
-        document.getElementById('seal-count').textContent = '0 / ' + total;
-    }
-
-    function renderRiddles() {
-        document.getElementById('riddles-container').innerHTML = RIDDLES.map((r, i) => `
-          <div class="card" id="riddle-card-${i}">
-            <div class="stamp" id="riddle-stamp-${i}">&amp;</div>
-            <div class="item-label">Note ${String(i+1).padStart(2,'0')}</div>
-            <div class="q-text">${r.question}</div>
-            <div class="input-row">
-              <input type="text" id="riddle-input-${i}" placeholder="Your answer" enterkeyhint="go"
-                onkeydown="if(event.key==='Enter')checkAnswer('riddle',${i})">
-              <button class="btn-check" id="riddle-btn-${i}" onclick="checkAnswer('riddle',${i})">Unseal</button>
-            </div>
-            <div class="feedback" id="riddle-feedback-${i}"></div>
-            ${r.hint ? `<button class="hint-toggle" id="riddle-hint-toggle-${i}" onclick="toggleHint('riddle',${i})">Need a nudge?</button>
-              <div class="hint-text" id="riddle-hint-${i}">${r.hint}</div>` : ''}
-          </div>
-        `).join('');
-    }
-
-    function renderSongs() {
-        document.getElementById('songs-container').innerHTML = SONGS.map((s, i) => `
-          <div class="card" id="song-card-${i}">
-            <div class="stamp" id="song-stamp-${i}">&amp;</div>
-            <div class="song-top">
-              <div class="song-num">${String(i+1).padStart(2,'0')}</div>
-              <div class="song-mask">Mystery track</div>
-            </div>
-            <div class="player">
-              <audio id="audio-${i}" ${s.src ? `src="${s.src}"` : ''} preload="metadata"></audio>
-              <div class="player-controls">
-                <button class="play-btn" id="play-btn-${i}" onclick="togglePlay(${i})">
-                  <span class="play-icon"></span>
-                </button>
-                <div class="player-track" id="player-track-${i}" onclick="seek(event,${i})">
-                  <div class="player-fill" id="player-fill-${i}"></div>
-                </div>
-                <div class="player-time" id="player-time-${i}">0:00</div>
-              </div>
-            </div>
-            <div class="input-row">
-              <input type="text" id="song-input-${i}" placeholder="Name this song" enterkeyhint="go"
-                onkeydown="if(event.key==='Enter')checkAnswer('song',${i})">
-              <button class="btn-check" id="song-btn-${i}" onclick="checkAnswer('song',${i})">Unseal</button>
-            </div>
-            <div class="feedback" id="song-feedback-${i}"></div>
-            ${s.hint ? `<button class="hint-toggle" id="song-hint-toggle-${i}" onclick="toggleHint('song',${i})">Need a nudge?</button>
-              <div class="hint-text" id="song-hint-${i}">${s.hint}</div>` : ''}
-          </div>
-        `).join('');
-    }
-
-    function renderChecks() {
-        document.getElementById('checks-container').innerHTML = CHECKS.map((c, i) => {
-          const inputEl = c.type === 'date'
-            ? `<input type="date" id="check-input-${i}" class="inp-date">`
-            : `<input type="text" id="check-input-${i}" placeholder="Your answer" enterkeyhint="go"
-                onkeydown="if(event.key==='Enter')checkAnswer('check',${i})">`;
-          return `
-          <div class="card" id="check-card-${i}">
-            <div class="stamp" id="check-stamp-${i}">&amp;</div>
-            <div class="item-label">${c.label}</div>
-            <div class="input-row">
-              ${inputEl}
-              <button class="btn-check" id="check-btn-${i}" onclick="checkAnswer('check',${i})">Unseal</button>
-            </div>
-            <div class="feedback" id="check-feedback-${i}"></div>
-            ${c.hint ? `<button class="hint-toggle" id="check-hint-toggle-${i}" onclick="toggleHint('check',${i})">Need a nudge?</button>
-              <div class="hint-text" id="check-hint-${i}">${c.hint}</div>` : ''}
-          </div>
-        `;
-        }).join('');
-    }
-
-    function checkAnswer(type, index) {
-        const data = type === 'riddle' ? RIDDLES[index]
-                   : type === 'song'  ? SONGS[index]
-                   :                    CHECKS[index];
-        const inputEl    = document.getElementById(type+'-input-'+index);
-        const feedbackEl = document.getElementById(type+'-feedback-'+index);
-        const cardEl     = document.getElementById(type+'-card-'+index);
-        const btnEl      = document.getElementById(type+'-btn-'+index);
-        const stampEl    = document.getElementById(type+'-stamp-'+index);
-        const isDate     = type === 'check' && data.type === 'date';
-        const userAns    = isDate ? inputEl.value : normalize(inputEl.value);
-        const isCorrect  = userAns.length > 0 && data.answers.some(a => isDate ? a === userAns : normalize(a) === userAns);
-
-        if (isCorrect) {
-            const key = type+'-'+index;
-            if (!solvedSet.has(key)) {
-                solvedSet.add(key);
-                const dotIdx = type === 'riddle' ? index
-                             : type === 'song'   ? RIDDLES.length + index
-                             :                     RIDDLES.length + SONGS.length + index;
-                markSealDot(dotIdx);
-                updateProgress();
+document.addEventListener('DOMContentLoaded', function() {
+    VerifyPage.init({
+        stopLabel:    "STOP 04 — [LOCATION]",
+        pageTitle:    "Break Every Seal",
+        pageSubtitle: "Solve what's below to open the final note.",
+        sections: [
+            {
+                title: "The Notes",
+                note:  "Work through these together.",
+                items: [
+                    {
+                        type:     'text',
+                        label:    "Note 01",
+                        question: "Replace this with your first riddle or question.",
+                        answers:  ["example answer"],
+                        hint:     ""
+                    },
+                    {
+                        type:     'text',
+                        label:    "Note 02",
+                        question: "Replace this with your second riddle or question.",
+                        answers:  ["example answer"],
+                        hint:     "You can add an optional nudge here."
+                    }
+                ]
+            },
+            {
+                title: "Enclosures",
+                note:  "No titles. No names. Just listen.",
+                items: [
+                    // src: path to audio file, e.g. "songs/track1.mp3"
+                    // Leave "" until real files are added.
+                    { type: 'audio', src: "", answers: ["song one title"],   hint: "" },
+                    { type: 'audio', src: "", answers: ["song two title"],   hint: "" },
+                    { type: 'audio', src: "", answers: ["song three title"], hint: "" },
+                    { type: 'audio', src: "", answers: ["song four title"],  hint: "" },
+                    { type: 'audio', src: "", answers: ["song five title"],  hint: "" },
+                    { type: 'audio', src: "", answers: ["song six title"],   hint: "" }
+                ]
+            },
+            {
+                items: [
+                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
+                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
+                    // Date answer must be in YYYY-MM-DD format (how the date picker stores it internally)
+                    { type: 'date', label: "Password",                   answers: ["2026-07-21"], hint: "" }
+                ]
             }
-            cardEl.classList.remove('shake');
-            inputEl.disabled = true;
-            btnEl.textContent = 'Opened';
-            btnEl.classList.add('done');
-            feedbackEl.textContent = 'Correct — the seal breaks.';
-            feedbackEl.className   = 'feedback correct';
-            stampEl.classList.add('show');
-            cardEl.classList.add('solved');
-        } else {
-            feedbackEl.textContent = 'Not quite — try again.';
-            feedbackEl.className   = 'feedback wrong';
-            cardEl.classList.remove('shake');
-            void cardEl.offsetWidth;
-            cardEl.classList.add('shake');
-        }
-    }
-
-    function markSealDot(idx) {
-        const dot = document.getElementById('seal-dot-'+idx);
-        if (dot) dot.classList.add('opened');
-    }
-
-    function updateProgress() {
-        const total = TOTAL();
-        document.getElementById('seal-count').textContent = solvedSet.size + ' / ' + total;
-        if (solvedSet.size === total && total > 0) {
-            revealInline('normal', 'stop5.html');
-        }
-    }
-
-    function toggleHint(type, index) {
-        const el     = document.getElementById(type+'-hint-'+index);
-        const toggle = document.getElementById(type+'-hint-toggle-'+index);
-        const showing = el.classList.toggle('show');
-        toggle.textContent = showing ? 'Hide the nudge' : 'Need a nudge?';
-    }
-
-    // ---- audio player ----
-    function iconPlayHTML()  { return '<span class="play-icon"></span>'; }
-    function iconPauseHTML() { return '<span class="pause-icon"><span></span><span></span></span>'; }
-
-    function togglePlay(i) {
-        const audio = document.getElementById('audio-'+i);
-        if (!audio.getAttribute('src')) {
-            alert('No audio file added yet — set a src in the SONGS array.');
-            return;
-        }
-        const wasPaused = audio.paused;
-        document.querySelectorAll('audio').forEach(a => a.pause());
-        document.querySelectorAll('.play-btn').forEach(b => b.innerHTML = iconPlayHTML());
-        if (wasPaused) {
-            audio.play().catch(()=>{});
-            document.getElementById('play-btn-'+i).innerHTML = iconPauseHTML();
-        }
-    }
-
-    function seek(evt, i) {
-        const audio = document.getElementById('audio-'+i);
-        if (!audio.duration || !isFinite(audio.duration)) return;
-        const rect = document.getElementById('player-track-'+i).getBoundingClientRect();
-        audio.currentTime = Math.min(Math.max((evt.clientX-rect.left)/rect.width, 0), 1) * audio.duration;
-    }
-
-    function formatTime(sec) {
-        if (!isFinite(sec) || sec < 0) return '0:00';
-        return Math.floor(sec/60) + ':' + Math.floor(sec%60).toString().padStart(2,'0');
-    }
-
-    function attachAudioEvents() {
-        SONGS.forEach((s, i) => {
-            const audio = document.getElementById('audio-'+i);
-            const fill  = document.getElementById('player-fill-'+i);
-            const timeL = document.getElementById('player-time-'+i);
-            const btn   = document.getElementById('play-btn-'+i);
-            audio.addEventListener('timeupdate', () => {
-                if (audio.duration && isFinite(audio.duration))
-                    fill.style.width = (audio.currentTime/audio.duration*100)+'%';
-                timeL.textContent = formatTime(audio.currentTime);
-            });
-            audio.addEventListener('ended', () => { btn.innerHTML=iconPlayHTML(); fill.style.width='0%'; timeL.textContent='0:00'; });
-            audio.addEventListener('pause',  () => { btn.innerHTML=iconPlayHTML(); });
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        renderHeader();
-        renderSealStrand();
-        renderRiddles();
-        renderSongs();
-        renderChecks();
-        attachAudioEvents();
-        initSparkles();
+        ],
+        successType: 'normal',
+        nextPage:    'stop5.html'
     });
+});
 </script>
 </body>
 </html>

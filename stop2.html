@@ -31,13 +31,7 @@
     </div>
     <hr class="divider">
     <!-- Riddle display: shown when config.riddles is non-empty -->
-    <div id="riddles-display" style="display:none">
-        <div class="section-head"><h2>The Notes</h2></div>
-        <p class="section-note" id="riddles-note"></p>
-        <div id="riddle-cards"></div>
-        <hr class="divider">
-    </div>
-    <div id="checks-container"></div>
+    <div id="sections-container"></div>
     <div id="cel-inline" class="inline-action" style="display:none"></div>
 </div>
 
@@ -48,22 +42,32 @@ document.addEventListener('DOMContentLoaded', function() {
         stopLabel:    "STOP 02 — [LOCATION]",
         pageTitle:    "Break Every Seal",
         pageSubtitle: "Read the notes below, then verify your answers.",
-
-        // Display-only riddles shown above the verification fields.
-        // These are read as a group — no individual answer inputs.
-        riddles: [
-            "Replace this with your first riddle. It can be as long as you like. " +
-            "The whole group reads it together and works out the answer.",
-
-            "Replace this with your second riddle. The answers to both notes " +
-            "together should reveal where to go next and what to do there."
-        ],
-        riddlesNote: "Read these together — the answers point to your next stop.",
-
-        checks: [
-            { label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-            { label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-            { label: "Password",                   answers: ["password"], hint: "" }
+        sections: [
+            {
+                title: "The Notes",
+                note:  "Read these together — the answers point to your next stop.",
+                items: [
+                    {
+                        type:  'display',
+                        label: "Note 01",
+                        text:  "Replace this with your first riddle. It can be as long as you like. " +
+                               "The whole group reads it together and works out the answer."
+                    },
+                    {
+                        type:  'display',
+                        label: "Note 02",
+                        text:  "Replace this with your second riddle. The answers to both notes " +
+                               "together should reveal where to go next and what to do there."
+                    }
+                ]
+            },
+            {
+                items: [
+                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
+                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
+                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                ]
+            }
         ],
         successType: 'popup',
         nextPage:    'stop3.html'

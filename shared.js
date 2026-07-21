@@ -63,7 +63,7 @@ function burstConfetti(n) {
 }
 
 // ---- Global: inline celebration (confetti + button/message below the fields) ----
-// successType: 'normal' -> next-btn link, 'scan-qr' -> qr message, 'final' -> end message
+// successType: 'normal' -> next-btn, 'scan-qr' -> find-qr message, 'final' -> end message
 function revealInline(successType, nextPage) {
     burstConfetti(55);
     burstSparkles(28);
@@ -86,100 +86,187 @@ function revealInline(successType, nextPage) {
     }, 400);
 }
 
-// ---- VerifyPage: used by all verification stops (1, 2, 3, 5-12) ----
+// ============================================================
+// VerifyPage — unified section-based module for all stops
+//
+// Config shape:
+//   {
+//     stopLabel, pageTitle, pageSubtitle,
+//     successType: 'normal' | 'popup' | 'scan-qr' | 'final',
+//     nextPage: 'stopN.html',
+//     sections: [
+//       {
+//         title: "Section Title",   // optional
+//         note:  "Subtitle text",   // optional
+//         items: [
+//           { type: 'text',    label, question, answers, hint },
+//           { type: 'date',    label, answers, hint },
+//           { type: 'audio',   src, answers, hint },
+//           { type: 'display', label, text },   // read-only, no answer required
+//         ]
+//       }
+//     ]
+//   }
+// ============================================================
 var VerifyPage = (function() {
     var cfg;
-    var solved = new Set();
+    var solved    = new Set();
+    var countable = [];  // items that need an answer, indexed by their global _idx
 
     function init(config) {
-        cfg = config;
-        solved = new Set();
+        cfg       = config;
+        solved    = new Set();
+        countable = [];
+        var audioCount = 0;
+
+        cfg.sections.forEach(function(s) {
+            s.items.forEach(function(item) {
+                if (item.type !== 'display') {
+                    item._idx = countable.length;
+                    countable.push(item);
+                }
+                if (item.type === 'audio') {
+                    item._num = ++audioCount;
+                }
+            });
+        });
 
         document.getElementById('eyebrow-label').textContent = cfg.stopLabel;
         document.getElementById('page-title').textContent    = cfg.pageTitle;
         document.getElementById('page-subtitle').textContent = cfg.pageSubtitle;
-        document.title = 'Break Every Seal – ' + cfg.stopLabel;
+        document.title = 'Break Every Seal - ' + cfg.stopLabel;
 
         renderStrand();
-        if (cfg.riddles && cfg.riddles.length) renderRiddleDisplay();
-        renderChecks();
+        renderSections();
+        attachAllAudio();
         initSparkles();
     }
 
     function renderStrand() {
         var el = document.getElementById('seal-strand');
-        el.innerHTML = cfg.checks.map(function(_,i){
-            return '<div class="seal-dot" id="dot-'+i+'">&amp;</div>';
+        el.innerHTML = countable.map(function(_, i) {
+            return '<div class="seal-dot" id="dot-' + i + '">&amp;</div>';
         }).join('');
         refreshCount();
     }
 
     function refreshCount() {
-        document.getElementById('seal-count').textContent = solved.size + ' / ' + cfg.checks.length;
+        document.getElementById('seal-count').textContent = solved.size + ' / ' + countable.length;
     }
 
-    function renderRiddleDisplay() {
-        var wrap  = document.getElementById('riddles-display');
-        var cards = document.getElementById('riddle-cards');
-        var note  = document.getElementById('riddles-note');
-        if (!wrap || !cards) return;
-        wrap.style.display = '';
-        if (note) note.textContent = cfg.riddlesNote || 'Read these together — they point to where you go next.';
-        cards.innerHTML = cfg.riddles.map(function(r, i){
+    function renderSections() {
+        var container = document.getElementById('sections-container');
+        container.innerHTML = '';
+        cfg.sections.forEach(function(section, si) {
+            if (si > 0) {
+                container.insertAdjacentHTML('beforeend', '<hr class="divider">');
+            }
+            if (section.title) {
+                container.insertAdjacentHTML('beforeend',
+                    '<div class="section-head"><h2>' + section.title + '</h2></div>' +
+                    (section.note ? '<p class="section-note">' + section.note + '</p>' : '')
+                );
+            }
+            section.items.forEach(function(item) {
+                container.insertAdjacentHTML('beforeend', renderItem(item));
+            });
+        });
+    }
+
+    function renderItem(item) {
+        if (item.type === 'display') {
             return '<div class="card">' +
-                '<div class="item-label">Note ' + String(i+1).padStart(2,'0') + '</div>' +
-                '<div class="q-text">' + r + '</div>' +
-            '</div>';
-        }).join('');
-    }
+                (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
+                '<div class="q-text">' + (item.text || '') + '</div>' +
+                '</div>';
+        }
 
-    function renderChecks() {
-        document.getElementById('checks-container').innerHTML = cfg.checks.map(function(c,i){
-            var inputEl = c.type === 'date'
-                ? '<input type="date" id="inp-'+i+'" class="inp-date">'
-                : '<input type="text" id="inp-'+i+'" placeholder="Your answer" enterkeyhint="go" ' +
-                    'onkeydown="if(event.key===\'Enter\')VerifyPage.check('+i+')">';
-            return '<div class="card" id="card-'+i+'">' +
-              '<div class="stamp" id="stamp-'+i+'">&amp;</div>' +
-              '<div class="item-label">'+c.label+'</div>' +
-              '<div class="input-row">' +
+        var idx   = item._idx;
+        var inner = '<div class="stamp" id="stamp-' + idx + '">&amp;</div>';
+
+        if (item.type === 'audio') {
+            inner +=
+                '<div class="song-top">' +
+                    '<div class="song-num">' + pad(item._num) + '</div>' +
+                    '<div class="song-mask">Mystery track</div>' +
+                '</div>' +
+                '<div class="player">' +
+                    '<audio id="audio-' + idx + '"' +
+                        (item.src ? ' src="' + item.src + '"' : '') +
+                        ' preload="metadata"></audio>' +
+                    '<div class="player-controls">' +
+                        '<button class="play-btn" id="play-btn-' + idx + '" onclick="VerifyPage.togglePlay(' + idx + ')">' +
+                            '<span class="play-icon"></span>' +
+                        '</button>' +
+                        '<div class="player-track" id="player-track-' + idx + '" onclick="VerifyPage.seek(event,' + idx + ')">' +
+                            '<div class="player-fill" id="player-fill-' + idx + '"></div>' +
+                        '</div>' +
+                        '<div class="player-time" id="player-time-' + idx + '">0:00</div>' +
+                    '</div>' +
+                '</div>';
+        } else {
+            if (item.label)    inner += '<div class="item-label">' + item.label    + '</div>';
+            if (item.question) inner += '<div class="q-text">'     + item.question + '</div>';
+        }
+
+        var inputEl;
+        if (item.type === 'date') {
+            inputEl = '<input type="date" id="inp-' + idx + '" class="inp-date">';
+        } else {
+            var ph = item.type === 'audio' ? 'Name this song' : 'Your answer';
+            inputEl = '<input type="text" id="inp-' + idx + '" placeholder="' + ph + '" enterkeyhint="go" ' +
+                'onkeydown="if(event.key===\'Enter\')VerifyPage.check(' + idx + ')">';
+        }
+
+        inner +=
+            '<div class="input-row">' +
                 inputEl +
-                '<button class="btn-check" id="btn-'+i+'" onclick="VerifyPage.check('+i+')">Unseal</button>' +
-              '</div>' +
-              '<div class="feedback" id="fb-'+i+'"></div>' +
-              (c.hint
-                ? '<button class="hint-toggle" onclick="VerifyPage.toggleHint('+i+')">Need a nudge?</button>' +
-                  '<div class="hint-text" id="hint-'+i+'">'+c.hint+'</div>'
-                : '') +
-            '</div>';
-        }).join('');
+                '<button class="btn-check" id="btn-' + idx + '" onclick="VerifyPage.check(' + idx + ')">Unseal</button>' +
+            '</div>' +
+            '<div class="feedback" id="fb-' + idx + '"></div>';
+
+        if (item.hint) {
+            inner +=
+                '<button class="hint-toggle" onclick="VerifyPage.toggleHint(' + idx + ')">Need a nudge?</button>' +
+                '<div class="hint-text" id="hint-' + idx + '">' + item.hint + '</div>';
+        }
+
+        return '<div class="card" id="card-' + idx + '">' + inner + '</div>';
     }
 
-    function check(i) {
-        if (solved.has(i)) return;
-        var inp   = document.getElementById('inp-'+i);
-        var fb    = document.getElementById('fb-'+i);
-        var card  = document.getElementById('card-'+i);
-        var btn   = document.getElementById('btn-'+i);
-        var stamp = document.getElementById('stamp-'+i);
-        var isDate = cfg.checks[i].type === 'date';
-        var val   = isDate ? inp.value : normalize(inp.value);
-        var ok    = val.length > 0 && cfg.checks[i].answers.some(function(a){ return isDate ? a === val : normalize(a) === val; });
+    function pad(n) {
+        return String(n).padStart(2, '0');
+    }
+
+    function check(idx) {
+        if (solved.has(idx)) return;
+        var item  = countable[idx];
+        var inp   = document.getElementById('inp-'   + idx);
+        var fb    = document.getElementById('fb-'    + idx);
+        var card  = document.getElementById('card-'  + idx);
+        var btn   = document.getElementById('btn-'   + idx);
+        var stamp = document.getElementById('stamp-' + idx);
+
+        var isDate = item.type === 'date';
+        var val    = isDate ? inp.value : normalize(inp.value);
+        var ok     = val.length > 0 && item.answers.some(function(a) {
+            return isDate ? a === val : normalize(a) === val;
+        });
 
         if (ok) {
-            solved.add(i);
+            solved.add(idx);
             inp.disabled    = true;
             btn.textContent = 'Opened';
             btn.classList.add('done');
-            fb.textContent  = 'Correct — the seal breaks.';
+            fb.textContent  = 'Correct - the seal breaks.';
             fb.className    = 'feedback correct';
             stamp.classList.add('show');
             card.classList.add('solved');
-            document.getElementById('dot-'+i).classList.add('opened');
+            document.getElementById('dot-' + idx).classList.add('opened');
             refreshCount();
-            if (solved.size === cfg.checks.length) setTimeout(celebrate, 600);
+            if (solved.size === countable.length) setTimeout(celebrate, 600);
         } else {
-            fb.textContent = 'Not quite — try again.';
+            fb.textContent = 'Not quite - try again.';
             fb.className   = 'feedback wrong';
             card.classList.remove('shake');
             void card.offsetWidth;
@@ -187,8 +274,8 @@ var VerifyPage = (function() {
         }
     }
 
-    function toggleHint(i) {
-        document.getElementById('hint-'+i).classList.toggle('show');
+    function toggleHint(idx) {
+        document.getElementById('hint-' + idx).classList.toggle('show');
     }
 
     function celebrate() {
@@ -205,5 +292,59 @@ var VerifyPage = (function() {
         }
     }
 
-    return { init: init, check: check, toggleHint: toggleHint };
+    function togglePlay(idx) {
+        var audio = document.getElementById('audio-' + idx);
+        if (!audio.getAttribute('src')) {
+            alert('No audio file yet - set a src in the items array.');
+            return;
+        }
+        var wasPaused = audio.paused;
+        document.querySelectorAll('audio').forEach(function(a) { a.pause(); });
+        document.querySelectorAll('.play-btn').forEach(function(b) {
+            b.innerHTML = '<span class="play-icon"></span>';
+        });
+        if (wasPaused) {
+            audio.play().catch(function(){});
+            document.getElementById('play-btn-' + idx).innerHTML =
+                '<span class="pause-icon"><span></span><span></span></span>';
+        }
+    }
+
+    function seek(evt, idx) {
+        var audio = document.getElementById('audio-' + idx);
+        if (!audio.duration || !isFinite(audio.duration)) return;
+        var rect = document.getElementById('player-track-' + idx).getBoundingClientRect();
+        audio.currentTime = Math.min(Math.max((evt.clientX - rect.left) / rect.width, 0), 1) * audio.duration;
+    }
+
+    function attachAllAudio() {
+        countable.forEach(function(item) {
+            if (item.type !== 'audio') return;
+            var idx   = item._idx;
+            var audio = document.getElementById('audio-' + idx);
+            var fill  = document.getElementById('player-fill-' + idx);
+            var timeL = document.getElementById('player-time-' + idx);
+            var btn   = document.getElementById('play-btn-'  + idx);
+            audio.addEventListener('timeupdate', function() {
+                if (audio.duration && isFinite(audio.duration))
+                    fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+                timeL.textContent = formatTime(audio.currentTime);
+            });
+            audio.addEventListener('ended', function() {
+                btn.innerHTML     = '<span class="play-icon"></span>';
+                fill.style.width  = '0%';
+                timeL.textContent = '0:00';
+            });
+            audio.addEventListener('pause', function() {
+                btn.innerHTML = '<span class="play-icon"></span>';
+            });
+        });
+    }
+
+    function formatTime(sec) {
+        if (!isFinite(sec) || sec < 0) return '0:00';
+        return Math.floor(sec / 60) + ':' + Math.floor(sec % 60).toString().padStart(2, '0');
+    }
+
+    return { init: init, check: check, toggleHint: toggleHint, togglePlay: togglePlay, seek: seek };
 })();
