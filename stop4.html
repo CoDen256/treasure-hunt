@@ -46,6 +46,7 @@
     <hr class="divider">
 
     <div id="checks-container"></div>
+    <div id="cel-inline" class="inline-action" style="display:none"></div>
 </div>
 
 <script src="shared.js"></script>
@@ -230,9 +231,7 @@
         const total = TOTAL();
         document.getElementById('seal-count').textContent = solvedSet.size + ' / ' + total;
         if (solvedSet.size === total && total > 0) {
-            burstConfetti(55);
-            burstSparkles(28);
-            setTimeout(() => document.getElementById('cel-overlay').classList.add('show'), 80);
+            revealInline('normal', 'stop5.html');
         }
     }
 

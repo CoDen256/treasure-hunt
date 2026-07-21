@@ -62,6 +62,30 @@ function burstConfetti(n) {
     }
 }
 
+// ---- Global: inline celebration (confetti + button/message below the fields) ----
+// successType: 'normal' -> next-btn link, 'scan-qr' -> qr message, 'final' -> end message
+function revealInline(successType, nextPage) {
+    burstConfetti(55);
+    burstSparkles(28);
+    setTimeout(function() {
+        var inline = document.getElementById('cel-inline');
+        if (!inline) return;
+        inline.style.display = '';
+        if (successType === 'scan-qr') {
+            inline.innerHTML =
+                '<p class="block-title">Find the QR code</p>' +
+                '<p class="block-sub">Scan it at the location to unlock the next stop and continue.</p>';
+        } else if (successType === 'final') {
+            inline.innerHTML =
+                '<p class="block-title">The journey is complete.</p>' +
+                '<p class="block-sub">Every seal has been broken. Well done, you made it!</p>';
+        } else {
+            inline.innerHTML = '<a href="' + nextPage + '" class="next-btn">Next Stop -&gt;</a>';
+        }
+        inline.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 400);
+}
+
 // ---- VerifyPage: used by all verification stops (1, 2, 3, 5-12) ----
 var VerifyPage = (function() {
     var cfg;
@@ -164,34 +188,17 @@ var VerifyPage = (function() {
     }
 
     function celebrate() {
-        burstConfetti(55);
-        burstSparkles(28);
-
-        var sub    = document.getElementById('cel-sub');
-        var action = document.getElementById('cel-action');
-
-        if (cfg.successType === 'normal') {
-            sub.textContent  = "You’ve solved this stop — time to move on.";
-            action.innerHTML = '<a href="'+cfg.nextPage+'" class="next-btn">Next Stop →</a>';
-        } else if (cfg.successType === 'scan-qr') {
-            sub.textContent  = "You’ve solved this stop.";
-            action.innerHTML =
-                '<div class="qr-block">' +
-                  '<div class="icon-ring">&#128247;</div>' +
-                  '<p class="block-title">Find the QR code</p>' +
-                  '<p class="block-sub">Scan it at the location to unlock<br>the next stop and continue.</p>' +
-                '</div>';
+        if (cfg.successType === 'popup') {
+            burstConfetti(55);
+            burstSparkles(28);
+            var sub    = document.getElementById('cel-sub');
+            var action = document.getElementById('cel-action');
+            sub.textContent  = "You've solved this stop.";
+            action.innerHTML = '<a href="' + cfg.nextPage + '" class="next-btn">Next Stop -&gt;</a>';
+            setTimeout(function(){ document.getElementById('cel-overlay').classList.add('show'); }, 80);
         } else {
-            sub.textContent  = "You’ve completed the final stop!";
-            action.innerHTML =
-                '<div class="fin-block">' +
-                  '<div class="icon-ring green">&#127881;</div>' +
-                  '<p class="block-title">The journey is complete.</p>' +
-                  '<p class="block-sub">Every seal has been broken.<br>Well done — you made it!</p>' +
-                '</div>';
+            revealInline(cfg.successType, cfg.nextPage);
         }
-
-        setTimeout(function(){ document.getElementById('cel-overlay').classList.add('show'); }, 80);
     }
 
     return { init: init, check: check, toggleHint: toggleHint };
