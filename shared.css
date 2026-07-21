@@ -305,6 +305,16 @@ audio { display: none; }
     to   { opacity: 1; transform: scale(1); }
 }
 
+input[type="date"].inp-date {
+    color-scheme: dark;
+    cursor: pointer;
+}
+input[type="date"].inp-date::-webkit-calendar-picker-indicator {
+    filter: invert(0.75) sepia(0.3) hue-rotate(10deg);
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .inline-action {
     margin-top: 2.5rem;
     padding-bottom: 3rem;

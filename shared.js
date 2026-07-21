@@ -135,12 +135,15 @@ var VerifyPage = (function() {
 
     function renderChecks() {
         document.getElementById('checks-container').innerHTML = cfg.checks.map(function(c,i){
+            var inputEl = c.type === 'date'
+                ? '<input type="date" id="inp-'+i+'" class="inp-date">'
+                : '<input type="text" id="inp-'+i+'" placeholder="Your answer" enterkeyhint="go" ' +
+                    'onkeydown="if(event.key===\'Enter\')VerifyPage.check('+i+')">';
             return '<div class="card" id="card-'+i+'">' +
               '<div class="stamp" id="stamp-'+i+'">&amp;</div>' +
               '<div class="item-label">'+c.label+'</div>' +
               '<div class="input-row">' +
-                '<input type="text" id="inp-'+i+'" placeholder="Your answer" enterkeyhint="go" ' +
-                  'onkeydown="if(event.key===\'Enter\')VerifyPage.check('+i+')">' +
+                inputEl +
                 '<button class="btn-check" id="btn-'+i+'" onclick="VerifyPage.check('+i+')">Unseal</button>' +
               '</div>' +
               '<div class="feedback" id="fb-'+i+'"></div>' +
@@ -159,8 +162,9 @@ var VerifyPage = (function() {
         var card  = document.getElementById('card-'+i);
         var btn   = document.getElementById('btn-'+i);
         var stamp = document.getElementById('stamp-'+i);
-        var val   = normalize(inp.value);
-        var ok    = val.length > 0 && cfg.checks[i].answers.some(function(a){ return normalize(a) === val; });
+        var isDate = cfg.checks[i].type === 'date';
+        var val   = isDate ? inp.value : normalize(inp.value);
+        var ok    = val.length > 0 && cfg.checks[i].answers.some(function(a){ return isDate ? a === val : normalize(a) === val; });
 
         if (ok) {
             solved.add(i);

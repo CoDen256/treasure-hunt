@@ -87,7 +87,7 @@
     const CHECKS = [
         { label: "Where should you go next?", answers: ["answer 1"], hint: "" },
         { label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-        { label: "Password",                   answers: ["password"], hint: "" }
+        { label: "Password",                   answers: ["21-07-2026"], hint: "", type: "date" }
     ];
 
     // ============================================================
@@ -167,20 +167,25 @@
     }
 
     function renderChecks() {
-        document.getElementById('checks-container').innerHTML = CHECKS.map((c, i) => `
+        document.getElementById('checks-container').innerHTML = CHECKS.map((c, i) => {
+          const inputEl = c.type === 'date'
+            ? `<input type="date" id="check-input-${i}" class="inp-date">`
+            : `<input type="text" id="check-input-${i}" placeholder="Your answer" enterkeyhint="go"
+                onkeydown="if(event.key==='Enter')checkAnswer('check',${i})">`;
+          return `
           <div class="card" id="check-card-${i}">
             <div class="stamp" id="check-stamp-${i}">&amp;</div>
             <div class="item-label">${c.label}</div>
             <div class="input-row">
-              <input type="text" id="check-input-${i}" placeholder="Your answer" enterkeyhint="go"
-                onkeydown="if(event.key==='Enter')checkAnswer('check',${i})">
+              ${inputEl}
               <button class="btn-check" id="check-btn-${i}" onclick="checkAnswer('check',${i})">Unseal</button>
             </div>
             <div class="feedback" id="check-feedback-${i}"></div>
             ${c.hint ? `<button class="hint-toggle" id="check-hint-toggle-${i}" onclick="toggleHint('check',${i})">Need a nudge?</button>
               <div class="hint-text" id="check-hint-${i}">${c.hint}</div>` : ''}
           </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
     function checkAnswer(type, index) {
@@ -192,8 +197,9 @@
         const cardEl     = document.getElementById(type+'-card-'+index);
         const btnEl      = document.getElementById(type+'-btn-'+index);
         const stampEl    = document.getElementById(type+'-stamp-'+index);
-        const userAns    = normalize(inputEl.value);
-        const isCorrect  = userAns.length > 0 && data.answers.some(a => normalize(a) === userAns);
+        const isDate     = type === 'check' && data.type === 'date';
+        const userAns    = isDate ? inputEl.value : normalize(inputEl.value);
+        const isCorrect  = userAns.length > 0 && data.answers.some(a => isDate ? a === userAns : normalize(a) === userAns);
 
         if (isCorrect) {
             const key = type+'-'+index;
