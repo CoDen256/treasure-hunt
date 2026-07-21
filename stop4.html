@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#17101f">
-    <title>Break Every Seal</title>
+    <title>Break Every Seal – Stop 04</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -43,15 +43,9 @@
     <p class="section-note">No titles. No names. Just listen.</p>
     <div id="songs-container"></div>
 
-    <div class="final-section" id="final-section">
-        <hr class="divider">
-        <div class="card final-card">
-            <div class="final-seal">&amp;</div>
-            <div class="final-eyebrow">Every note is open</div>
-            <h2 class="final-title">Unsealed</h2>
-            <div class="final-body" id="final-clue-content"></div>
-        </div>
-    </div>
+    <hr class="divider">
+
+    <div id="checks-container"></div>
 </div>
 
 <script src="shared.js"></script>
@@ -77,6 +71,8 @@
         }
     ];
 
+    // "src" — path to an audio file, e.g. "songs/track1.mp3"
+    // Leave "" for now; the player shows a placeholder until a real file is added.
     const SONGS = [
         { src: "", answers: ["song one title"],   hint: "" },
         { src: "", answers: ["song two title"],   hint: "" },
@@ -86,24 +82,27 @@
         { src: "", answers: ["song six title"],   hint: "" }
     ];
 
-    // Shown once every note is opened. Plain text or HTML (e.g. an <img>).
-    const FINAL_CLUE_HTML = `
-        <p>Replace this with your next clue — a riddle, coordinates,
-        or a photo of where to go next.</p>
-    `;
+    // Verification fields shown at the bottom — same as all other stops.
+    const CHECKS = [
+        { label: "Where should you go next?", answers: ["answer 1"], hint: "" },
+        { label: "What should you do there?",  answers: ["answer 2"], hint: "" },
+        { label: "Password",                   answers: ["password"], hint: "" }
+    ];
 
     // ============================================================
 
     const solvedSet = new Set();
+    const TOTAL = () => RIDDLES.length + SONGS.length + CHECKS.length;
 
     function renderHeader() {
         document.getElementById('eyebrow-label').textContent = STOP_LABEL;
         document.getElementById('page-title').textContent    = PAGE_TITLE;
         document.getElementById('page-subtitle').textContent = PAGE_SUBTITLE;
+        document.title = 'Break Every Seal – ' + STOP_LABEL;
     }
 
     function renderSealStrand() {
-        const total = RIDDLES.length + SONGS.length;
+        const total = TOTAL();
         const container = document.getElementById('seal-strand');
         container.innerHTML = '';
         for (let i = 0; i < total; i++) {
@@ -166,21 +165,43 @@
         `).join('');
     }
 
+    function renderChecks() {
+        document.getElementById('checks-container').innerHTML = CHECKS.map((c, i) => `
+          <div class="card" id="check-card-${i}">
+            <div class="stamp" id="check-stamp-${i}">&amp;</div>
+            <div class="item-label">${c.label}</div>
+            <div class="input-row">
+              <input type="text" id="check-input-${i}" placeholder="Your answer" enterkeyhint="go"
+                onkeydown="if(event.key==='Enter')checkAnswer('check',${i})">
+              <button class="btn-check" id="check-btn-${i}" onclick="checkAnswer('check',${i})">Unseal</button>
+            </div>
+            <div class="feedback" id="check-feedback-${i}"></div>
+            ${c.hint ? `<button class="hint-toggle" id="check-hint-toggle-${i}" onclick="toggleHint('check',${i})">Need a nudge?</button>
+              <div class="hint-text" id="check-hint-${i}">${c.hint}</div>` : ''}
+          </div>
+        `).join('');
+    }
+
     function checkAnswer(type, index) {
-        const data     = type === 'riddle' ? RIDDLES[index] : SONGS[index];
-        const inputEl  = document.getElementById(type+'-input-'+index);
+        const data = type === 'riddle' ? RIDDLES[index]
+                   : type === 'song'  ? SONGS[index]
+                   :                    CHECKS[index];
+        const inputEl    = document.getElementById(type+'-input-'+index);
         const feedbackEl = document.getElementById(type+'-feedback-'+index);
-        const cardEl   = document.getElementById(type+'-card-'+index);
-        const btnEl    = document.getElementById(type+'-btn-'+index);
-        const stampEl  = document.getElementById(type+'-stamp-'+index);
-        const userAns  = normalize(inputEl.value);
-        const isCorrect = userAns.length > 0 && data.answers.some(a => normalize(a) === userAns);
+        const cardEl     = document.getElementById(type+'-card-'+index);
+        const btnEl      = document.getElementById(type+'-btn-'+index);
+        const stampEl    = document.getElementById(type+'-stamp-'+index);
+        const userAns    = normalize(inputEl.value);
+        const isCorrect  = userAns.length > 0 && data.answers.some(a => normalize(a) === userAns);
 
         if (isCorrect) {
             const key = type+'-'+index;
             if (!solvedSet.has(key)) {
                 solvedSet.add(key);
-                markSealDot(type === 'riddle' ? index : RIDDLES.length + index);
+                const dotIdx = type === 'riddle' ? index
+                             : type === 'song'   ? RIDDLES.length + index
+                             :                     RIDDLES.length + SONGS.length + index;
+                markSealDot(dotIdx);
                 updateProgress();
             }
             cardEl.classList.remove('shake');
@@ -190,6 +211,7 @@
             feedbackEl.textContent = 'Correct — the seal breaks.';
             feedbackEl.className   = 'feedback correct';
             stampEl.classList.add('show');
+            cardEl.classList.add('solved');
         } else {
             feedbackEl.textContent = 'Not quite — try again.';
             feedbackEl.className   = 'feedback wrong';
@@ -205,18 +227,13 @@
     }
 
     function updateProgress() {
-        const total = RIDDLES.length + SONGS.length;
+        const total = TOTAL();
         document.getElementById('seal-count').textContent = solvedSet.size + ' / ' + total;
-        if (solvedSet.size === total && total > 0) revealFinalClue();
-    }
-
-    function revealFinalClue() {
-        const sec = document.getElementById('final-section');
-        if (sec.classList.contains('show')) return;
-        sec.classList.add('show');
-        burstConfetti(55);
-        burstSparkles(28);
-        setTimeout(() => document.getElementById('cel-overlay').classList.add('show'), 80);
+        if (solvedSet.size === total && total > 0) {
+            burstConfetti(55);
+            burstSparkles(28);
+            setTimeout(() => document.getElementById('cel-overlay').classList.add('show'), 80);
+        }
     }
 
     function toggleHint(type, index) {
@@ -268,8 +285,8 @@
                     fill.style.width = (audio.currentTime/audio.duration*100)+'%';
                 timeL.textContent = formatTime(audio.currentTime);
             });
-            audio.addEventListener('ended', () => { btn.innerHTML = iconPlayHTML(); fill.style.width='0%'; timeL.textContent='0:00'; });
-            audio.addEventListener('pause',  () => { btn.innerHTML = iconPlayHTML(); });
+            audio.addEventListener('ended', () => { btn.innerHTML=iconPlayHTML(); fill.style.width='0%'; timeL.textContent='0:00'; });
+            audio.addEventListener('pause',  () => { btn.innerHTML=iconPlayHTML(); });
         });
     }
 
@@ -278,8 +295,8 @@
         renderSealStrand();
         renderRiddles();
         renderSongs();
+        renderChecks();
         attachAudioEvents();
-        document.getElementById('final-clue-content').innerHTML = FINAL_CLUE_HTML;
         initSparkles();
     });
 </script>
