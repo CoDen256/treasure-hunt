@@ -315,6 +315,51 @@ input[type="date"].inp-date::-webkit-calendar-picker-indicator {
     opacity: 0.8;
 }
 
+/* Prefix input — fixed text on the left, user types only the suffix */
+.inp-with-prefix {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+.inp-with-prefix:focus-within { border-color: var(--seal); }
+.inp-with-prefix.disabled { opacity: 0.6; }
+.inp-prefix, .inp-suffix {
+    display: flex;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--seal);
+    white-space: nowrap;
+    user-select: none;
+    flex-shrink: 0;
+}
+.inp-prefix {
+    padding: 0 10px 0 16px;
+    border-right: 1px solid rgba(214,160,92,0.3);
+}
+.inp-suffix {
+    padding: 0 16px 0 10px;
+    border-left: 1px solid rgba(214,160,92,0.3);
+}
+.inp-with-prefix input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding-left: 12px;
+}
+.inp-with-prefix input[type="text"]:focus { border-color: transparent; }
+
 .inline-action {
     margin-top: 2.5rem;
     padding-bottom: 3rem;

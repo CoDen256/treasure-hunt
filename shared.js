@@ -212,8 +212,17 @@ var VerifyPage = (function() {
         var inputEl;
         if (item.type === 'date') {
             inputEl = '<input type="date" id="inp-' + idx + '" class="inp-date">';
+        } else if (item.prefix || item.suffix) {
+            var ph = item.placeholder || '';
+            inputEl =
+                '<div class="inp-with-prefix" id="prefix-wrap-' + idx + '">' +
+                    (item.prefix ? '<span class="inp-prefix">' + item.prefix + '</span>' : '') +
+                    '<input type="text" id="inp-' + idx + '" placeholder="' + ph + '" enterkeyhint="go" ' +
+                        'onkeydown="if(event.key===\'Enter\')VerifyPage.check(' + idx + ')">' +
+                    (item.suffix ? '<span class="inp-suffix">' + item.suffix + '</span>' : '') +
+                '</div>';
         } else {
-            var ph = item.type === 'audio' ? 'Name this song' : 'Your answer';
+            var ph = item.type === 'audio' ? 'Name this song' : (item.placeholder || 'Your answer');
             inputEl = '<input type="text" id="inp-' + idx + '" placeholder="' + ph + '" enterkeyhint="go" ' +
                 'onkeydown="if(event.key===\'Enter\')VerifyPage.check(' + idx + ')">';
         }
@@ -238,6 +247,13 @@ var VerifyPage = (function() {
         return String(n).padStart(2, '0');
     }
 
+    // Converts YYYY-MM-DD (date input internal value) to DD.MM.YYYY for comparison
+    function dateToDisplay(val) {
+        if (!val) return '';
+        var p = val.split('-');
+        return p.length === 3 ? p[2] + '.' + p[1] + '.' + p[0] : val;
+    }
+
     function check(idx) {
         if (solved.has(idx)) return;
         var item  = countable[idx];
@@ -248,7 +264,9 @@ var VerifyPage = (function() {
         var stamp = document.getElementById('stamp-' + idx);
 
         var isDate = item.type === 'date';
-        var val    = isDate ? inp.value : normalize(inp.value);
+        var val    = isDate
+            ? dateToDisplay(inp.value)
+            : normalize((item.prefix || '') + inp.value + (item.suffix || ''));
         var ok     = val.length > 0 && item.answers.some(function(a) {
             return isDate ? a === val : normalize(a) === val;
         });
@@ -256,6 +274,8 @@ var VerifyPage = (function() {
         if (ok) {
             solved.add(idx);
             inp.disabled    = true;
+            var pw = document.getElementById('prefix-wrap-' + idx);
+            if (pw) pw.classList.add('disabled');
             btn.textContent = 'Opened';
             btn.classList.add('done');
             fb.textContent  = 'Correct - the seal breaks.';
