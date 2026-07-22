@@ -139,6 +139,7 @@ input[type="text"] {
     border: 1px solid rgba(255,255,255,0.16); border-radius: 8px;
     color: var(--parchment); font-family: 'Manrope', sans-serif;
     font-size: 17px; outline: none; transition: border-color 0.2s;
+    text-transform: uppercase;
 }
 input[type="text"]:focus { border-color: var(--seal); }
 input[type="text"]:disabled { opacity: 0.6; }
