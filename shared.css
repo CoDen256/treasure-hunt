@@ -353,7 +353,9 @@ input[type="date"].inp-date::-webkit-calendar-picker-indicator {
     border-left: 1px solid rgba(214,160,92,0.3);
 }
 .card.solved .inp-prefix,
-.card.solved .inp-suffix {
+.card.solved .inp-suffix,
+.inp-prefix.addon-visible,
+.inp-suffix.addon-visible {
     filter: none;
     color: var(--seal-light);
     text-shadow: 0 0 14px rgba(240,201,136,0.55);

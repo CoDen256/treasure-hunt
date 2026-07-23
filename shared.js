@@ -221,12 +221,13 @@ var VerifyPage = (function() {
             inputEl = '<input type="date" id="inp-' + idx + '" class="inp-date">';
         } else if (item.prefix || item.suffix) {
             var ph = item.placeholder || '';
+            var addonCls = item.showAddon ? ' addon-visible' : '';
             inputEl =
                 '<div class="inp-with-prefix" id="prefix-wrap-' + idx + '">' +
-                    (item.prefix ? '<span class="inp-prefix">' + item.prefix + '</span>' : '') +
+                    (item.prefix ? '<span class="inp-prefix' + addonCls + '">' + item.prefix + '</span>' : '') +
                     '<input type="text" id="inp-' + idx + '" placeholder="' + ph + '" enterkeyhint="go" ' +
                         'onkeydown="if(event.key===\'Enter\')VerifyPage.check(' + idx + ')">' +
-                    (item.suffix ? '<span class="inp-suffix">' + item.suffix + '</span>' : '') +
+                    (item.suffix ? '<span class="inp-suffix' + addonCls + '">' + item.suffix + '</span>' : '') +
                 '</div>';
         } else {
             var ph = item.type === 'audio' ? 'Name this song' : (item.placeholder || 'Your answer');

@@ -38,36 +38,22 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     VerifyPage.init({
-        stopLabel:    "STOP 04 — [LOCATION]",
+        stopLabel:    "STOP 04 — NOVA POST",
         pageTitle:    "Break Every Seal",
         pageSubtitle: "Solve what's below to open the final note.",
         sections: [
             {
-                title: "The Notes",
-                note:  "Work through these together.",
-                items: [
-                    {
-                        type:     'text',
-                        label:    "Note 01",
-                        question: "Replace this with your first riddle or question.",
-                        answers:  ["example answer"],
-                        hint:     ""
-                    },
-                    {
-                        type:     'text',
-                        label:    "Note 02",
-                        question: "Replace this with your second riddle or question.",
-                        answers:  ["example answer"],
-                        hint:     "You can add an optional nudge here."
-                    }
-                ]
+                type:  'display',
+                label: "Leipzig Trivia",
+                text:  "In 1833, a German economist proposed something Saxony had never seen: a line that would not simply connect two ends of one city, but stretch between two entire cities. He would not live to see how far his idea would travel — but Saxony did not forget who first spoke it aloud.\n"
++ "Search for the man and for what he proposed — a line, not yet built, connecting two cities whose names still appear on trains today.\n"
++ "Somewhere in this city, the memory of that beginning still stands — the names of the men who made it real, and the story of how it came to be, kept where anyone can find it, if they know what they're looking for.\n"
++ "Find where that memory stands."
             },
             {
-                title: "Enclosures",
-                note:  "No titles. No names. Just listen.",
+                title: "Listen & Decode",
+                note:  "No titles. No names. Just listen and think. Solve the titles, use first letters",
                 items: [
-                    // src: path to audio file, e.g. "songs/track1.mp3"
-                    // Leave "" until real files are added.
                     { type: 'audio', src: "", answers: ["song one title"],   hint: "" },
                     { type: 'audio', src: "", answers: ["song two title"],   hint: "" },
                     { type: 'audio', src: "", answers: ["song three title"], hint: "" },
@@ -78,10 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 items: [
-                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-                    { type: 'text', label: "What should you do there?",  answers: ["GX-answer 2"], hint: "", prefix: "GX-", suffix: "-LM"  },
-                    // Date answer in DD.MM.YYYY — the picker internally uses YYYY-MM-DD but comparison converts automatically
-                    { type: 'date', label: "Password",                   answers: ["21.07.2026"], hint: ""}
+                    { type: 'text', label: "Where should you go next?", answers: ["Eisenbahndenkmal",
+                        "Denkmal der Leipzig-Dresdner Eisenbahn", "Obelisk", "Eisenbahnobelisk"], hint: "" },
+                    { type: 'text', label: "What should look for?",  answers: ["BARBERRYBUSH ON THE LEFT"], hint: "",
+                         suffix: "BUSH ON THE LEFT"  },
                 ]
             }
         ],

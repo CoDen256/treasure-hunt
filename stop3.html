@@ -44,15 +44,17 @@ document.addEventListener('DOMContentLoaded', function() {
         sections: [
             {
                 items: [
-                    { type: 'text', label: "Where should you go next? (Latitude (xx.x))",
+                    { type: 'text', label: "Where should you go next? Latitude (use format xx.x)",
                         answers: ["51°20'34.2\"N"],
                         prefix:"51°20'",
+                        showAddon: true,
                         suffix: "\"N",
                         hint: "" },
-                    { type: 'text', label: "Where should you go next? (Longitude (xx.x))",
+                    { type: 'text', label: "Where should you go next? Longitude (use format xx.x)",
                         answers: ["12°23'06.6\"E"],
                         prefix:"12°23'",
                         suffix: "\"E",
+                        showAddon: true,
                         hint: "" },
                     { type: 'text', label: "What should you look for?",
                         answers: ["QR-CODE", "QRCODE", "QR", "QR CODE"], hint: "" },
