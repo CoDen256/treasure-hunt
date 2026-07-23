@@ -38,15 +38,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     VerifyPage.init({
-        stopLabel:    "STOP 03 — [LOCATION]",
+        stopLabel:    "STOP 03 — WEBFLEET",
         pageTitle:    "Verify Your Solutions",
         pageSubtitle: "Enter what you discovered to break the seals.",
         sections: [
             {
                 items: [
-                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                    { type: 'text', label: "Where should you go next? (Latitude (xx.x))",
+                        answers: ["51°20'34.2\"N"],
+                        prefix:"51°20'",
+                        suffix: "\"N",
+                        hint: "" },
+                    { type: 'text', label: "Where should you go next? (Longitude (xx.x))",
+                        answers: ["12°23'06.6\"E"],
+                        prefix:"12°23'",
+                        suffix: "\"E",
+                        hint: "" },
+                    { type: 'text', label: "What should you look for?",
+                        answers: ["QR-CODE", "QRCODE", "QR", "QR CODE"], hint: "" },
                 ]
             }
         ],
