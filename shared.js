@@ -121,7 +121,7 @@ var VerifyPage = (function() {
 
         cfg.sections.forEach(function(s) {
             s.items.forEach(function(item) {
-                if (item.type !== 'display') {
+                if (item.type !== 'display' && item.type !== 'poem') {
                     item._idx = countable.length;
                     countable.push(item);
                 }
@@ -178,6 +178,13 @@ var VerifyPage = (function() {
             return '<div class="card">' +
                 (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
                 '<div class="q-text">' + (item.text || '') + '</div>' +
+                '</div>';
+        }
+
+        if (item.type === 'poem') {
+            return '<div class="card card-poem">' +
+                (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
+                '<div class="poem-text">' + (item.text || '').replace(/\n/g, '<br>') + '</div>' +
                 '</div>';
         }
 

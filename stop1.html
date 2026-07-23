@@ -38,17 +38,25 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     VerifyPage.init({
-        stopLabel:    "STOP 01 — [LOCATION]",
+        stopLabel:    "STOP 01 — VETERAN PARK",
         pageTitle:    "Verify Your Solutions",
         pageSubtitle: "Enter what you discovered to break the seals.",
         sections: [
             {
-                title: "The Notes",
-                note:  "Work through these together.",
                 items: [
-                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                    { type: 'text',
+                        label: "Where should you go next?",
+                        answers: ["REGINA PALAST", "REGINA"],
+                        hint: "" },
+                    { type: 'text',
+                        label: "What should you look for? (Solved key)",
+                        answers: ["ODYSSEY"],
+                        hint: "" },
+                    // Date answer in DD.MM.YYYY — the picker internally uses YYYY-MM-DD but comparison converts automatically
+                    { type: 'date',
+                        label: "Password (Go to the location and find the password using the key)",
+                        answers: ["16.07.2026"],
+                        hint: ""}
                 ]
             }
         ],
