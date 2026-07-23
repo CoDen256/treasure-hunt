@@ -44,14 +44,36 @@ document.addEventListener('DOMContentLoaded', function() {
         pageSubtitle: "Read the notes below, then verify your answers.",
         sections: [
             {
-                title: "The Notes",
+                title: "The Challenges",
                 note:  "Read these together — the answers point to your next stop.",
                 items: [
                     {
-                        type:  'display',
-                        label: "Note 01",
-                        text:  "Replace this with your first riddle. It can be as long as you like. " +
-                               "The whole group reads it together and works out the answer."
+                        type:  'poem',
+                        label: "Riddle",
+                        text:  `In a room where logic wages war,
+She battles bugs she's fought before.
+Each broken thing she learns to mend,
+Though the fixing seems to never end.
+Nearby a door holds secrets grim,
+A room best entered on a whim
+Of holding breath and moving quick—
+The air in there could make you sick.
+And when the summer sun turns cruel,
+Her colleagues sweat—it's not too cool—
+Their nether regions, we won't lie,
+Emit a scent that makes you cry.
+Yes, summertime brings certain balls
+Whose funk could clear out office halls.
+A friend once sat among that crew,
+Learning ropes and passwords too,
+Before she found her present place—
+But still recalls that office space.
+No chair is hers, no desk, no throne—
+She wanders daily, seat unknown,
+A nomad among the working masses,
+Squatting wherever a spot amasses.
+So find the spot where ships don't float,
+Yet still a fleet, and still afloat`
                     },
                     {
                         type:  'display',
@@ -63,9 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 items: [
-                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                    { type: 'text', label: "Where should you go next?", answers: ["WEBFLEET", "WEB FLEET"], hint: "" },
+                    { type: 'text', label: "What should you look for?",  answers: ["BOTTLEIN THE BUSH"], hint: "", suffix:"IN THE BUSH" },
                 ]
             }
         ],
