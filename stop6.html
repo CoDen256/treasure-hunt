@@ -38,15 +38,17 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     VerifyPage.init({
-        stopLabel:   "STOP 06 — [LOCATION]",
+        stopLabel:   "STOP 06 — [Hauptbahnhof 131 Bus]",
         pageTitle:   "Verify Your Solutions",
         pageSubtitle: "Enter what you discovered to break the seals.",
         sections: [
             {
                 items: [
-                    { type: 'text', label: "Where should you go next?", answers: ["answer 1"], hint: "" },
-                    { type: 'text', label: "What should you do there?",  answers: ["answer 2"], hint: "" },
-                    { type: 'text', label: "Password",                   answers: ["password"], hint: "" }
+                    { type: 'text', label: "Shop (231m)", answers: ["CAPITO"], hint: "" },
+                    { type: 'text', label: "First true date (341m)", answers: ["DONNA"], hint: "" },
+                    { type: 'text', label: "Machine (524m)", answers: ["MRT", "MRI", "ZRN Leipzig"], hint: "" },
+                    { type: 'text', label: "Where should you go?",  answers: ["NIKOLAIKIRCHE", "NIKOLAIKIRCHHOF", "BRUNNEN", "FOUNTAIN"], hint: "" },
+                    { type: 'text', label: "What should you do there?",  answers: ["TOSS A COIN", "MAKE A WISH"], hint: "" },
                 ]
             }
         ],
