@@ -193,12 +193,13 @@
         }
 
         .card-verse {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
             font-size: 10pt;
-            font-weight: 400;
-            line-height: 1.75;
+            line-height: 1.7;
             color: #2a1a34;
-            letter-spacing: 0.01em;
+            width: fit-content;
+            margin: 0 auto;
         }
 
         .verse-break {
@@ -288,24 +289,6 @@
                 min-height: 297mm;
                 margin: 0 auto;
                 box-shadow: 0 4px 40px rgba(0,0,0,0.25);
-                position: relative;
-            }
-            /* dashed red line = page bottom (A4 297mm, padding 14mm+12mm = 26mm, content = 271mm) */
-            body::after {
-                content: 'page break';
-                position: absolute;
-                top: 285mm;
-                left: 0;
-                right: 0;
-                border-top: 1.5px dashed rgba(210, 40, 40, 0.55);
-                font-family: 'IBM Plex Mono', monospace;
-                font-size: 6pt;
-                letter-spacing: 0.15em;
-                text-transform: uppercase;
-                color: rgba(210, 40, 40, 0.6);
-                text-align: right;
-                padding-right: 3mm;
-                padding-top: 1mm;
             }
         }
     </style>
@@ -373,7 +356,7 @@
             <div class="card-tag">The Scattered Word &nbsp;·&nbsp; Group</div>
             <div class="card-title">Unscramble This</div>
             <div class="anagram-intro">A word has been scattered like ash in the wind:</div>
-            <span class="anagram-word">YESYODS</span>
+            <span class="anagram-word">YESDOSY</span>
             <div class="anagram-instruction">
                 Piece it back together, and you'll hold the second key.
                 The word you find is not the answer — it is the key.
