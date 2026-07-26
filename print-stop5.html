@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 05 — Word Search — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Puzzle intro ────────────────────────────────────── */
+        .puzzle-intro {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.55;
+            margin-bottom: 3.5mm;
+        }
+
+        /* ── Word search grid ────────────────────────────────── */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            width: 100%;
+            border: 1.5px solid #b8853a;
+            border-radius: 3px;
+            overflow: hidden;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        /* ── Words-found list ───────────────────────────────── */
+        .found-list {
+            margin-top: 4mm;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5mm 8mm;
+        }
+
+        .found-row {
+            display: flex;
+            align-items: baseline;
+            gap: 2.5mm;
+            padding: 1.5mm 0;
+            border-bottom: 1px solid rgba(184, 133, 58, 0.25);
+        }
+
+        .found-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 7.5pt;
+            font-weight: 500;
+            color: #b8853a;
+            min-width: 6mm;
+            flex-shrink: 0;
+        }
+
+        .found-line {
+            flex: 1;
+            height: 5mm;
+        }
+
+        /* ── Cipher intro narrative ──────────────────────────── */
+        .cipher-narrative {
+            font-family: 'Manrope', sans-serif;
+            font-size: 9pt;
+            font-style: italic;
+            color: #3a2010;
+            line-height: 1.65;
+            text-align: center;
+            margin-bottom: 3mm;
+            opacity: 0.9;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(184, 133, 58, 0.35);
+            border-bottom: 1px solid rgba(184, 133, 58, 0.35);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 18pt;
+            font-weight: 500;
+            color: #17101f;
+            background: #ede3cc;
+            line-height: 1;
+            user-select: none;
+        }
+
+        /* ── Page 2: Cipher task ─────────────────────────────── */
+        .cipher-quote {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 12.5pt;
+            line-height: 1.65;
+            color: #17101f;
+            text-align: center;
+            width: fit-content;
+            margin: 0 auto 2mm auto;
+        }
+
+        .cipher-note {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.55;
+            margin-bottom: 5mm;
+            text-align: center;
+        }
+
+        .cipher-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10mm;
+        }
+
+        .cipher-col-head {
+            font-family: 'Fraunces', serif;
+            font-size: 20pt;
+            font-weight: 600;
+            color: #17101f;
+            letter-spacing: 0.06em;
+            margin-bottom: 3mm;
+            padding-bottom: 2mm;
+            border-bottom: 1.5px solid #b8853a;
+        }
+
+        .cipher-rows {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cipher-row {
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+            padding: 2.5mm 0;
+            border-bottom: 1px solid rgba(184, 133, 58, 0.15);
+        }
+
+        .cipher-row:last-child { border-bottom: none; }
+
+        .cipher-code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11pt;
+            font-weight: 500;
+            color: #2a1a34;
+            min-width: 18mm;
+        }
+
+        .cipher-arr {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            color: #b8853a;
+            flex-shrink: 0;
+        }
+
+        .cipher-box {
+            width: 9mm;
+            height: 9mm;
+            border: 1.5px solid #b8853a;
+            border-radius: 2px;
+            background: rgba(184, 133, 58, 0.05);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cipher-box.hint {
+            background: rgba(184, 133, 58, 0.14);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11pt;
+            font-weight: 500;
+            color: #b8853a;
+        }
+
+        .unscramble-wrap {
+            margin-top: 5mm;
+            padding-top: 3.5mm;
+            border-top: 1px dashed rgba(184, 133, 58, 0.4);
+        }
+
+        .unscramble-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2.5mm;
+        }
+
+        .unscramble-boxes {
+            display: flex;
+            gap: 2mm;
+            margin-bottom: 3mm;
+        }
+
+        .unscramble-box {
+            width: 11mm;
+            height: 11mm;
+            border: 1.5px solid #b8853a;
+            border-radius: 2px;
+            background: rgba(184, 133, 58, 0.05);
+        }
+
+        .unscramble-row {
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+        }
+
+        .unscramble-arr {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            color: #b8853a;
+            flex-shrink: 0;
+        }
+
+        .unscramble-line {
+            flex: 1;
+            border-bottom: 1px solid rgba(184, 133, 58, 0.5);
+            height: 7mm;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Eisenbahndenkmal</div>
+            <h1 class="page-title">The Word Hunt</h1>
+        </div>
+        <div class="header-meta">
+            Station V of X<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Instruction ── -->
+    <div class="section-tag" style="margin-bottom: 2.5mm;">The Puzzle — Hidden Words</div>
+    <p class="puzzle-intro">
+        Eight words are hidden in this grid. They run in any direction — horizontal, vertical, or diagonal, forward or backward. Find and circle each one.
+    </p>
+
+    <!-- ── Grid (filled by JS) ── -->
+    <div class="word-grid" id="word-grid"></div>
+
+    <!-- ── Words found ── -->
+    <div class="section-tag" style="margin-top: 4mm; margin-bottom: 2mm;">Words Found — Write what you circled</div>
+    <div class="found-list">
+        <div class="found-row"><span class="found-num">1.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">2.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">3.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">4.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">5.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">6.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">7.</span><div class="found-line"></div></div>
+        <div class="found-row"><span class="found-num">8.</span><div class="found-line"></div></div>
+    </div>
+
+    <script>
+        // ── Seeded Lehmer RNG — no overflow, no sign issues ───
+        function makeRng(seed) {
+            var s = (seed % 2147483647) || 1;
+            return function() {
+                s = (s * 16807) % 2147483647;
+                return s / 2147483647;
+            };
+        }
+
+        function wordSeed(words) {
+            var h = 1;
+            words.join('|').split('').forEach(function(ch) {
+                h = (h * 31 + ch.charCodeAt(0)) % 2147483647;
+            });
+            return h;
+        }
+
+        // ── Word search builder ───────────────────────────────
+        var ROWS = 12, COLS = 12;
+        var WORDS = ['STATION', 'BUS', 'ANGERBRUKE', 'NOVAEVENTIS', 'IKEA', 'MERSEBURG', 'HBF', 'LEIPZIG'];
+        var DIRS = [
+            [ 0, 1], [ 0,-1],
+            [ 1, 0], [-1, 0],
+            [ 1, 1], [ 1,-1],
+            [-1, 1], [-1,-1]
+        ];
+        var ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        function buildGrid() {
+            var rng = makeRng(wordSeed(WORDS));
+
+            function shuffle(arr) {
+                for (var i = arr.length - 1; i > 0; i--) {
+                    var j = Math.floor(rng() * (i + 1));
+                    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+                }
+                return arr;
+            }
+
+            // Build empty grid
+            var grid = [];
+            for (var gr = 0; gr < ROWS; gr++) {
+                grid.push([]);
+                for (var gc = 0; gc < COLS; gc++) grid[gr].push('');
+            }
+
+            // Longest words first
+            var sorted = WORDS.slice().sort(function(a, b) { return b.length - a.length; });
+
+            sorted.forEach(function(word) {
+                // Enumerate every valid (startRow, startCol, dirIndex) for this word length
+                var candidates = [];
+                for (var di = 0; di < DIRS.length; di++) {
+                    var ddr = DIRS[di][0], ddc = DIRS[di][1];
+                    for (var pr = 0; pr < ROWS; pr++) {
+                        for (var pc = 0; pc < COLS; pc++) {
+                            var er = pr + ddr * (word.length - 1);
+                            var ec = pc + ddc * (word.length - 1);
+                            if (er >= 0 && er < ROWS && ec >= 0 && ec < COLS) {
+                                candidates.push([pr, pc, di]);
+                            }
+                        }
+                    }
+                }
+
+                // Shuffle so placement is random but exhaustive
+                shuffle(candidates);
+
+                var placed = false;
+                for (var p = 0; p < candidates.length && !placed; p++) {
+                    var sr = candidates[p][0], sc = candidates[p][1];
+                    var dr = DIRS[candidates[p][2]][0], dc = DIRS[candidates[p][2]][1];
+
+                    // Check no conflicts (empty cell or same letter = ok → allows sharing)
+                    var ok = true;
+                    for (var i = 0; i < word.length; i++) {
+                        var ex = grid[sr + dr * i][sc + dc * i];
+                        if (ex !== '' && ex !== word[i]) { ok = false; break; }
+                    }
+
+                    if (ok) {
+                        for (var i = 0; i < word.length; i++) {
+                            grid[sr + dr * i][sc + dc * i] = word[i];
+                        }
+                        placed = true;
+                    }
+                }
+
+                if (!placed) console.warn('Could not place:', word);
+            });
+
+            // Fill remaining cells with random letters
+            for (var fr = 0; fr < ROWS; fr++) {
+                for (var fc = 0; fc < COLS; fc++) {
+                    if (!grid[fr][fc]) grid[fr][fc] = ALPHA[Math.floor(rng() * 26)];
+                }
+            }
+            return grid;
+        }
+
+        // ── Render ────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
+            var grid = buildGrid();
+            var gridEl = document.getElementById('word-grid');
+            var html = '';
+            for (var r = 0; r < ROWS; r++) {
+                for (var c = 0; c < COLS; c++) {
+                    html += '<div class="grid-cell">' + grid[r][c] + '</div>';
+                }
+            }
+            gridEl.innerHTML = html;
+        });
+    </script>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- Page 2 — Cipher task                                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-2">
+
+        <!-- ── Header ── -->
+        <div class="header">
+            <div class="seal">&amp;</div>
+            <div class="header-body">
+                <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Task 2 of 2</div>
+                <h1 class="page-title">Crack the Code</h1>
+            </div>
+            <div class="header-meta">
+                Station V of X<br>
+                All seven together
+            </div>
+        </div>
+
+        <!-- ── Intro ── -->
+        <p class="cipher-narrative">
+            When you arrive, you will not be alone. Two figures will be waiting —<br>
+            dressed in white, dressed in blue. They will not help you. They will not guide you.<br>
+            But speak the words the code reveals, and they will know you belong.
+        </p>
+        <p class="cipher-quote">
+            Find the place. Crack the code below.<br>
+            Speak what it tells you — and the way forward will open.
+        </p>
+        <p class="cipher-note">
+            Each line encodes one letter. The first line of each column is already solved — use it as your key.
+            Decode all lines, unscramble each group into a word, then say both words together.
+        </p>
+
+        <!-- ── Two-column cipher grid ── -->
+        <div class="cipher-layout">
+
+            <!-- SUD -->
+            <div>
+                <div class="cipher-col-head">SÜD</div>
+                <div class="cipher-rows">
+                    <div class="cipher-row">
+                        <span class="cipher-code">10-1-1</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box hint">L</div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">1-2-2</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">9-1-1</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">2-2-1</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">3-1-5</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">9-1-4</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                </div>
+
+                <div class="unscramble-wrap">
+                    <div class="unscramble-label">Unscramble — 6 letters</div>
+                    <div class="unscramble-boxes">
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                    </div>
+                    <div class="unscramble-row">
+                        <span class="unscramble-arr">→</span>
+                        <div class="unscramble-line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NORD -->
+            <div>
+                <div class="cipher-col-head">NORD</div>
+                <div class="cipher-rows">
+                    <div class="cipher-row">
+                        <span class="cipher-code">14-1-1</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box hint">C</div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">2-2-3</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">6-1-1</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">1-1-2</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                    <div class="cipher-row">
+                        <span class="cipher-code">1-2-3</span>
+                        <span class="cipher-arr">→</span>
+                        <div class="cipher-box"></div>
+                    </div>
+                </div>
+
+                <div class="unscramble-wrap">
+                    <div class="unscramble-label">Unscramble — 5 letters</div>
+                    <div class="unscramble-boxes">
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                        <div class="unscramble-box"></div>
+                    </div>
+                    <div class="unscramble-row">
+                        <span class="unscramble-arr">→</span>
+                        <div class="unscramble-line"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Final answer ── -->
+        <div class="answers-grid" style="margin-top: 8mm;">
+            <div class="answer-card">
+                <div class="answer-number">Password</div>
+                <div class="answer-question">Word 1 &nbsp;+&nbsp; Word 2 </div>
+                <div class="answer-line"></div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
