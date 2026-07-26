@@ -132,6 +132,22 @@ h1.title {
 }
 .q-text { font-size: 16px; line-height: 1.6; color: var(--parchment); margin-bottom: 16px; }
 
+.display-title {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px;
+    line-height: 1.25; color: var(--parchment); margin: 0 0 12px;
+}
+.display-prose {
+    font-size: 14.5px; line-height: 1.68; color: var(--parchment);
+    opacity: 0.85; margin: 0 0 8px;
+}
+.display-prose:last-of-type { margin-bottom: 0; }
+.display-question {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 17px;
+    line-height: 1.5; color: var(--seal-light);
+    margin: 14px 0 0; padding-top: 12px;
+    border-top: 1px solid rgba(214,160,92,0.25);
+}
+
 .input-row { display: flex; align-items: center; gap: 10px; }
 input[type="text"] {
     flex: 1; min-width: 0; height: 52px; padding: 0 18px;

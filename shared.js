@@ -175,9 +175,20 @@ var VerifyPage = (function() {
 
     function renderItem(item) {
         if (item.type === 'display') {
+            var parts = (item.text || '').split('\n').filter(function(p) { return p.trim(); });
+            var body = '';
+            if (item.title) body += '<div class="display-title">' + item.title + '</div>';
+            if (parts.length > 1) {
+                for (var i = 0; i < parts.length - 1; i++) {
+                    body += '<p class="display-prose">' + parts[i] + '</p>';
+                }
+                body += '<p class="display-question">' + parts[parts.length - 1] + '</p>';
+            } else {
+                body += '<p class="display-prose">' + (item.text || '') + '</p>';
+            }
             return '<div class="card">' +
                 (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
-                '<div class="q-text">' + (item.text || '') + '</div>' +
+                body +
                 '</div>';
         }
 

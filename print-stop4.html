@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 04 — Nova Post — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Trivia prose spacing ────────────────────────────── */
+        .card-prose p + p {
+            margin-top: 1.8mm;
+        }
+
+        /* ── Music section ───────────────────────────────────── */
+        .music-note {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.55;
+            margin-bottom: 3mm;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .track-row {
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+            padding: 2mm 0;
+            border-bottom: 1px solid rgba(184, 133, 58, 0.15);
+        }
+
+        .track-row:last-child {
+            border-bottom: none;
+        }
+
+        .track-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 7.5pt;
+            font-weight: 500;
+            color: #b8853a;
+            min-width: 14mm;
+            letter-spacing: 0.04em;
+        }
+
+        .track-write {
+            flex: 1;
+            border-bottom: 1px dotted rgba(184, 133, 58, 0.5);
+            height: 4.5mm;
+        }
+
+        .track-letter {
+            width: 7mm;
+            height: 6.5mm;
+            border: 1.5px solid #b8853a;
+            border-radius: 2px;
+            background: rgba(184, 133, 58, 0.05);
+            flex-shrink: 0;
+        }
+
+        /* ── Spell it out row ────────────────────────────────── */
+        .spell-section {
+            margin-top: 4mm;
+            padding-top: 3.5mm;
+            border-top: 1px dashed rgba(184, 133, 58, 0.35);
+        }
+
+        .spell-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2.5mm;
+        }
+
+        .spell-boxes {
+            display: flex;
+            gap: 2mm;
+        }
+
+        .spell-box {
+            width: 12mm;
+            height: 12mm;
+            border: 1.5px solid #b8853a;
+            border-radius: 3px;
+            background: rgba(184, 133, 58, 0.05);
+        }
+
+        /* ── Answer prefix hint ──────────────────────────────── */
+        .answer-prefix {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 8.5pt;
+            font-weight: 500;
+            color: #8a6535;
+            letter-spacing: 0.06em;
+            margin-bottom: 3mm;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 04 &nbsp;·&nbsp; Nova Post</div>
+            <h1 class="page-title">Break Every Seal</h1>
+        </div>
+        <div class="header-meta">
+            Station IV of IX<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Trivia clue ── -->
+    <div class="section-tag" style="margin-bottom: 3mm;">The Clue — Leipzig Trivia</div>
+
+    <div class="tasks-grid" style="margin-bottom: 5mm;">
+        <div class="card">
+            <div class="card-tag">Clue #1 &nbsp;·&nbsp; Riddle</div>
+            <div class="card-title">The Man Who Spoke First</div>
+            <div class="card-subtext">This riddle names a real place in Leipzig. Solve it — then go there.</div>
+            <div class="card-prose">
+                <p>In 1833, a German economist proposed something Saxony had never seen: a line that would not simply connect two ends of one city, but stretch between two entire cities. He would not live to see how far his idea would travel — but Saxony did not forget who first spoke it aloud.</p>
+                <p>Search for the man and for what he proposed — a line, not yet built, connecting two cities whose names still appear on trains today.</p>
+                <p>Somewhere in this city, the memory of that beginning still stands — the names of the men who made it real, and the story of how it came to be, kept where anyone can find it, if they know what they're looking for.</p>
+            </div>
+            <div class="card-question">Find where that memory stands.</div>
+        </div>
+    </div>
+
+    <!-- ── Musical challenges ── -->
+    <div class="section-tag" style="margin-bottom: 3mm;">Enclosures — Listen &amp; Decode</div>
+    <div class="music-note">
+        No titles. No names. Just listen and think. Write each song title on the line — then note its first letter in the box to the right.
+    </div>
+
+    <div class="track-list">
+        <div class="track-row"><span class="track-num">Track 01</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 02</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 03</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 04</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 05</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 06</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 07</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 08</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 09</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 10</span><div class="track-write"></div><div class="track-letter"></div></div>
+        <div class="track-row"><span class="track-num">Track 11</span><div class="track-write"></div><div class="track-letter"></div></div>
+    </div>
+
+    <!-- ── Spell it out ── -->
+    <div class="spell-section">
+        <div class="spell-label">First letters in order — what word do they spell?</div>
+        <div class="spell-boxes">
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+            <div class="spell-box"></div>
+        </div>
+    </div>
+
+    <!-- ── Page 2: Answers + Verify ── -->
+    <div class="page-2">
+
+        <div class="section-tag">Your Answers — Write down what you've solved</div>
+
+        <div class="answers-grid">
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 01</div>
+                <div class="answer-question">Where should you go next?</div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 02</div>
+                <div class="answer-question">What should you look for?</div>
+                <div class="answer-prefix">A stone under &nbsp;· · ·</div>
+                <div class="answer-line"></div>
+            </div>
+
+        </div>
+
+        <!-- ── Footer ── -->
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Verify your answers</strong>
+                Once you've filled in both answers, scan this code.
+                It will confirm your solution and tell you exactly what to find.
+            </div>
+            <div class="qr-wrap">
+                <img src="qr-code4.png" alt="Scan to verify">
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
