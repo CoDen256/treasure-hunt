@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 01 — Veteran Park — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ── Page setup ─────────────────────────────────────── */
+        @page {
+            size: A4 portrait;
+            margin: 16mm 20mm 14mm 20mm;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: #f7f0e3;
+            color: #17101f;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* ── Header ─────────────────────────────────────────── */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 5mm;
+            padding-bottom: 5mm;
+            border-bottom: 1.5px solid #b8853a;
+            margin-bottom: 5mm;
+        }
+
+        .seal {
+            width: 13mm;
+            height: 13mm;
+            min-width: 13mm;
+            border-radius: 50%;
+            background: #17101f;
+            color: #d6a05c;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 17pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-body {
+            flex: 1;
+        }
+
+        .eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6.5pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 1mm;
+        }
+
+        .page-title {
+            font-family: 'Fraunces', serif;
+            font-size: 20pt;
+            font-weight: 600;
+            line-height: 1.1;
+            color: #17101f;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6.5pt;
+            letter-spacing: 0.1em;
+            line-height: 1.8;
+            color: #9a7a50;
+        }
+
+        /* ── Welcome ─────────────────────────────────────────── */
+        .welcome {
+            margin-bottom: 5mm;
+        }
+
+        .section-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6.5pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2.5mm;
+            display: flex;
+            align-items: center;
+            gap: 2mm;
+        }
+
+        .section-tag::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #b8853a;
+            opacity: 0.4;
+        }
+
+        .welcome-body {
+            columns: 2;
+            column-gap: 7mm;
+            font-size: 9pt;
+            line-height: 1.7;
+            color: #2a1a34;
+        }
+
+        .welcome-body p { margin-bottom: 2mm; }
+        .welcome-body p:last-child { margin-bottom: 0; }
+
+        .welcome-body em {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 9.5pt;
+        }
+
+        /* ── Ornamental divider ──────────────────────────────── */
+        .ornament {
+            text-align: center;
+            margin: 4.5mm 0;
+            color: #b8853a;
+            font-size: 9pt;
+            letter-spacing: 0.4em;
+            opacity: 0.7;
+        }
+
+        /* ── Tasks ───────────────────────────────────────────── */
+        .tasks-heading {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 14pt;
+            font-weight: 500;
+            color: #17101f;
+            margin-bottom: 3.5mm;
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+        }
+
+        .tasks-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #b8853a;
+            opacity: 0.45;
+        }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 3.5mm;
+        }
+
+        /* ── Card ────────────────────────────────────────────── */
+        .card {
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            padding: 4.5mm 5mm;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid #b8853a;
+            border-radius: 2px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .card.wide {
+            grid-column: 1 / -1;
+        }
+
+        .card-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2mm;
+        }
+
+        .card-title {
+            font-family: 'Fraunces', serif;
+            font-size: 11pt;
+            font-weight: 600;
+            color: #17101f;
+            margin-bottom: 2.5mm;
+            line-height: 1.2;
+        }
+
+        .card-verse {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 10pt;
+            line-height: 1.65;
+            color: #2a1a34;
+        }
+
+        .card-note {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8pt;
+            color: #6b4d20;
+            margin-top: 3mm;
+            padding-top: 2.5mm;
+            border-top: 1px solid #b8853a;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* Anagram display */
+        .anagram-word {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 19pt;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            color: #17101f;
+            text-align: center;
+            margin: 3mm 0 2.5mm;
+        }
+
+        .anagram-layout {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 5mm;
+            align-items: center;
+        }
+
+        .anagram-left {
+            text-align: center;
+        }
+
+        .anagram-right .card-verse {
+            font-size: 9.5pt;
+        }
+
+        /* ── Footer ──────────────────────────────────────────── */
+        .footer {
+            margin-top: 5mm;
+            padding-top: 4mm;
+            border-top: 1.5px solid #b8853a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6mm;
+        }
+
+        .footer-text {
+            font-size: 8.5pt;
+            color: #5a3d20;
+            line-height: 1.55;
+            flex: 1;
+        }
+
+        .footer-text strong {
+            font-weight: 700;
+            color: #17101f;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 8pt;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-seal {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 30pt;
+            font-weight: 600;
+            color: #b8853a;
+            line-height: 1;
+            opacity: 0.6;
+        }
+
+        /* ── Screen preview helper ───────────────────────────── */
+        @media screen {
+            html { background: #ccc; padding: 20px; }
+            body {
+                max-width: 210mm;
+                min-height: 297mm;
+                margin: 0 auto;
+                padding: 16mm 20mm 14mm 20mm;
+                box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 01 &nbsp;·&nbsp; Veteran Park &nbsp;·&nbsp; Break Every Seal</div>
+            <h1 class="page-title">The First Envelope</h1>
+        </div>
+        <div class="header-meta">
+            Station I of IX<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Welcome ── -->
+    <div class="welcome">
+        <div class="section-tag">Postmark — A letter to all of you</div>
+        <div class="welcome-body">
+            <p>Welcome, treasure hunters.</p>
+            <p>Tonight isn't an ordinary evening. Somewhere in this town, hidden in places that mean something — some to all of you, some to only one of you — lies a trail. Follow it well, and it will lead you somewhere unexpected. Follow it together, and it will lead you somewhere true.</p>
+            <p>This is not a race. There are no winners, no losers — only the seven of you, a handful of clues, and a town that's about to feel a little more like a storybook than you're used to.</p>
+            <p>At each stop, you'll find tasks waiting for you — some for the whole group to puzzle over together, and one meant only for a certain someone, who may know things the rest of you don't. Solve them, and they'll give you fragments: a word, a number, a symbol, a feeling.</p>
+            <p>Piece those fragments together, and they'll form a clue — sometimes a riddle, sometimes something stranger. Solve that, and you'll know where to go next.</p>
+            <p>When you think you've found the answer, check it at the link at the bottom of this page — it will confirm if you're right, or nudge you gently if you're not.</p>
+            <p>Then walk. Then look. Then arrive — and see what's waiting.</p>
+            <p>There is one final stop tonight. What's there, none of you know yet. But <em>she</em> might, if she pays close enough attention.</p>
+            <p><em>Good luck. Stay curious. And enjoy the walk.</em></p>
+        </div>
+    </div>
+
+    <div class="ornament">· · · ✦ · · ·</div>
+
+    <!-- ── Tasks ── -->
+    <div class="section-tag">The Notes — Your tasks for this stop</div>
+
+    <div class="tasks-grid">
+
+        <!-- Note 01 -->
+        <div class="card">
+            <div class="card-tag">Note 01 &nbsp;·&nbsp; Group</div>
+            <div class="card-title">The Palace Without a Crown</div>
+            <div class="card-verse">
+                Seek out the woman who wears no crown,<br>
+                Yet rules a palace here in town.<br>
+                Not a castle of stone and moat,<br>
+                But one where flickering stories float.<br>
+                Her name means "queen" in a language old,<br>
+                Her halls are dark, her tales are bold.
+            </div>
+        </div>
+
+        <!-- Note 02 -->
+        <div class="card">
+            <div class="card-tag">Note 02 &nbsp;·&nbsp; Group</div>
+            <div class="card-title">The Studio of Strange Tales</div>
+            <div class="card-verse">
+                Where we sit, we watch, we later debate —<br>
+                One studio brings us stories of fate,<br>
+                Its number is twenty, and four the rest,<br>
+                The strangest, boldest, and often the best.
+            </div>
+            <div class="card-note">The name of this studio will be needed when you arrive at the palace the first riddle named.</div>
+        </div>
+
+        <!-- Note 03 — full width -->
+        <div class="card wide">
+            <div class="card-tag">Note 03 &nbsp;·&nbsp; Group</div>
+            <div class="card-title">The Scattered Word</div>
+            <div class="anagram-layout">
+                <div class="anagram-left">
+                    <div class="card-verse" style="margin-bottom:0;">A word has been scattered<br>like ash in the wind:</div>
+                    <span class="anagram-word">YESYODS</span>
+                    <div class="card-verse" style="font-size:8.5pt; opacity:0.75;">Unscramble it.</div>
+                </div>
+                <div class="anagram-right">
+                    <div class="card-verse">
+                        Piece it back together, and you'll hold the second key.<br><br>
+                        The word you find is not the answer — it is the key.
+                        Return to the palace the first riddle named.
+                        Carry your unscrambled word with you —
+                        it will guide your eyes once you arrive.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── Footer ── -->
+    <div class="footer">
+        <div class="footer-text">
+            Once you've solved all three notes, confirm your answers at:<br>
+            <strong>[YOUR WEBSITE URL HERE]</strong><br>
+            The site will verify your solutions and unlock what comes next.
+        </div>
+        <div class="footer-seal">&amp;</div>
+    </div>
+
+</body>
+</html>
