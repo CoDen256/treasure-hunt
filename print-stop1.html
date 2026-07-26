@@ -7,347 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* ── Page setup ─────────────────────────────────────── */
-        @page {
-            size: A4 portrait;
-            margin: 0;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Manrope', sans-serif;
-            background: #f7f0e3;
-            color: #17101f;
-            font-size: 10.5pt;
-            line-height: 1.6;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            padding: 14mm 20mm 12mm 20mm;
-        }
-
-        /* ── Header ─────────────────────────────────────────── */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 5mm;
-            padding-bottom: 5mm;
-            border-bottom: 1.5px solid #b8853a;
-            margin-bottom: 5mm;
-        }
-
-        .seal {
-            width: 13mm;
-            height: 13mm;
-            min-width: 13mm;
-            border-radius: 50%;
-            background: #17101f;
-            color: #d6a05c;
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 17pt;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header-body {
-            flex: 1;
-        }
-
-        .eyebrow {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 6.5pt;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: #8a6535;
-            margin-bottom: 1mm;
-        }
-
-        .page-title {
-            font-family: 'Fraunces', serif;
-            font-size: 20pt;
-            font-weight: 600;
-            line-height: 1.1;
-            color: #17101f;
-        }
-
-        .header-meta {
-            text-align: right;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 6.5pt;
-            letter-spacing: 0.1em;
-            line-height: 1.8;
-            color: #9a7a50;
-        }
-
-        /* ── Welcome ─────────────────────────────────────────── */
-        .welcome {
-            margin-bottom: 3mm;
-        }
-
-        .section-tag {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 6.5pt;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: #8a6535;
-            margin-bottom: 2.5mm;
-            display: flex;
-            align-items: center;
-            gap: 2mm;
-        }
-
-        .section-tag::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #b8853a;
-            opacity: 0.4;
-        }
-
-        .welcome-body {
-            columns: 2;
-            column-gap: 7mm;
-            font-size: 8pt;
-            line-height: 1.6;
-            color: #2a1a34;
-        }
-
-        .welcome-body p { margin-bottom: 1.4mm; }
-        .welcome-body p:last-child { margin-bottom: 0; }
-
-        .welcome-body em {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 8.5pt;
-        }
-
-        /* ── Ornamental divider ──────────────────────────────── */
-        .ornament {
-            text-align: center;
-            margin: 2.5mm 0;
-            color: #b8853a;
-            font-size: 9pt;
-            letter-spacing: 0.4em;
-            opacity: 0.7;
-        }
-
-        /* ── Cards ───────────────────────────────────────────── */
-        .tasks-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 3mm;
-        }
-
-        .card {
-            background: #ede3cc;
-            border: 1px solid #b8853a;
-            border-radius: 4px;
-            padding: 3.5mm 4.5mm;
-            position: relative;
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            border: 1px solid #b8853a;
-            border-radius: 2px;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .card-tag {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 6pt;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #8a6535;
-            margin-bottom: 1.5mm;
-        }
-
-        .card-title {
-            font-family: 'Fraunces', serif;
-            font-size: 12pt;
-            font-weight: 600;
-            color: #17101f;
-            margin-bottom: 1mm;
-            line-height: 1.2;
-        }
-
-        .card-subtext {
-            font-family: 'Manrope', sans-serif;
-            font-size: 8pt;
-            color: #6b4d20;
-            font-style: italic;
-            margin-bottom: 2.5mm;
-            padding-bottom: 2mm;
-            border-bottom: 1px solid #b8853a;
-            opacity: 0.85;
-            line-height: 1.45;
-        }
-
-        .card-verse {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 10pt;
-            line-height: 1.7;
-            color: #2a1a34;
-            width: fit-content;
-            margin: 0 auto;
-        }
-
-        .verse-break {
-            display: block;
-            height: 2mm;
-        }
-
-        /* ── Anagram card ────────────────────────────────────── */
-        .anagram-intro {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 10pt;
-            color: #2a1a34;
-            margin-bottom: 2mm;
-            line-height: 1.5;
-        }
-
-        .anagram-word {
-            display: block;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 22pt;
-            font-weight: 500;
-            letter-spacing: 0.35em;
-            color: #17101f;
-            text-align: center;
-            padding: 1.5mm 0;
-        }
-
-        .anagram-instruction {
-            font-family: 'Manrope', sans-serif;
-            font-size: 8pt;
-            color: #6b4d20;
-            margin-top: 3mm;
-            padding-top: 2.5mm;
-            border-top: 1px solid #b8853a;
-            opacity: 0.85;
-            line-height: 1.55;
-        }
-
-        /* ── Page 2 ──────────────────────────────────────────── */
-        .page-2 {
-            break-before: page;
-            page-break-before: always;
-            padding-top: 14mm;
-        }
-
-        .answers-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 5mm;
-            margin-top: 3mm;
-        }
-
-        .answer-card {
-            background: #ede3cc;
-            border: 1px solid #b8853a;
-            border-radius: 4px;
-            padding: 3.5mm 4.5mm 5mm 4.5mm;
-            position: relative;
-        }
-
-        .answer-card::before {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            border: 1px solid #b8853a;
-            border-radius: 2px;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .answer-number {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 6pt;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #8a6535;
-            margin-bottom: 1.5mm;
-        }
-
-        .answer-question {
-            font-family: 'Fraunces', serif;
-            font-size: 11pt;
-            font-weight: 600;
-            color: #17101f;
-            margin-bottom: 5mm;
-            line-height: 1.2;
-        }
-
-        .answer-line {
-            border-bottom: 1px solid #b8853a;
-            height: 9mm;
-            opacity: 0.6;
-        }
-
-        /* ── Footer ──────────────────────────────────────────── */
-        .footer {
-            margin-top: 3.5mm;
-            padding-top: 3.5mm;
-            border-top: 1.5px solid #b8853a;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8mm;
-        }
-
-        .footer-text {
-            font-size: 8.5pt;
-            color: #5a3d20;
-            line-height: 1.6;
-            flex: 1;
-        }
-
-        .footer-text strong {
-            font-family: 'Fraunces', serif;
-            font-size: 10pt;
-            font-weight: 600;
-            color: #17101f;
-            display: block;
-            margin-bottom: 1mm;
-        }
-
-        .qr-wrap {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .qr-wrap img {
-            display: block;
-            width: 30mm;
-            height: 30mm;
-            border-radius: 3px;
-        }
-
-/* ── Screen preview helper ───────────────────────────── */
-        @media screen {
-            html { background: #ccc; padding: 20px; }
-            body {
-                max-width: 210mm;
-                min-height: 297mm;
-                margin: 0 auto;
-                box-shadow: 0 4px 40px rgba(0,0,0,0.25);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="print-shared.css">
 </head>
 <body>
 
@@ -355,11 +15,11 @@
     <div class="header">
         <div class="seal">&amp;</div>
         <div class="header-body">
-            <div class="eyebrow">Stop 01 &nbsp;·&nbsp; Veteran Park &nbsp;·&nbsp; Break Every Seal</div>
+            <div class="eyebrow">Stop 01 &nbsp;·&nbsp; Veteran Park</div>
             <h1 class="page-title">The First Envelope</h1>
         </div>
         <div class="header-meta">
-            Station I of IX<br>
+            Station I of X<br>
             All seven together
         </div>
     </div>
@@ -389,8 +49,8 @@
 
         <!-- Riddle — full width -->
         <div class="card">
-            <div class="card-tag">Riddle &nbsp;·&nbsp; Group</div>
-            <div class="card-title">The Palace Without a Crown</div>
+            <div class="card-tag">Clue #1 &nbsp;·&nbsp; Riddle</div>
+            <div class="card-title">The Woman Without a Crown</div>
             <div class="card-subtext">This riddle names a real place in this city. Solve it — then go there.</div>
             <div class="card-verse">
                 Seek out the woman who wears no crown,<br>
@@ -409,7 +69,7 @@
 
         <!-- Anagram — full width -->
         <div class="card">
-            <div class="card-tag">The Scattered Word &nbsp;·&nbsp; Group</div>
+            <div class="card-tag">Clue #2 &nbsp;·&nbsp; Anagram</div>
             <div class="card-title">Unscramble This</div>
             <div class="anagram-intro">A word has been scattered like ash in the wind:</div>
             <span class="anagram-word">YESDOSY</span>
@@ -444,7 +104,7 @@
 
             <div class="answer-card">
                 <div class="answer-number">Answer 03</div>
-                <div class="answer-question">Password — found at the location using the key</div>
+                <div class="answer-question">Password — found at the location using the key (date)</div>
                 <div class="answer-line"></div>
             </div>
 
@@ -459,7 +119,7 @@
                 exactly what to look for when you arrive.
             </div>
             <div class="qr-wrap">
-                <img src="qr-code.png" alt="Scan to verify">
+                <img src="qr-code1.png" alt="Scan to verify">
             </div>
         </div>
 

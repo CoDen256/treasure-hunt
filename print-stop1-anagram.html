@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 01 — Anagram Tiles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 210mm;
+            height: 297mm;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #f7f0e3;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14mm 20mm;
+        }
+
+        /* ── Tile grid ── */
+        .tile-rows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6mm;
+        }
+
+        .tile-row {
+            display: flex;
+            gap: 6mm;
+        }
+
+        /* ── Individual tile ── */
+        .tile {
+            width: 38mm;
+            height: 54mm;
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid #b8853a;
+            border-radius: 2px;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .tile-letter {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 68pt;
+            color: #17101f;
+            line-height: 1;
+            margin-bottom: 2mm;
+        }
+
+        /* ── Screen preview ── */
+        @media screen {
+            html, body { width: auto; height: auto; background: #ccc; padding: 20px; }
+            body {
+                max-width: 210mm;
+                min-height: 297mm;
+                margin: 0 auto;
+                padding: 14mm 20mm;
+                background: #f7f0e3;
+                box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tile-rows">
+
+        <div class="tile-row">
+            <div class="tile"><span class="tile-letter">Y</span></div>
+            <div class="tile"><span class="tile-letter">E</span></div>
+            <div class="tile"><span class="tile-letter">S</span></div>
+            <div class="tile"><span class="tile-letter">Y</span></div>
+        </div>
+
+        <div class="tile-row">
+            <div class="tile"><span class="tile-letter">O</span></div>
+            <div class="tile"><span class="tile-letter">D</span></div>
+            <div class="tile"><span class="tile-letter">S</span></div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
