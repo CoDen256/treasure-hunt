@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 03 — GPS Puzzle — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── GPS coordinate hero ─────────────────────────────── */
+        .coord-section {
+            margin: 5mm 0;
+            padding: 7mm 0;
+            border-top: 1.5px solid #b8853a;
+            border-bottom: 1.5px solid #b8853a;
+            text-align: center;
+        }
+
+        .coord-intro {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.55;
+            margin-bottom: 6mm;
+            max-width: 140mm;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .coord-row {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 27pt;
+            font-weight: 500;
+            color: #17101f;
+            letter-spacing: 0.04em;
+            line-height: 1.55;
+            white-space: nowrap;
+        }
+
+        /* blank digit: Fraunces italic, gold, underlined */
+        .blank {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 27pt;
+            color: #b8853a;
+            display: inline-block;
+            border-bottom: 2px solid #b8853a;
+            line-height: 1;
+            vertical-align: baseline;
+            min-width: 0.5em;
+            text-align: center;
+            letter-spacing: 0;
+        }
+
+        /* ── Questions ───────────────────────────────────────── */
+        .questions-wrap {
+            margin-top: 4mm;
+        }
+
+        .coord-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 10mm;
+        }
+
+        .coord-col-header {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2mm;
+            padding-bottom: 1.5mm;
+            border-bottom: 1px solid #b8853a;
+            opacity: 0.7;
+        }
+
+        .question-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-item {
+            display: flex;
+            align-items: baseline;
+            gap: 3mm;
+            padding: 2.5mm 0;
+            border-bottom: 1px solid rgba(184, 133, 58, 0.18);
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .q-letter {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11pt;
+            font-weight: 500;
+            color: #b8853a;
+            flex-shrink: 0;
+            min-width: 5mm;
+            line-height: 1;
+        }
+
+        .q-text {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            line-height: 1.55;
+            color: #2a1a34;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 03 &nbsp;·&nbsp; GPS Puzzle</div>
+            <h1 class="page-title">The Missing Coordinates</h1>
+        </div>
+        <div class="header-meta">
+            Station III of IX<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Coordinate hero ── -->
+    <div class="coord-section">
+        <div class="coord-intro">
+            Six digits are missing. Each has a label. Answer the questions below,
+            plug the numbers into the right slots — and the coordinates will take you exactly where to go.
+        </div>
+        <div class="coord-row">
+            51°20'&thinsp;<span class="blank">b</span><span class="blank">g</span>.<span class="blank">o</span>&thinsp;"N
+        </div>
+        <div class="coord-row">
+            12°23'&thinsp;<span class="blank">s</span><span class="blank">k</span>.<span class="blank">a</span>&thinsp;"E
+        </div>
+    </div>
+
+    <!-- ── Questions ── -->
+    <div class="questions-wrap">
+        <div class="section-tag" style="margin-bottom: 3mm;">The Notes — One question per missing digit</div>
+
+        <div class="coord-cols">
+
+            <!-- Latitude column: b g o -->
+            <div>
+                <div class="coord-col-header">51°20' · · · "N &nbsp;— latitude digits</div>
+                <div class="question-list">
+                    <div class="question-item">
+                        <span class="q-letter">b</span>
+                        <span class="q-text">Add up the digits of N's dorm room number.</span>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-letter">g</span>
+                        <span class="q-text">What day of the month did we get banned from crossing the tracks in Halle?</span>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-letter">o</span>
+                        <span class="q-text">How many people here have the patronymic "Igorovna"?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Longitude column: s k a -->
+            <div>
+                <div class="coord-col-header">12°23' · · · "E &nbsp;— longitude digits</div>
+                <div class="question-list">
+                    <div class="question-item">
+                        <span class="q-letter">s</span>
+                        <span class="q-text">Take the month of Kirill's birthday, divide it by the day of his birthday.</span>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-letter">k</span>
+                        <span class="q-text">How many actually understandable, readable words are in E's email?</span>
+                    </div>
+                    <div class="question-item">
+                        <span class="q-letter">a</span>
+                        <span class="q-text">What day + month did A and I first meet? (add the day and month together)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Page 2: Answers + Verify ── -->
+    <div class="page-2">
+
+        <div class="section-tag">Your Answers — Write down what you've solved</div>
+
+        <div class="answers-grid">
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 01</div>
+                <div class="answer-question">Complete latitude &nbsp;—&nbsp; 51°20' __ __ . __ "N</div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 02</div>
+                <div class="answer-question">Complete longitude &nbsp;—&nbsp; 12°23' __ __ . __ "E</div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 03</div>
+                <div class="answer-question">What should you look for at the location?</div>
+                <div class="answer-line"></div>
+            </div>
+
+        </div>
+
+        <!-- ── Footer ── -->
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Verify your answers</strong>
+                Once you've filled in all three, scan this code.
+                It will confirm your coordinates and tell you what to look for.
+            </div>
+            <div class="qr-wrap">
+                <img src="qr-code3.png" alt="Scan to verify">
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
