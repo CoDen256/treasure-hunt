@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 05 — Word Search — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Puzzle intro ────────────────────────────────────── */
+        .puzzle-intro {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.55;
+            margin-bottom: 3.5mm;
+        }
+
+        /* ── Word search grid ────────────────────────────────── */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            width: 100%;
+            border: 1.5px solid #b8853a;
+            border-radius: 3px;
+            overflow: hidden;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(184, 133, 58, 0.35);
+            border-bottom: 1px solid rgba(184, 133, 58, 0.35);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 15pt;
+            font-weight: 500;
+            color: #17101f;
+            background: #ede3cc;
+            line-height: 1;
+            user-select: none;
+        }
+
+        /* ── Word list ───────────────────────────────────────── */
+        .word-list-section {
+            margin-top: 4mm;
+        }
+
+        .word-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5mm;
+            margin-top: 2mm;
+        }
+
+        .word-chip {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 8.5pt;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: #17101f;
+            border: 1.5px solid #b8853a;
+            border-radius: 3px;
+            padding: 1.5mm 3.5mm;
+            background: #ede3cc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Eisenbahndenkmal</div>
+            <h1 class="page-title">The Word Hunt</h1>
+        </div>
+        <div class="header-meta">
+            Station V of IX<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Instruction ── -->
+    <div class="section-tag" style="margin-bottom: 2.5mm;">The Puzzle — Hidden Names</div>
+    <p class="puzzle-intro">
+        Six names are hidden in this grid. They run in any direction — horizontal, vertical, or diagonal, forward or backward. Find and circle each one.
+    </p>
+
+    <!-- ── Grid (filled by JS) ── -->
+    <div class="word-grid" id="word-grid"></div>
+
+    <!-- ── Word list (rendered by JS) ── -->
+    <div class="word-list-section">
+        <div class="section-tag" style="margin-bottom: 2mm;">Words to Find</div>
+        <div class="word-chips" id="word-chips"></div>
+    </div>
+
+    <script>
+        // ── Seeded PRNG (Xorshift32) ──────────────────────────
+        // Seed is derived from the word list so the grid is always
+        // the same for these exact words.
+        function makeRng(seed) {
+            var s = (seed | 0) || 1;
+            return function() {
+                s ^= s << 13;
+                s ^= s >> 17;
+                s ^= s << 5;
+                return (s >>> 0) / 4294967296;
+            };
+        }
+
+        function wordSeed(words) {
+            var h = 0;
+            words.join('|').split('').forEach(function(c) {
+                h = (Math.imul(h, 31) + c.charCodeAt(0)) | 0;
+            });
+            return h || 1;
+        }
+
+        // ── Word search builder ───────────────────────────────
+        var ROWS = 12, COLS = 12;
+        var WORDS = ['STATION', 'BUS', 'ANGERBRUKE', 'NOVAEVENTIS', 'IKEA', 'MERSEBURG', 'HBF', 'LEIPZIG'];
+        var DIRS = [
+            [ 0, 1], [ 0,-1],   // right, left
+            [ 1, 0], [-1, 0],   // down, up
+            [ 1, 1], [ 1,-1],   // diagonal ↘ ↙
+            [-1, 1], [-1,-1]    // diagonal ↗ ↖
+        ];
+        var ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        function buildGrid() {
+            var rng = makeRng(wordSeed(WORDS));
+            var grid = [];
+            for (var r = 0; r < ROWS; r++) grid.push(new Array(COLS).fill(''));
+
+            // Longest words first — easier placement in tight grids
+            var sorted = WORDS.slice().sort(function(a, b) { return b.length - a.length; });
+
+            sorted.forEach(function(word) {
+                var placed = false;
+                for (var attempt = 0; attempt < 2000 && !placed; attempt++) {
+                    var d   = DIRS[Math.floor(rng() * DIRS.length)];
+                    var dr = d[0], dc = d[1];
+                    var sr = Math.floor(rng() * ROWS);
+                    var sc = Math.floor(rng() * COLS);
+                    var er = sr + dr * (word.length - 1);
+                    var ec = sc + dc * (word.length - 1);
+                    if (er < 0 || er >= ROWS || ec < 0 || ec >= COLS) continue;
+                    var ok = true;
+                    for (var i = 0; i < word.length; i++) {
+                        var cell = grid[sr + dr * i][sc + dc * i];
+                        if (cell !== '' && cell !== word[i]) { ok = false; break; }
+                    }
+                    if (ok) {
+                        for (var i = 0; i < word.length; i++) {
+                            grid[sr + dr * i][sc + dc * i] = word[i];
+                        }
+                        placed = true;
+                    }
+                }
+                if (!placed) console.warn('Could not place word:', word);
+            });
+
+            // Fill remaining cells with random letters
+            for (var r = 0; r < ROWS; r++) {
+                for (var c = 0; c < COLS; c++) {
+                    if (!grid[r][c]) grid[r][c] = ALPHA[Math.floor(rng() * 26)];
+                }
+            }
+            return grid;
+        }
+
+        // ── Render ────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
+            var grid = buildGrid();
+
+            var gridEl = document.getElementById('word-grid');
+            var html = '';
+            for (var r = 0; r < ROWS; r++) {
+                for (var c = 0; c < COLS; c++) {
+                    html += '<div class="grid-cell">' + grid[r][c] + '</div>';
+                }
+            }
+            gridEl.innerHTML = html;
+
+            var chipsEl = document.getElementById('word-chips');
+            WORDS.forEach(function(w) {
+                chipsEl.insertAdjacentHTML('beforeend',
+                    '<span class="word-chip">' + w + '</span>');
+            });
+        });
+    </script>
+
+</body>
+</html>
