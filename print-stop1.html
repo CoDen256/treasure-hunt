@@ -239,6 +239,62 @@
             line-height: 1.55;
         }
 
+        /* ── Page 2 ──────────────────────────────────────────── */
+        .page-2 {
+            break-before: page;
+            page-break-before: always;
+            padding-top: 14mm;
+        }
+
+        .answers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 5mm;
+            margin-top: 3mm;
+        }
+
+        .answer-card {
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            padding: 3.5mm 4.5mm 5mm 4.5mm;
+            position: relative;
+        }
+
+        .answer-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid #b8853a;
+            border-radius: 2px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .answer-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 1.5mm;
+        }
+
+        .answer-question {
+            font-family: 'Fraunces', serif;
+            font-size: 11pt;
+            font-weight: 600;
+            color: #17101f;
+            margin-bottom: 5mm;
+            line-height: 1.2;
+        }
+
+        .answer-line {
+            border-bottom: 1px solid #b8853a;
+            height: 9mm;
+            opacity: 0.6;
+        }
+
         /* ── Footer ──────────────────────────────────────────── */
         .footer {
             margin-top: 3.5mm;
@@ -367,17 +423,46 @@
 
     </div>
 
-    <!-- ── Footer ── -->
-    <div class="footer">
-        <div class="footer-text">
-            <strong>Verify your answers</strong>
-            Once you've solved both notes, scan this code.
-            It will confirm your solutions and tell you
-            exactly what to look for when you arrive.
+    <!-- ── Page 2: Answers + Verify ── -->
+    <div class="page-2">
+
+        <div class="section-tag">Your Answers — Write down what you've solved</div>
+
+        <div class="answers-grid">
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 01</div>
+                <div class="answer-question">Where should you go next?</div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 02</div>
+                <div class="answer-question">What should you look for? (the key)</div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="answer-card">
+                <div class="answer-number">Answer 03</div>
+                <div class="answer-question">Password — found at the location using the key</div>
+                <div class="answer-line"></div>
+            </div>
+
         </div>
-        <div class="qr-wrap">
-            <img src="qr-code.png" alt="Scan to verify">
+
+        <!-- ── Footer ── -->
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Verify your answers</strong>
+                Once you've filled in all three, scan this code.
+                It will confirm your solutions and tell you
+                exactly what to look for when you arrive.
+            </div>
+            <div class="qr-wrap">
+                <img src="qr-code.png" alt="Scan to verify">
+            </div>
         </div>
+
     </div>
 
 </body>
