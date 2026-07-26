@@ -68,7 +68,6 @@
             font-style: italic;
             color: #3a2010;
             line-height: 1.65;
-            text-align: center;
             margin-bottom: 3mm;
             opacity: 0.9;
         }
@@ -96,9 +95,7 @@
             font-size: 12.5pt;
             line-height: 1.65;
             color: #17101f;
-            text-align: center;
-            width: fit-content;
-            margin: 0 auto 2mm auto;
+            margin: 0 0 2mm 0;
         }
 
         .cipher-note {
@@ -108,13 +105,18 @@
             color: #6b4d20;
             line-height: 1.55;
             margin-bottom: 5mm;
-            text-align: center;
         }
 
         .cipher-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10mm;
+            align-items: stretch;
+        }
+
+        .cipher-layout > div {
+            display: flex;
+            flex-direction: column;
         }
 
         .cipher-col-head {
@@ -179,7 +181,7 @@
         }
 
         .unscramble-wrap {
-            margin-top: 5mm;
+            margin-top: auto;
             padding-top: 3.5mm;
             border-top: 1px dashed rgba(184, 133, 58, 0.4);
         }
@@ -262,6 +264,15 @@
         <div class="found-row"><span class="found-num">6.</span><div class="found-line"></div></div>
         <div class="found-row"><span class="found-num">7.</span><div class="found-line"></div></div>
         <div class="found-row"><span class="found-num">8.</span><div class="found-line"></div></div>
+    </div>
+
+    <!-- ── Next stop answer ── -->
+    <div class="answers-grid" style="margin-top: 4mm;">
+        <div class="answer-card">
+            <div class="answer-number">Answer</div>
+            <div class="answer-question">Where should you go next?</div>
+            <div class="answer-line"></div>
+        </div>
     </div>
 
     <script>
@@ -400,17 +411,13 @@
 
         <!-- ── Intro ── -->
         <p class="cipher-narrative">
-            When you arrive, you will not be alone. Two figures will be waiting —<br>
-            dressed in white, dressed in blue. They will not help you. They will not guide you.<br>
-            But speak the words the code reveals, and they will know you belong.
+            When you arrive, you will not be alone. Two figures will be waiting — dressed in white, dressed in blue. They will not help you. They will not guide you. But speak the words the code reveals, and they will know you belong.
         </p>
         <p class="cipher-quote">
-            Find the place. Crack the code below.<br>
-            Speak what it tells you — and the way forward will open.
+            Find the place. Crack the code below. Speak what it tells you — and the way forward will open.
         </p>
         <p class="cipher-note">
-            Each line encodes one letter. The first line of each column is already solved — use it as your key.
-            Decode all lines, unscramble each group into a word, then say both words together.
+            Each line encodes one letter. The first line of each column is already solved — use it as your key. Decode all lines, unscramble each group into a word, then say both words together.
         </p>
 
         <!-- ── Two-column cipher grid ── -->
