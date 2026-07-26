@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* ── Page setup ─────────────────────────────────────── */
         @page {
@@ -270,33 +269,14 @@
             flex-shrink: 0;
         }
 
-        .qr-wrap canvas,
         .qr-wrap img {
             display: block;
-            width: 30mm !important;
-            height: 30mm !important;
+            width: 30mm;
+            height: 30mm;
             border-radius: 3px;
         }
 
-        .qr-amp {
-            position: absolute;
-            width: 21px;
-            height: 21px;
-            background: #f7f0e3;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 11pt;
-            color: #17101f;
-            pointer-events: none;
-            line-height: 1;
-        }
-
-        /* ── Screen preview helper ───────────────────────────── */
+/* ── Screen preview helper ───────────────────────────── */
         @media screen {
             html { background: #ccc; padding: 20px; }
             body {
@@ -392,20 +372,9 @@
             exactly what to look for when you arrive.
         </div>
         <div class="qr-wrap">
-            <div id="qr-canvas"></div>
-            <div class="qr-amp">&amp;</div>
+            <img src="qr-code.png" alt="Scan to verify">
         </div>
     </div>
 
-    <script>
-        new QRCode(document.getElementById('qr-canvas'), {
-            text: 'https://coden256.github.io/treasure-hunt/stop1.html',
-            width: 300,
-            height: 300,
-            colorDark: '#17101f',
-            colorLight: '#f7f0e3',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    </script>
 </body>
 </html>
