@@ -35,8 +35,8 @@
         .found-list {
             margin-top: 4mm;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5mm 8mm;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5mm 6mm;
         }
 
         .found-row {
@@ -61,6 +61,57 @@
             height: 5mm;
         }
 
+        /* ── Compact overrides for page 1 ───────────────────── */
+        .found-row {
+            padding: 0.8mm 0;
+        }
+
+        .answers-grid .answer-card {
+            padding: 2.5mm 3.5mm 3mm 3.5mm;
+            display: flex;
+            gap: 4mm;
+            align-items: flex-start;
+        }
+
+        .answers-grid .answer-card .answer-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .answers-grid .answer-question {
+            margin-bottom: 2.5mm;
+            font-size: 10pt;
+        }
+
+        .answers-grid .answer-line {
+            height: 6mm;
+        }
+
+        /* ── QR inside answer card ───────────────────────────── */
+        .answer-qr {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5mm;
+        }
+
+        .answer-qr img {
+            width: 18mm;
+            height: 18mm;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .answer-qr-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 5pt;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #8a6535;
+            text-align: center;
+        }
+
         /* ── Cipher intro narrative ──────────────────────────── */
         .cipher-narrative {
             font-family: 'Manrope', sans-serif;
@@ -68,6 +119,7 @@
             font-style: italic;
             color: #3a2010;
             line-height: 1.65;
+            text-align: center;
             margin-bottom: 3mm;
             opacity: 0.9;
         }
@@ -95,6 +147,7 @@
             font-size: 12.5pt;
             line-height: 1.65;
             color: #17101f;
+            text-align: center;
             margin: 0 0 2mm 0;
         }
 
@@ -235,7 +288,7 @@
     <div class="header">
         <div class="seal">&amp;</div>
         <div class="header-body">
-            <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Eisenbahndenkmal</div>
+            <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Eisenbahndenkmal &nbsp;·&nbsp; Task 1 of 2</div>
             <h1 class="page-title">The Word Hunt</h1>
         </div>
         <div class="header-meta">
@@ -254,8 +307,7 @@
     <div class="word-grid" id="word-grid"></div>
 
     <!-- ── Words found ── -->
-    <div class="section-tag" style="margin-top: 4mm; margin-bottom: 2mm;">Words Found — Write what you circled</div>
-    <div class="found-list">
+    <div class="found-list" style="margin-top: 3mm;">
         <div class="found-row"><span class="found-num">1.</span><div class="found-line"></div></div>
         <div class="found-row"><span class="found-num">2.</span><div class="found-line"></div></div>
         <div class="found-row"><span class="found-num">3.</span><div class="found-line"></div></div>
@@ -269,9 +321,15 @@
     <!-- ── Next stop answer ── -->
     <div class="answers-grid" style="margin-top: 4mm;">
         <div class="answer-card">
-            <div class="answer-number">Answer</div>
-            <div class="answer-question">Where should you go next?</div>
-            <div class="answer-line"></div>
+            <div class="answer-body">
+                <div class="answer-number">Answer</div>
+                <div class="answer-question">Where should you go next?</div>
+                <div class="answer-line"></div>
+            </div>
+            <div class="answer-qr">
+                <img src="qr-code5.png" alt="Scan to verify">
+                <div class="answer-qr-label">Scan to verify</div>
+            </div>
         </div>
     </div>
 
@@ -400,7 +458,7 @@
         <div class="header">
             <div class="seal">&amp;</div>
             <div class="header-body">
-                <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Task 2 of 2</div>
+                <div class="eyebrow">Stop 05 &nbsp;·&nbsp; Eisenbahndenkmal &nbsp;·&nbsp; Task 2 of 2</div>
                 <h1 class="page-title">Crack the Code</h1>
             </div>
             <div class="header-meta">
@@ -414,10 +472,7 @@
             When you arrive, you will not be alone. Two figures will be waiting — dressed in white, dressed in blue. They will not help you. They will not guide you. But speak the words the code reveals, and they will know you belong.
         </p>
         <p class="cipher-quote">
-            Find the place. Crack the code below. Speak what it tells you — and the way forward will open.
-        </p>
-        <p class="cipher-note">
-            Each line encodes one letter. The first line of each column is already solved — use it as your key. Decode all lines, unscramble each group into a word, then say both words together.
+            Find the place. Crack the code below. <br>Speak what it tells you — and the way forward will open.
         </p>
 
         <!-- ── Two-column cipher grid ── -->
@@ -460,7 +515,6 @@
                 </div>
 
                 <div class="unscramble-wrap">
-                    <div class="unscramble-label">Unscramble — 6 letters</div>
                     <div class="unscramble-boxes">
                         <div class="unscramble-box"></div>
                         <div class="unscramble-box"></div>
@@ -508,7 +562,6 @@
                 </div>
 
                 <div class="unscramble-wrap">
-                    <div class="unscramble-label">Unscramble — 5 letters</div>
                     <div class="unscramble-boxes">
                         <div class="unscramble-box"></div>
                         <div class="unscramble-box"></div>
@@ -528,9 +581,15 @@
         <!-- ── Final answer ── -->
         <div class="answers-grid" style="margin-top: 8mm;">
             <div class="answer-card">
-                <div class="answer-number">Password</div>
-                <div class="answer-question">Word 1 &nbsp;+&nbsp; Word 2 </div>
-                <div class="answer-line"></div>
+                <div class="answer-body">
+                    <div class="answer-number">Answer</div>
+                    <div class="answer-question">Passphrase</div>
+                    <div class="answer-line"></div>
+                </div>
+                <div class="answer-qr">
+                    <img src="qr-code5.png" alt="Scan to verify">
+                    <div class="answer-qr-label">Scan to verify</div>
+                </div>
             </div>
         </div>
 
