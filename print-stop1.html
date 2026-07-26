@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* ── Page setup ─────────────────────────────────────── */
         @page {
@@ -110,59 +111,37 @@
         .welcome-body {
             columns: 2;
             column-gap: 7mm;
-            font-size: 9pt;
-            line-height: 1.7;
+            font-size: 8pt;
+            line-height: 1.65;
             color: #2a1a34;
         }
 
-        .welcome-body p { margin-bottom: 2mm; }
+        .welcome-body p { margin-bottom: 1.8mm; }
         .welcome-body p:last-child { margin-bottom: 0; }
 
         .welcome-body em {
             font-family: 'Fraunces', serif;
             font-style: italic;
-            font-size: 9.5pt;
+            font-size: 8.5pt;
         }
 
         /* ── Ornamental divider ──────────────────────────────── */
         .ornament {
             text-align: center;
-            margin: 4.5mm 0;
+            margin: 4mm 0;
             color: #b8853a;
             font-size: 9pt;
             letter-spacing: 0.4em;
             opacity: 0.7;
         }
 
-        /* ── Tasks ───────────────────────────────────────────── */
-        .tasks-heading {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 14pt;
-            font-weight: 500;
-            color: #17101f;
-            margin-bottom: 3.5mm;
-            display: flex;
-            align-items: center;
-            gap: 3mm;
-        }
-
-        .tasks-heading::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #b8853a;
-            opacity: 0.45;
-        }
-
+        /* ── Cards ───────────────────────────────────────────── */
         .tasks-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
+            display: flex;
+            flex-direction: column;
             gap: 3.5mm;
         }
 
-        /* ── Card ────────────────────────────────────────────── */
         .card {
             background: #ede3cc;
             border: 1px solid #b8853a;
@@ -181,72 +160,79 @@
             pointer-events: none;
         }
 
-        .card.wide {
-            grid-column: 1 / -1;
-        }
-
         .card-tag {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 6pt;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: #8a6535;
-            margin-bottom: 2mm;
+            margin-bottom: 1.5mm;
         }
 
         .card-title {
             font-family: 'Fraunces', serif;
-            font-size: 11pt;
+            font-size: 12pt;
             font-weight: 600;
             color: #17101f;
-            margin-bottom: 2.5mm;
+            margin-bottom: 1mm;
             line-height: 1.2;
+        }
+
+        .card-subtext {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8pt;
+            color: #6b4d20;
+            font-style: italic;
+            margin-bottom: 3mm;
+            padding-bottom: 2.5mm;
+            border-bottom: 1px solid #b8853a;
+            opacity: 0.85;
+            line-height: 1.45;
         }
 
         .card-verse {
             font-family: 'Fraunces', serif;
             font-style: italic;
             font-size: 10pt;
-            line-height: 1.65;
+            line-height: 1.7;
             color: #2a1a34;
         }
 
-        .card-note {
+        .verse-break {
+            display: block;
+            height: 2.5mm;
+        }
+
+        /* ── Anagram card ────────────────────────────────────── */
+        .anagram-intro {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 10pt;
+            color: #2a1a34;
+            margin-bottom: 2mm;
+            line-height: 1.5;
+        }
+
+        .anagram-word {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 22pt;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            color: #17101f;
+            text-align: center;
+            padding: 2.5mm 0;
+        }
+
+        .anagram-instruction {
             font-family: 'Manrope', sans-serif;
             font-size: 8pt;
             color: #6b4d20;
             margin-top: 3mm;
             padding-top: 2.5mm;
             border-top: 1px solid #b8853a;
-            opacity: 0.8;
-            line-height: 1.5;
-        }
-
-        /* Anagram display */
-        .anagram-word {
-            display: block;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 19pt;
-            font-weight: 500;
-            letter-spacing: 0.3em;
-            color: #17101f;
-            text-align: center;
-            margin: 3mm 0 2.5mm;
-        }
-
-        .anagram-layout {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 5mm;
-            align-items: center;
-        }
-
-        .anagram-left {
-            text-align: center;
-        }
-
-        .anagram-right .card-verse {
-            font-size: 9.5pt;
+            opacity: 0.85;
+            line-height: 1.55;
         }
 
         /* ── Footer ──────────────────────────────────────────── */
@@ -257,32 +243,57 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6mm;
+            gap: 8mm;
         }
 
         .footer-text {
             font-size: 8.5pt;
             color: #5a3d20;
-            line-height: 1.55;
+            line-height: 1.6;
             flex: 1;
         }
 
         .footer-text strong {
-            font-weight: 700;
+            font-family: 'Fraunces', serif;
+            font-size: 10pt;
+            font-weight: 600;
             color: #17101f;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 8pt;
-            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 1mm;
         }
 
-        .footer-seal {
+        .qr-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .qr-wrap canvas,
+        .qr-wrap img {
+            display: block;
+            width: 30mm !important;
+            height: 30mm !important;
+            border-radius: 3px;
+        }
+
+        .qr-amp {
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: #f7f0e3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: 'Fraunces', serif;
             font-style: italic;
-            font-size: 30pt;
             font-weight: 600;
-            color: #b8853a;
+            font-size: 11pt;
+            color: #17101f;
+            pointer-events: none;
             line-height: 1;
-            opacity: 0.6;
         }
 
         /* ── Screen preview helper ───────────────────────────── */
@@ -322,7 +333,7 @@
             <p>This is not a race. There are no winners, no losers — only the seven of you, a handful of clues, and a town that's about to feel a little more like a storybook than you're used to.</p>
             <p>At each stop, you'll find tasks waiting for you — some for the whole group to puzzle over together, and one meant only for a certain someone, who may know things the rest of you don't. Solve them, and they'll give you fragments: a word, a number, a symbol, a feeling.</p>
             <p>Piece those fragments together, and they'll form a clue — sometimes a riddle, sometimes something stranger. Solve that, and you'll know where to go next.</p>
-            <p>When you think you've found the answer, check it at the link at the bottom of this page — it will confirm if you're right, or nudge you gently if you're not.</p>
+            <p>When you think you've found the answer, scan the code at the bottom of this page — it will confirm if you're right, or nudge you gently if you're not.</p>
             <p>Then walk. Then look. Then arrive — and see what's waiting.</p>
             <p>There is one final stop tonight. What's there, none of you know yet. But <em>she</em> might, if she pays close enough attention.</p>
             <p><em>Good luck. Stay curious. And enjoy the walk.</em></p>
@@ -332,56 +343,41 @@
     <div class="ornament">· · · ✦ · · ·</div>
 
     <!-- ── Tasks ── -->
-    <div class="section-tag">The Notes — Your tasks for this stop</div>
+    <div class="section-tag" style="margin-bottom: 3mm;">The Notes — Your tasks for this stop</div>
 
     <div class="tasks-grid">
 
-        <!-- Note 01 -->
+        <!-- Riddle — full width -->
         <div class="card">
-            <div class="card-tag">Note 01 &nbsp;·&nbsp; Group</div>
+            <div class="card-tag">Riddle &nbsp;·&nbsp; Group</div>
             <div class="card-title">The Palace Without a Crown</div>
+            <div class="card-subtext">This riddle names a real place in this city. Solve it — then go there.</div>
             <div class="card-verse">
                 Seek out the woman who wears no crown,<br>
                 Yet rules a palace here in town.<br>
                 Not a castle of stone and moat,<br>
                 But one where flickering stories float.<br>
                 Her name means "queen" in a language old,<br>
-                Her halls are dark, her tales are bold.
-            </div>
-        </div>
-
-        <!-- Note 02 -->
-        <div class="card">
-            <div class="card-tag">Note 02 &nbsp;·&nbsp; Group</div>
-            <div class="card-title">The Studio of Strange Tales</div>
-            <div class="card-verse">
+                Her halls are dark, her tales are bold.<br>
+                <span class="verse-break"></span>
                 Where we sit, we watch, we later debate —<br>
                 One studio brings us stories of fate,<br>
                 Its number is twenty, and four the rest,<br>
                 The strangest, boldest, and often the best.
             </div>
-            <div class="card-note">The name of this studio will be needed when you arrive at the palace the first riddle named.</div>
         </div>
 
-        <!-- Note 03 — full width -->
-        <div class="card wide">
-            <div class="card-tag">Note 03 &nbsp;·&nbsp; Group</div>
-            <div class="card-title">The Scattered Word</div>
-            <div class="anagram-layout">
-                <div class="anagram-left">
-                    <div class="card-verse" style="margin-bottom:0;">A word has been scattered<br>like ash in the wind:</div>
-                    <span class="anagram-word">YESYODS</span>
-                    <div class="card-verse" style="font-size:8.5pt; opacity:0.75;">Unscramble it.</div>
-                </div>
-                <div class="anagram-right">
-                    <div class="card-verse">
-                        Piece it back together, and you'll hold the second key.<br><br>
-                        The word you find is not the answer — it is the key.
-                        Return to the palace the first riddle named.
-                        Carry your unscrambled word with you —
-                        it will guide your eyes once you arrive.
-                    </div>
-                </div>
+        <!-- Anagram — full width -->
+        <div class="card">
+            <div class="card-tag">The Scattered Word &nbsp;·&nbsp; Group</div>
+            <div class="card-title">Unscramble This</div>
+            <div class="anagram-intro">A word has been scattered like ash in the wind:</div>
+            <span class="anagram-word">YESYODS</span>
+            <div class="anagram-instruction">
+                Piece it back together, and you'll hold the second key.
+                The word you find is not the answer — it is the key.
+                Return to the palace the first riddle named.
+                Carry your unscrambled word with you — it will guide your eyes once you arrive.
             </div>
         </div>
 
@@ -390,12 +386,26 @@
     <!-- ── Footer ── -->
     <div class="footer">
         <div class="footer-text">
-            Once you've solved all three notes, confirm your answers at:<br>
-            <strong>[YOUR WEBSITE URL HERE]</strong><br>
-            The site will verify your solutions and unlock what comes next.
+            <strong>Verify your answers</strong>
+            Once you've solved both notes, scan this code.
+            It will confirm your solutions and tell you
+            exactly what to look for when you arrive.
         </div>
-        <div class="footer-seal">&amp;</div>
+        <div class="qr-wrap">
+            <div id="qr-canvas"></div>
+            <div class="qr-amp">&amp;</div>
+        </div>
     </div>
 
+    <script>
+        new QRCode(document.getElementById('qr-canvas'), {
+            text: 'https://coden256.github.io/treasure-hunt/stop1.html',
+            width: 300,
+            height: 300,
+            colorDark: '#17101f',
+            colorLight: '#f7f0e3',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
 </body>
 </html>
