@@ -36,24 +36,34 @@
             font-weight: 500;
             color: #17101f;
             letter-spacing: 0.04em;
-            line-height: 1.55;
+            line-height: 2;
             white-space: nowrap;
         }
 
-        /* blank digit: Fraunces italic, gold, underlined */
+        /* blank digit: empty writeable box with floating letter label above */
         .blank {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 27pt;
-            color: #b8853a;
             display: inline-block;
-            border-bottom: 2px solid #b8853a;
-            line-height: 1;
-            vertical-align: baseline;
-            min-width: 0.5em;
+            position: relative;
+            border: 1.5px solid #b8853a;
+            border-radius: 3px;
+            background: rgba(184, 133, 58, 0.05);
+            width: 0.78em;
+            height: 1.05em;
+            vertical-align: -0.1em;
+        }
+
+        .blank-label {
+            position: absolute;
+            bottom: calc(100% + 1mm);
+            left: 0;
+            width: 100%;
             text-align: center;
-            letter-spacing: 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 7pt;
+            font-weight: 500;
+            color: #b8853a;
+            line-height: 1;
+            letter-spacing: 0.04em;
         }
 
         /* ── Questions ───────────────────────────────────────── */
@@ -120,7 +130,7 @@
     <div class="header">
         <div class="seal">&amp;</div>
         <div class="header-body">
-            <div class="eyebrow">Stop 03 &nbsp;·&nbsp; GPS Puzzle</div>
+            <div class="eyebrow">Stop 03 &nbsp;·&nbsp; Webfleet</div>
             <h1 class="page-title">The Missing Coordinates</h1>
         </div>
         <div class="header-meta">
@@ -136,10 +146,10 @@
             plug the numbers into the right slots — and the coordinates will take you exactly where to go.
         </div>
         <div class="coord-row">
-            51°20'&thinsp;<span class="blank">b</span><span class="blank">g</span>.<span class="blank">o</span>&thinsp;"N
+            51°20'&thinsp;<span class="blank"><span class="blank-label">a</span></span><span class="blank"><span class="blank-label">b</span></span>.<span class="blank"><span class="blank-label">c</span></span>&thinsp;"N
         </div>
         <div class="coord-row">
-            12°23'&thinsp;<span class="blank">s</span><span class="blank">k</span>.<span class="blank">a</span>&thinsp;"E
+            12°23'&thinsp;<span class="blank"><span class="blank-label">d</span></span><span class="blank"><span class="blank-label">e</span></span>.<span class="blank"><span class="blank-label">f</span></span>&thinsp;"E
         </div>
     </div>
 
@@ -154,16 +164,16 @@
                 <div class="coord-col-header">51°20' · · · "N &nbsp;— latitude digits</div>
                 <div class="question-list">
                     <div class="question-item">
+                        <span class="q-letter">a</span>
+                        <span class="q-text">Add up the digits of Nastya's original dorm room number.</span>
+                    </div>
+                    <div class="question-item">
                         <span class="q-letter">b</span>
-                        <span class="q-text">Add up the digits of N's dorm room number.</span>
+                        <span class="q-text">What day of the month did we get Hausverbot?</span>
                     </div>
                     <div class="question-item">
-                        <span class="q-letter">g</span>
-                        <span class="q-text">What day of the month did we get banned from crossing the tracks in Halle?</span>
-                    </div>
-                    <div class="question-item">
-                        <span class="q-letter">o</span>
-                        <span class="q-text">How many people here have the patronymic "Igorovna"?</span>
+                        <span class="q-letter">c</span>
+                        <span class="q-text">How many people here have the patronymic "Игоревна"?</span>
                     </div>
                 </div>
             </div>
@@ -173,16 +183,16 @@
                 <div class="coord-col-header">12°23' · · · "E &nbsp;— longitude digits</div>
                 <div class="question-list">
                     <div class="question-item">
-                        <span class="q-letter">s</span>
+                        <span class="q-letter">d</span>
                         <span class="q-text">Take the month of Kirill's birthday, divide it by the day of his birthday.</span>
                     </div>
                     <div class="question-item">
-                        <span class="q-letter">k</span>
-                        <span class="q-text">How many actually understandable, readable words are in E's email?</span>
+                        <span class="q-letter">e</span>
+                        <span class="q-text">How many actually understandable, readable words are in Katya's email?</span>
                     </div>
                     <div class="question-item">
-                        <span class="q-letter">a</span>
-                        <span class="q-text">What day + month did A and I first meet? (add the day and month together)</span>
+                        <span class="q-letter">f</span>
+                        <span class="q-text">What day + month did Alina and Denys first meet? </span>
                     </div>
                 </div>
             </div>
