@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop 06 — Find the Center — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Landscape page definition ───────────────────── */
+        @page landscape-page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        /* Print: page-2 supplies padding-top:14mm, body supplies 20mm sides */
+        .page-landscape {
+            page: landscape-page;
+        }
+
+        /* Screen: show as a proper landscape sheet */
+        @media screen {
+            html { overflow-x: auto; }
+            .page-landscape {
+                width: 297mm;
+                min-height: 210mm;
+                margin-left: -20mm;
+                padding: 14mm 20mm 10mm 20mm;
+                background: #f7f0e3;
+                box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+                margin-top: 12px;
+            }
+        }
+
+        /* ── Trilateration intro ──────────────────────────── */
+        .trilat-intro {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            font-style: italic;
+            color: #6b4d20;
+            line-height: 1.6;
+            margin-bottom: 4mm;
+        }
+
+        /* ── 3-column riddle grid ─────────────────────────── */
+        .riddle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 5mm;
+            margin-bottom: 4.5mm;
+        }
+
+        /* ── Verse text ───────────────────────────────────── */
+        .riddle-verse {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 8pt;
+            line-height: 1.7;
+            color: #3a2010;
+        }
+
+        .riddle-verse p + p {
+            margin-top: 2.5mm;
+        }
+
+        /* ── Distance chip ────────────────────────────────── */
+        .distance-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 2.5mm;
+            margin-top: 4mm;
+            padding: 1.8mm 3.5mm 1.8mm 2.5mm;
+            background: rgba(184, 133, 58, 0.08);
+            border: 1.2px solid rgba(184, 133, 58, 0.5);
+            border-radius: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5pt;
+            font-weight: 500;
+            color: #7a5520;
+            letter-spacing: 0.04em;
+        }
+
+        .distance-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #b8853a;
+            flex-shrink: 0;
+        }
+
+        /* ── 3-column answer grid ─────────────────────────── */
+        .trilat-answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 5mm;
+        }
+
+        /* ── Map page — full bleed ────────────────────────── */
+        .map-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin-top: 3mm;
+            /* Extend to page edges, undoing body's 20mm side padding */
+            margin-left: -20mm;
+            margin-right: -20mm;
+        }
+
+        #map {
+            width: 100%;
+            height:160mm;
+        }
+
+        /* ── Custom scale ruler ───────────────────────────── */
+        .scale-ruler {
+            background: rgba(247, 240, 227, 0.92);
+            border: 1px solid #b8853a;
+            border-radius: 3px;
+            padding: 5px 8px 5px 8px;
+        }
+
+        .sr-bar {
+            display: flex;
+            height: 10px;
+            border: 1.5px solid #17101f;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .sr-seg { flex-shrink: 0; height: 100%; }
+        .sr-dark { background: #17101f; }
+        .sr-lite { background: #dfd0b0; }
+
+        .sr-lblrow {
+            position: relative;
+            height: 15px;
+            margin-top: 3px;
+        }
+
+        .sr-lbl {
+            position: absolute;
+            transform: translateX(-50%);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6.5pt;
+            font-weight: 500;
+            color: #17101f;
+            line-height: 1;
+            top: 1px;
+        }
+
+        .sr-lbl-first { transform: none; }
+
+        .sr-unit {
+            position: absolute;
+            top: 1px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6.5pt;
+            font-weight: 500;
+            color: #17101f;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Stop 06 &nbsp;·&nbsp; Hauptbahnhof</div>
+            <h1 class="page-title">Find the Center</h1>
+        </div>
+        <div class="header-meta">
+            Station VI of X<br>
+            All seven together
+        </div>
+    </div>
+
+    <!-- ── Method instructions ── -->
+    <div class="section-tag" style="margin-bottom: 2.5mm;">The Method — Trilateration</div>
+    <p class="trilat-intro">
+        Each riddle below points to a real place in Leipzig. Solve all three — then, on the map overleaf, find each location and draw a circle around it using the given radius and the scale bar. The place where all three circles meet is your next destination.
+    </p>
+
+    <!-- ── Riddles ── -->
+    <div class="riddle-grid">
+
+        <div class="card">
+            <div class="card-tag">Circle 1</div>
+            <div class="riddle-verse">
+                <p>Where settlers claim their roads and sheep,<br>
+                   And strategy is ours to keep,<br>
+                   Not a toy shop, but something more —<br>
+                   A kingdom's worth behind that door.</p>
+                <p>Roll the dice, and draw a card,<br>
+                   This little shop's not hard to spot —<br>
+                   Where board and box and rulebook meet,<br>
+                   Just steps away, along the street.</p>
+            </div>
+            <div class="distance-chip">
+                <div class="distance-dot"></div>
+                231 m
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-tag">Circle 2</div>
+            <div class="riddle-verse">
+                <p>A woman's name above the door,<br>
+                   Where we had never dined before.<br>
+                   You wore red — a skirt so bright,<br>
+                   I could hardly eat that night.</p>
+                <p>Wine was poured, our first shared plate,<br>
+                   The place still known — our first true date.<br>
+                   No need to walk there, no need to roam,<br>
+                   Just say her name, and you'll be home.</p>
+            </div>
+            <div class="distance-chip">
+                <div class="distance-dot"></div>
+                341 m
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-tag">Circle 3</div>
+            <div class="riddle-verse">
+                <p>A tumble from stone, a twist, a scare,<br>
+                   We rushed to a place with machines and care.<br>
+                   No bones were broken, but still we had to see<br>
+                   What secrets were hidden inside her knee.</p>
+                <p>A giant magnet hummed its tune,<br>
+                   While pictures formed of bone too soon.<br>
+                   Name the place where they could see —<br>
+                   The hidden truth inside her knee.</p>
+            </div>
+            <div class="distance-chip">
+                <div class="distance-dot"></div>
+                524 m
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── Answers ── -->
+    <div class="section-tag" style="margin-bottom: 3mm;">Your Answers — Name each location</div>
+    <div class="trilat-answers">
+        <div class="answer-card">
+            <div class="answer-number">Circle 1 &nbsp;·&nbsp; 231 m</div>
+            <div class="answer-question">Name the location</div>
+            <div class="answer-line"></div>
+        </div>
+        <div class="answer-card">
+            <div class="answer-number">Circle 2 &nbsp;·&nbsp; 341 m</div>
+            <div class="answer-question">Name the location</div>
+            <div class="answer-line"></div>
+        </div>
+        <div class="answer-card">
+            <div class="answer-number">Circle 3 &nbsp;·&nbsp; 524 m</div>
+            <div class="answer-question">Name the location</div>
+            <div class="answer-line"></div>
+        </div>
+    </div>
+
+    <!-- ── Footer / QR ── -->
+    <div class="footer">
+        <div class="footer-text">
+            <strong>Verify your locations</strong>
+            Name all three correctly, then flip to the map. Draw each circle with the given radius using the scale bar — the intersection is your destination.
+        </div>
+        <div class="qr-wrap">
+            <img src="qr-code6.png" alt="Scan to verify">
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  Page 2 — Landscape map                                 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="page-2 page-landscape">
+
+        <div class="header">
+            <div class="seal">&amp;</div>
+            <div class="header-body">
+                <div class="eyebrow">Stop 06 &nbsp;·&nbsp; Map — Draw Your Circles</div>
+                <h1 class="page-title">Find the Intersection</h1>
+            </div>
+            <div class="header-meta">
+                Measure with a ruler<br>
+                Use the scale bar
+            </div>
+        </div>
+
+        <div class="map-wrapper">
+            <div id="map"></div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map', {
+                center: [51.34086964, 12.378168],
+                zoom: 17,
+                zoomControl: false,
+                scrollWheelZoom: false,
+                dragging: false,
+                keyboard: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+                tap: false
+            });
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // ── Custom incremental ruler ──────────────────────
+            var ScaleRuler = L.Control.extend({
+                options: { position: 'bottomleft' },
+                onAdd: function(m) {
+                    var el = L.DomUtil.create('div', 'scale-ruler');
+                    L.DomEvent.disableClickPropagation(el);
+                    L.DomEvent.disableScrollPropagation(el);
+                    this._el = el;
+                    this._map = m;
+                    this._redraw();
+                    m.on('zoomend', this._redraw, this);
+                    return el;
+                },
+                _redraw: function() {
+                    var lat  = this._map.getCenter().lat;
+                    var zoom = this._map.getZoom();
+                    var mpp  = 156543.03392 * Math.cos(lat * Math.PI / 180) / Math.pow(2, zoom);
+                    var px100 = Math.round(100 / mpp);
+                    var marks = [0, 100, 200, 300, 400, 500, 600];
+                    var total = px100 * 6;
+
+                    var segs = '';
+                    for (var i = 0; i < 6; i++) {
+                        segs += '<div class="sr-seg ' + (i % 2 === 0 ? 'sr-dark' : 'sr-lite') + '" style="width:' + px100 + 'px"></div>';
+                    }
+
+                    var lbls = '';
+                    marks.forEach(function(m, idx) {
+                        var px = Math.round(m / mpp);
+                        lbls += '<span class="sr-lbl' + (idx === 0 ? ' sr-lbl-first' : '') + '" style="left:' + px + 'px">' + m + '</span>';
+                    });
+
+                    this._el.innerHTML =
+                        '<div class="sr-bar" style="width:' + total + 'px">' + segs + '</div>' +
+                        '<div class="sr-lblrow" style="width:' + total + 'px">' + lbls +
+                        '<span class="sr-unit" style="left:' + (total + 4) + 'px">m</span></div>';
+                }
+            });
+
+            new ScaleRuler().addTo(map);
+
+            // Ensure tiles fill the full print width before printing
+            window.addEventListener('beforeprint', function() {
+                map.invalidateSize();
+            });
+
+            setTimeout(function() { map.invalidateSize(); }, 400);
+        });
+    </script>
+
+</body>
+</html>
