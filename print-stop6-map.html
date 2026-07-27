@@ -262,12 +262,12 @@
     <div class="map-header">
         <div class="seal">&amp;</div>
         <div class="header-body">
-            <div class="eyebrow">Stop 06 &nbsp;·&nbsp; [Location] &nbsp;·&nbsp; Trilateration</div>
-            <div class="page-title">Find the Point</div>
+            <div class="eyebrow">Stop 06 &nbsp;·&nbsp; Hauptbahnhof &nbsp;·&nbsp; Trilateration</div>
+            <div class="page-title">Find the Center</div>
         </div>
         <div class="header-instruction">
-            Each riddle reveals a place in Leipzig and its distance to the target.<br>
-            Draw a circle at each radius. Where all three meet — that is where you go.
+            Each riddle reveals a place and its distance to the target.<br>
+            Find them. Find the target.
         </div>
     </div>
 
@@ -278,23 +278,7 @@
         </div>
     </div>
 
-    <!-- ── Footer ── -->
-    <div class="map-footer">
-        <div class="footer-answers">
-            <div class="answer-block">
-                <div class="answer-label">Target coordinates</div>
-                <div class="answer-line"></div>
-            </div>
-            <div class="answer-block">
-                <div class="answer-label">What is there?</div>
-                <div class="answer-line"></div>
-            </div>
-        </div>
-        <div class="footer-meta">
-            <div class="footer-stop">Station VI of XII</div>
-            <div class="footer-note">Use the scale bar to measure distances.<br>The intersection of all three circles is your destination.</div>
-        </div>
-    </div>
+
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -307,7 +291,7 @@
 
         // Extra distances to mark precisely on the ruler (in metres), shown in gold.
         // These appear at their exact pixel position regardless of the round-number ticks.
-        var CUSTOM_DISTANCES = [521]; // e.g. [501, 320]
+        var CUSTOM_DISTANCES = [524, 341, 231]; // e.g. [501, 320]
 
         // ============================================================
 
