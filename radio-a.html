@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17101f">
+    <title>Alpha Dispatch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ── Step reveal ──────────────────────────────────────── */
+        .step { display: none; }
+        .step.visible {
+            display: block;
+            animation: stepReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes stepReveal {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Radio visual-marker card ─────────────────────────── */
+        .radio-card {
+            border: 1.5px solid rgba(214,160,92,0.45);
+            border-radius: 10px;
+            padding: 20px 20px 14px;
+            margin-bottom: 18px;
+            background: rgba(214,160,92,0.04);
+            position: relative;
+        }
+        .radio-card::before {
+            content: '';
+            position: absolute;
+            inset: 7px;
+            border: 1px solid rgba(214,160,92,0.18);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        .radio-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--seal);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .radio-eyebrow::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(214,160,92,0.3);
+        }
+        .marker-scene {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            padding: 8px 0 12px;
+        }
+        .marker-icon { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .marker-icon svg { display: block; }
+        .radio-sub {
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(214,160,92,0.45);
+            margin-top: 6px;
+        }
+
+        /* ── Meeting / convergence card ───────────────────────── */
+        .meet-card {
+            border: 1.5px solid rgba(143,219,168,0.35);
+            border-radius: 10px;
+            padding: 26px 22px;
+            margin-bottom: 18px;
+            background: rgba(143,219,168,0.03);
+            position: relative;
+            text-align: center;
+        }
+        .meet-card::before {
+            content: '';
+            position: absolute;
+            inset: 7px;
+            border: 1px solid rgba(143,219,168,0.15);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        .meet-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--mint);
+            margin-bottom: 10px;
+            opacity: 0.75;
+        }
+        .meet-title {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 22px;
+            color: var(--parchment);
+            margin: 0 0 10px;
+        }
+        .meet-sub {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.65;
+            margin: 0 0 20px;
+        }
+
+        /* ── Final clue card ──────────────────────────────────── */
+        .final-clue-card {
+            border: 1.5px solid rgba(214,160,92,0.55);
+            border-radius: 10px;
+            padding: 26px 22px;
+            margin-bottom: 18px;
+            background: rgba(214,160,92,0.05);
+            position: relative;
+        }
+        .final-clue-card::before {
+            content: '';
+            position: absolute;
+            inset: 7px;
+            border: 1px solid rgba(214,160,92,0.2);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        .final-clue-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--seal-light);
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+        .final-clue-body {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 17px;
+            color: var(--parchment);
+            line-height: 1.6;
+        }
+
+        /* ── Step badge inside card ───────────────────────────── */
+        .step-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        .step-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--seal); opacity: 0.7; flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sparkles"></div>
+
+<div class="wrap">
+    <div class="eyebrow">Alpha Dispatch</div>
+    <h1 class="title">Route Alpha</h1>
+    <p class="subtitle">Listen for your signal. Walk. Relay.</p>
+
+    <div class="progress-wrap">
+        <div class="seal-strand" id="seal-strand"></div>
+        <div class="seal-count" id="seal-count">0 / 8</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── A1 (visible from start) ──────────────────────── -->
+    <div class="step visible" id="step-a1">
+        <div class="card" id="card-a1">
+            <div class="stamp" id="stamp-a1">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-1 &nbsp;·&nbsp; Near Nikolaisaule</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a1" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a1')">
+                <button class="btn-check" id="btn-a1" onclick="check('a1')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a1"></div>
+        </div>
+    </div>
+
+    <!-- ── B1 visual: Speckshof passage ─────────────────── -->
+    <div class="step" id="step-b1-vis">
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-1</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <!-- Speckshof: arched covered passage with columns -->
+                    <svg width="72" height="72" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="20" width="9" height="32" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <rect x="43" y="20" width="9" height="32" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <path d="M13 20 Q13 4 28 4 Q43 4 43 20" fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <path d="M25 4 L28 0 L31 4" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="1"/>
+                        <path d="M17 52 L17 26 Q17 15 28 15 Q39 15 39 26 L39 52 Z" fill="rgba(10,5,20,0.35)"/>
+                        <path d="M17 26 Q17 15 28 15 Q39 15 39 26" stroke="#d6a05c" stroke-width="1" opacity="0.45"/>
+                        <line x1="4" y1="52" x2="52" y2="52" stroke="#d6a05c" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="radio-sub">Describe this symbol to Group Beta</div>
+        </div>
+    </div>
+
+    <!-- ── A2 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a2">
+        <div class="card" id="card-a2">
+            <div class="stamp" id="stamp-a2">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-2 &nbsp;·&nbsp; Geschwister-Scholl-Haus</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a2" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a2')">
+                <button class="btn-check" id="btn-a2" onclick="check('a2')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a2"></div>
+        </div>
+    </div>
+
+    <!-- ── A3 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a3">
+        <div class="card" id="card-a3">
+            <div class="stamp" id="stamp-a3">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-3 &nbsp;·&nbsp; Theaterpassage entrance</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a3" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a3')">
+                <button class="btn-check" id="btn-a3" onclick="check('a3')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a3"></div>
+        </div>
+    </div>
+
+    <!-- ── B2 visual: Klangschale ────────────────────────── -->
+    <div class="step" id="step-b2-vis">
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-2</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <!-- Klangschale: singing bowl with sound arcs -->
+                    <svg width="80" height="72" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 28 C24 22 20 16 20 10" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.35"/>
+                        <path d="M32 28 C32 20 32 14 32 8" stroke="#d6a05c" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+                        <path d="M32 28 C40 22 44 16 44 10" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.35"/>
+                        <circle cx="32" cy="28" r="2.5" fill="#d6a05c" opacity="0.75"/>
+                        <path d="M8 36 Q8 52 32 52 Q56 52 56 36 L56 32 Q56 28 32 28 Q8 28 8 32 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <ellipse cx="32" cy="32" rx="24" ry="5" fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="radio-sub">Describe this symbol to Group Beta</div>
+        </div>
+    </div>
+
+    <!-- ── A4 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a4">
+        <div class="card" id="card-a4">
+            <div class="stamp" id="stamp-a4">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-4 &nbsp;·&nbsp; Theaterpassage exit</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a4" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a4')">
+                <button class="btn-check" id="btn-a4" onclick="check('a4')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a4"></div>
+        </div>
+    </div>
+
+    <!-- ── A5 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a5">
+        <div class="card" id="card-a5">
+            <div class="stamp" id="stamp-a5">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-5 &nbsp;·&nbsp; Demokratieglocke</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a5" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a5')">
+                <button class="btn-check" id="btn-a5" onclick="check('a5')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a5"></div>
+        </div>
+    </div>
+
+    <!-- ── B3 visual: Thalia bookshop ───────────────────── -->
+    <div class="step" id="step-b3-vis">
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-3</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <!-- Thalia: open book -->
+                    <svg width="80" height="72" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 8 L6 14 L6 46 L32 44 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <path d="M32 8 L58 14 L58 46 L32 44 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <line x1="32" y1="8" x2="32" y2="44" stroke="#d6a05c" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="11" y1="22" x2="27" y2="21" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                        <line x1="11" y1="29" x2="27" y2="28" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                        <line x1="11" y1="36" x2="27" y2="35" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                        <line x1="37" y1="21" x2="53" y2="22" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                        <line x1="37" y1="28" x2="53" y2="29" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                        <line x1="37" y1="35" x2="53" y2="36" stroke="rgba(214,160,92,0.45)" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="radio-sub">Describe this symbol to Group Beta</div>
+        </div>
+    </div>
+
+    <!-- ── A6 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a6">
+        <div class="card" id="card-a6">
+            <div class="stamp" id="stamp-a6">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-6 &nbsp;·&nbsp; Zeitgenossen</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a6" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a6')">
+                <button class="btn-check" id="btn-a6" onclick="check('a6')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a6"></div>
+        </div>
+    </div>
+
+    <!-- ── A7 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a7">
+        <div class="card" id="card-a7">
+            <div class="stamp" id="stamp-a7">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-7 &nbsp;·&nbsp; Leipzig Uni entrance</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a7" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a7')">
+                <button class="btn-check" id="btn-a7" onclick="check('a7')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a7"></div>
+        </div>
+    </div>
+
+    <!-- ── B4 visual: Uni staircase entrance ────────────── -->
+    <div class="step" id="step-b4-vis">
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-4</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <!-- Leipzig Uni staircase: arch with ascending steps inside -->
+                    <svg width="72" height="72" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 52 L8 26 Q8 8 28 8 Q48 8 48 26 L48 52" fill="rgba(214,160,92,0.05)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <rect x="10" y="44" width="36" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
+                        <rect x="15" y="36" width="26" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
+                        <rect x="20" y="28" width="16" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="radio-sub">Describe this symbol to Group Beta</div>
+        </div>
+    </div>
+
+    <!-- ── Meeting card + Library password ──────────────── -->
+    <div class="step" id="step-meeting">
+        <div class="meet-card">
+            <div class="meet-eyebrow">Convergence</div>
+            <div class="meet-title">Find Group Beta.</div>
+            <p class="meet-sub">You have both completed your routes. Regroup and make your way to <strong style="color:var(--mint)">Campus Library</strong>. Enter the shared code below together.</p>
+
+            <!-- Campus Library icon -->
+            <div class="marker-scene" style="margin: 0 0 20px;">
+                <div class="marker-icon">
+                    <svg width="88" height="72" viewBox="0 0 72 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="8" y="24" width="56" height="28" fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5"/>
+                        <path d="M8 24 L36 9 L64 24" fill="rgba(143,219,168,0.09)" stroke="#8fdba8" stroke-width="1.5"/>
+                        <line x1="15" y1="24" x2="15" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
+                        <line x1="23" y1="24" x2="23" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
+                        <line x1="49" y1="24" x2="49" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
+                        <line x1="57" y1="24" x2="57" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
+                        <rect x="30" y="38" width="12" height="14" rx="1" fill="rgba(143,219,168,0.14)" stroke="#8fdba8" stroke-width="1"/>
+                        <circle cx="39" cy="45" r="1.5" fill="#8fdba8" opacity="0.7"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card" id="card-lib" style="text-align:left; background:rgba(0,0,0,0.18); border-color:rgba(143,219,168,0.3);">
+                <div class="stamp" id="stamp-lib">&amp;</div>
+                <div class="step-badge" style="color:var(--mint);">
+                    <div class="step-dot" style="background:var(--mint);"></div>Campus Library &nbsp;·&nbsp; Shared code
+                </div>
+                <div class="input-row">
+                    <input type="text" id="inp-lib" placeholder="Enter the code" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('lib')">
+                    <button class="btn-check" id="btn-lib" onclick="check('lib')">Unseal</button>
+                </div>
+                <div class="feedback" id="fb-lib"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Final clue for Group Alpha ───────────────────── -->
+    <div class="step" id="step-final-a">
+        <div class="final-clue-card">
+            <div class="final-clue-eyebrow">For Group Alpha only</div>
+            <div class="final-clue-body">[Replace with Group Alpha's final clue]</div>
+        </div>
+    </div>
+
+    <div id="cel-inline" class="inline-action" style="display:none"></div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+// ============================================================
+// EDIT YOUR CONTENT HERE
+// ============================================================
+var ANSWERS = {
+    a1: ['A1_PASSWORD'],
+    a2: ['A2_PASSWORD'],
+    a3: ['A3_PASSWORD'],
+    a4: ['A4_PASSWORD'],
+    a5: ['A5_PASSWORD'],
+    a6: ['A6_PASSWORD'],
+    a7: ['A7_PASSWORD'],
+    lib: ['LIBRARY_PASSWORD']
+};
+// ============================================================
+
+var REVEALS = {
+    a1:  ['step-b1-vis', 'step-a2'],
+    a2:  ['step-a3'],
+    a3:  ['step-b2-vis', 'step-a4'],
+    a4:  ['step-a5'],
+    a5:  ['step-b3-vis', 'step-a6'],
+    a6:  ['step-a7'],
+    a7:  ['step-b4-vis', 'step-meeting'],
+    lib: ['step-final-a']
+};
+
+var TOTAL = 8;
+var solvedCount = 0;
+var solvedSet = {};
+
+function check(id) {
+    if (solvedSet[id]) return;
+    var inp = document.getElementById('inp-' + id);
+    var fb  = document.getElementById('fb-'  + id);
+    var btn = document.getElementById('btn-' + id);
+    if (!inp) return;
+    var val = normalize(inp.value);
+    var ok  = ANSWERS[id].some(function(a) { return normalize(a) === val; });
+    if (!ok) {
+        var card = document.getElementById('card-' + id);
+        if (card) { card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); }
+        if (fb) { fb.textContent = 'Not quite - try again.'; fb.className = 'feedback wrong'; }
+        return;
+    }
+    solvedSet[id] = true;
+    solvedCount++;
+    inp.disabled = true;
+    if (btn) { btn.textContent = 'Opened'; btn.classList.add('done'); }
+    if (fb)  { fb.textContent = 'Correct - the seal breaks.'; fb.className = 'feedback correct'; }
+    var stamp = document.getElementById('stamp-' + id);
+    if (stamp) stamp.classList.add('show');
+    var card = document.getElementById('card-' + id);
+    if (card) card.classList.add('solved');
+    updateProgress();
+    burstSparkles(18);
+    var steps = REVEALS[id] || [];
+    steps.forEach(function(stepId, i) {
+        setTimeout(function() {
+            var el = document.getElementById(stepId);
+            if (!el) return;
+            el.classList.add('visible');
+            if (i === steps.length - 1) {
+                setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 150);
+            }
+        }, i * 320);
+    });
+    if (id === 'lib') setTimeout(function() { burstConfetti(55); }, 300);
+}
+
+function updateProgress() {
+    var dots = document.querySelectorAll('.seal-dot');
+    for (var i = 0; i < dots.length; i++) {
+        if (i < solvedCount) dots[i].classList.add('opened');
+    }
+    document.getElementById('seal-count').textContent = solvedCount + ' / ' + TOTAL;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var strand = document.getElementById('seal-strand');
+    for (var i = 0; i < TOTAL; i++) {
+        var d = document.createElement('div');
+        d.className = 'seal-dot';
+        d.innerHTML = '&amp;';
+        strand.appendChild(d);
+    }
+    initSparkles(14);
+});
+</script>
+</body>
+</html>
