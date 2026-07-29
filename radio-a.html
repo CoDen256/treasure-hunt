@@ -197,25 +197,46 @@
         </div>
     </div>
 
-    <!-- ── B1 visual: Speckshof passage ─────────────────── -->
+    <!-- ── B1 visual: map sketch (fountain → south + 85.31° bearing → wall) ── -->
     <div class="step" id="step-b1-vis">
         <div class="radio-card">
             <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-1</div>
             <div class="marker-scene">
                 <div class="marker-icon">
-                    <!-- Speckshof: arched covered passage with columns -->
-                    <svg width="72" height="72" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="4" y="20" width="9" height="32" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <rect x="43" y="20" width="9" height="32" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M13 20 Q13 4 28 4 Q43 4 43 20" fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M25 4 L28 0 L31 4" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="1"/>
-                        <path d="M17 52 L17 26 Q17 15 28 15 Q39 15 39 26 L39 52 Z" fill="rgba(10,5,20,0.35)"/>
-                        <path d="M17 26 Q17 15 28 15 Q39 15 39 26" stroke="#d6a05c" stroke-width="1" opacity="0.45"/>
-                        <line x1="4" y1="52" x2="52" y2="52" stroke="#d6a05c" stroke-width="1.5"/>
+                    <!--
+                      Map sketch: fountain at top-right, south line going down (S),
+                      bearing line at 85.31° from south going left, ends at a horizontal wall.
+                      sin(85.31°)≈0.9967, cos(85.31°)≈0.0815
+                    -->
+                    <svg width="128" height="88" viewBox="0 0 80 55" fill="none"
+                         xmlns="http://www.w3.org/2000/svg"
+                         style="font-family:'IBM Plex Mono',monospace">
+                        <!-- Fountain: outer ring + inner filled dot -->
+                        <circle cx="62" cy="7"  r="5.5" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.4"/>
+                        <circle cx="62" cy="7"  r="2.2" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="0.7"/>
+                        <!-- South line: dashed, with downward arrowhead -->
+                        <line x1="62" y1="13" x2="62" y2="43"
+                              stroke="#d6a05c" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+                        <path d="M59,41 L62,47 L65,41"
+                              stroke="#d6a05c" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+                        <text x="66" y="50" font-size="8" fill="#d6a05c" opacity="0.9">S</text>
+                        <!-- Bearing line: 85.31° from south going left (≈ horizontal)
+                             L=58: dx=−57.8  dy=+4.7  → endpoint (4.2, 17.7) -->
+                        <line x1="62" y1="13" x2="4" y2="18"
+                              stroke="#d6a05c" stroke-width="1.2"/>
+                        <!-- Horizontal wall at the left end of the bearing line -->
+                        <line x1="-2" y1="18" x2="10" y2="18"
+                              stroke="#d6a05c" stroke-width="4" stroke-linecap="butt"/>
+                        <!-- Angle arc: counterclockwise from south (62,27) to bearing dir (48,14) -->
+                        <path d="M 62,27 A 14,14 0 0,0 48,14"
+                              stroke="#d6a05c" stroke-width="0.9" stroke-dasharray="2 1.5"
+                              fill="none" opacity="0.75"/>
+                        <!-- Angle label -->
+                        <text x="26" y="34" font-size="6.5" fill="#d6a05c">85.31°</text>
                     </svg>
                 </div>
             </div>
-            <div class="radio-sub">Describe this symbol to Group Beta</div>
+            <div class="radio-sub">Describe this route sketch to Group Beta</div>
         </div>
     </div>
 
