@@ -178,7 +178,7 @@
 
     <div class="progress-wrap">
         <div class="seal-strand" id="seal-strand"></div>
-        <div class="seal-count" id="seal-count">0 / 8</div>
+        <div class="seal-count" id="seal-count">0 / 6</div>
     </div>
 
     <hr class="divider">
@@ -219,31 +219,17 @@
         </div>
     </div>
 
-    <!-- ── A2 ────────────────────────────────────────────── -->
+    <!-- ── A2 (covers Scholl-Haus + Theaterpassage, one password) ── -->
     <div class="step" id="step-a2">
         <div class="card" id="card-a2">
             <div class="stamp" id="stamp-a2">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop A-2 &nbsp;·&nbsp; Geschwister-Scholl-Haus</div>
-            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-2 &nbsp;·&nbsp; Scholl-Haus → Theaterpassage</div>
+            <div class="item-label">[Replace: Group B will describe three symbols one by one as you walk through]</div>
             <div class="input-row">
                 <input type="text" id="inp-a2" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a2')">
                 <button class="btn-check" id="btn-a2" onclick="check('a2')">Unseal</button>
             </div>
             <div class="feedback" id="fb-a2"></div>
-        </div>
-    </div>
-
-    <!-- ── A3 ────────────────────────────────────────────── -->
-    <div class="step" id="step-a3">
-        <div class="card" id="card-a3">
-            <div class="stamp" id="stamp-a3">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop A-3 &nbsp;·&nbsp; Theaterpassage entrance</div>
-            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
-            <div class="input-row">
-                <input type="text" id="inp-a3" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a3')">
-                <button class="btn-check" id="btn-a3" onclick="check('a3')">Unseal</button>
-            </div>
-            <div class="feedback" id="fb-a3"></div>
         </div>
     </div>
 
@@ -265,20 +251,6 @@
                 </div>
             </div>
             <div class="radio-sub">Describe this symbol to Group Beta</div>
-        </div>
-    </div>
-
-    <!-- ── A4 ────────────────────────────────────────────── -->
-    <div class="step" id="step-a4">
-        <div class="card" id="card-a4">
-            <div class="stamp" id="stamp-a4">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop A-4 &nbsp;·&nbsp; Theaterpassage exit</div>
-            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
-            <div class="input-row">
-                <input type="text" id="inp-a4" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a4')">
-                <button class="btn-check" id="btn-a4" onclick="check('a4')">Unseal</button>
-            </div>
-            <div class="feedback" id="fb-a4"></div>
         </div>
     </div>
 
@@ -334,20 +306,6 @@
         </div>
     </div>
 
-    <!-- ── A7 ────────────────────────────────────────────── -->
-    <div class="step" id="step-a7">
-        <div class="card" id="card-a7">
-            <div class="stamp" id="stamp-a7">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop A-7 &nbsp;·&nbsp; Leipzig Uni entrance</div>
-            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
-            <div class="input-row">
-                <input type="text" id="inp-a7" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a7')">
-                <button class="btn-check" id="btn-a7" onclick="check('a7')">Unseal</button>
-            </div>
-            <div class="feedback" id="fb-a7"></div>
-        </div>
-    </div>
-
     <!-- ── B4 visual: Uni staircase entrance ────────────── -->
     <div class="step" id="step-b4-vis">
         <div class="radio-card">
@@ -364,6 +322,20 @@
                 </div>
             </div>
             <div class="radio-sub">Describe this symbol to Group Beta</div>
+        </div>
+    </div>
+
+    <!-- ── A7 ────────────────────────────────────────────── -->
+    <div class="step" id="step-a7">
+        <div class="card" id="card-a7">
+            <div class="stamp" id="stamp-a7">&amp;</div>
+            <div class="step-badge"><div class="step-dot"></div>Stop A-7 &nbsp;·&nbsp; Leipzig Uni entrance</div>
+            <div class="item-label">[Replace: describe what the group finds at this stop]</div>
+            <div class="input-row">
+                <input type="text" id="inp-a7" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a7')">
+                <button class="btn-check" id="btn-a7" onclick="check('a7')">Unseal</button>
+            </div>
+            <div class="feedback" id="fb-a7"></div>
         </div>
     </div>
 
@@ -421,29 +393,25 @@
 // EDIT YOUR CONTENT HERE
 // ============================================================
 var ANSWERS = {
-    a1: ['A1_PASSWORD'],
-    a2: ['A2_PASSWORD'],
-    a3: ['A3_PASSWORD'],
-    a4: ['A4_PASSWORD'],
-    a5: ['A5_PASSWORD'],
-    a6: ['A6_PASSWORD'],
-    a7: ['A7_PASSWORD'],
+    a1:  ['09.10.1989'],
+    a2:  ['A2_PASSWORD'],
+    a5:  ['A5_PASSWORD'],
+    a6:  ['A6_PASSWORD'],
+    a7:  ['A7_PASSWORD'],
     lib: ['LIBRARY_PASSWORD']
 };
 // ============================================================
 
 var REVEALS = {
     a1:  ['step-b1-vis', 'step-a2'],
-    a2:  ['step-a3'],
-    a3:  ['step-b2-vis', 'step-a4'],
-    a4:  ['step-a5'],
+    a2:  ['step-b2-vis', 'step-a5'],
     a5:  ['step-b3-vis', 'step-a6'],
-    a6:  ['step-a7'],
-    a7:  ['step-b4-vis', 'step-meeting'],
+    a6:  ['step-b4-vis', 'step-a7'],
+    a7:  ['step-meeting'],
     lib: ['step-final-a']
 };
 
-var TOTAL = 8;
+var TOTAL = 6;
 var solvedCount = 0;
 var solvedSet = {};
 
