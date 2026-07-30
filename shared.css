@@ -413,6 +413,58 @@ input[type="date"].inp-date::-webkit-calendar-picker-indicator {
     margin-bottom: 2rem;
 }
 
+/* ---- photo picker ---- */
+.photo-desc {
+    font-size: 14px; color: var(--muted); margin: 0 0 16px; line-height: 1.5;
+}
+.photo-area {
+    border: 1.5px dashed rgba(214,160,92,0.35);
+    border-radius: 8px; overflow: hidden;
+    min-height: 96px; display: flex;
+    align-items: center; justify-content: center;
+}
+.photo-ph {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+    padding: 28px 16px; width: 100%;
+}
+.photo-icon {
+    width: 36px; height: 36px;
+    color: rgba(214,160,92,0.55);
+}
+.photo-btn {
+    height: 44px; padding: 0 24px;
+    background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+    border: none; border-radius: 8px; color: #3a2210;
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14px;
+    cursor: pointer; transition: transform 0.15s;
+}
+.photo-btn:active { transform: scale(0.95); }
+.photo-thumb {
+    display: none; width: 100%;
+    max-height: 260px; object-fit: cover;
+}
+
+/* ---- coin reveal ---- */
+.coin-reveal {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 22px;
+    animation: slideUp 0.5s ease 0.65s both;
+}
+.coin-medal {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 46px; color: #3a2210;
+    box-shadow: 0 8px 40px rgba(214,160,92,0.55), 0 0 0 6px rgba(214,160,92,0.15);
+    animation: popIn 0.7s cubic-bezier(.34,1.56,.64,1) 0.4s both;
+}
+.coin-text {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 17px; line-height: 1.65; color: var(--parchment);
+    text-align: center; max-width: 280px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .sparkle, .confetti { display: none; }
     *, *::before, *::after {

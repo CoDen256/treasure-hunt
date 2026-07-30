@@ -79,6 +79,12 @@ function revealInline(successType, nextPage) {
             inline.innerHTML =
                 '<p class="block-title">The journey is complete.</p>' +
                 '<p class="block-sub">Every seal has been broken. Well done, you made it!</p>';
+        } else if (successType === 'coin') {
+            inline.innerHTML =
+                '<div class="coin-reveal">' +
+                    '<div class="coin-medal">&amp;</div>' +
+                    '<p class="coin-text">Coins don\'t talk — but yours hums a little, if your phone knows how to hear it. Let it listen.</p>' +
+                '</div>';
         } else {
             inline.innerHTML = '<a href="' + nextPage + '" class="next-btn">Next Stop -&gt;</a>';
         }
@@ -197,6 +203,28 @@ var VerifyPage = (function() {
                 (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
                 '<div class="poem-text">' + (item.text || '').replace(/\n/g, '<br>') + '</div>' +
                 '</div>';
+        }
+
+        if (item.type === 'photo') {
+            var idx = item._idx;
+            return '<div class="card" id="card-' + idx + '">' +
+                '<div class="stamp" id="stamp-' + idx + '">&amp;</div>' +
+                (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
+                '<p class="photo-desc">Add a photo to seal this stop and continue.</p>' +
+                '<input type="file" accept="image/*" id="photo-inp-' + idx + '" ' +
+                    'style="display:none" onchange="VerifyPage.pickPhoto(' + idx + ')">' +
+                '<div class="photo-area">' +
+                    '<div class="photo-ph" id="photo-ph-' + idx + '">' +
+                        '<svg class="photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+                            '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>' +
+                            '<circle cx="12" cy="13" r="4"/>' +
+                        '</svg>' +
+                        '<button class="photo-btn" onclick="VerifyPage.triggerPhotoPicker(' + idx + ')">Choose Photo</button>' +
+                    '</div>' +
+                    '<img class="photo-thumb" id="photo-thumb-' + idx + '" alt="">' +
+                '</div>' +
+                '<div class="feedback" id="fb-' + idx + '"></div>' +
+            '</div>';
         }
 
         var idx   = item._idx;
@@ -385,5 +413,37 @@ var VerifyPage = (function() {
         return Math.floor(sec / 60) + ':' + Math.floor(sec % 60).toString().padStart(2, '0');
     }
 
-    return { init: init, check: check, toggleHint: toggleHint, togglePlay: togglePlay, seek: seek };
+    function triggerPhotoPicker(idx) {
+        document.getElementById('photo-inp-' + idx).click();
+    }
+
+    function pickPhoto(idx) {
+        var inp  = document.getElementById('photo-inp-' + idx);
+        var file = inp.files && inp.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var thumb = document.getElementById('photo-thumb-' + idx);
+            var ph    = document.getElementById('photo-ph-'    + idx);
+            var fb    = document.getElementById('fb-'          + idx);
+            var stamp = document.getElementById('stamp-'       + idx);
+            var card  = document.getElementById('card-'        + idx);
+            thumb.src           = e.target.result;
+            thumb.style.display = 'block';
+            ph.style.display    = 'none';
+            if (!solved.has(idx)) {
+                solved.add(idx);
+                stamp.classList.add('show');
+                card.classList.add('solved');
+                fb.textContent = 'Photo added — the seal breaks.';
+                fb.className   = 'feedback correct';
+                document.getElementById('dot-' + idx).classList.add('opened');
+                refreshCount();
+                if (solved.size === countable.length) setTimeout(celebrate, 600);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    return { init: init, check: check, toggleHint: toggleHint, togglePlay: togglePlay, seek: seek, triggerPhotoPicker: triggerPhotoPicker, pickPhoto: pickPhoto };
 })();
