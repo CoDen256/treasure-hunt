@@ -546,14 +546,27 @@
             <div class="radio-eyebrow">Relay to Group Alpha &nbsp;&middot;&nbsp; A-5</div>
             <div class="marker-scene">
                 <div class="marker-icon">
-                    <!-- Bell -->
-                    <svg width="80" height="90" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="18" y1="5" x2="34" y2="5" stroke="#d6a05c" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="26" y1="5" x2="26" y2="12" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M26 12 C16 12 8 18 8 28 L8 40 Q8 44 26 44 Q44 44 44 40 L44 28 C44 18 36 12 26 12 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M6 40 Q6 46 26 46 Q46 46 46 40" fill="rgba(214,160,92,0.09)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <line x1="26" y1="46" x2="26" y2="52" stroke="#d6a05c" stroke-width="1.5"/>
-                        <circle cx="26" cy="53" r="2" fill="#d6a05c"/>
+                    <!-- Hex code: #CD7F3O where O is an egg oval -->
+                    <svg width="176" height="60" viewBox="0 0 88 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         style="font-family:'IBM Plex Mono',monospace">
+                        <!-- Box -->
+                        <rect x="1.5" y="1.5" width="85" height="27" rx="3"
+                              fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.3"/>
+                        <!-- Inner border -->
+                        <rect x="5" y="5" width="78" height="20" rx="1.5"
+                              fill="none" stroke="rgba(214,160,92,0.18)" stroke-width="0.7"/>
+                        <!-- Each character separately -->
+                        <text font-size="11" fill="#d6a05c" dominant-baseline="middle" text-anchor="middle">
+                            <tspan x="11" y="15">#</tspan>
+                            <tspan x="22" y="15">C</tspan>
+                            <tspan x="32" y="15">D</tspan>
+                            <tspan x="42" y="15">7</tspan>
+                            <tspan x="52" y="15">F</tspan>
+                            <tspan x="62" y="15">3</tspan>
+                        </text>
+                        <!-- Egg oval where O would be -->
+                        <ellipse cx="75" cy="15" rx="5" ry="7.5"
+                                 fill="rgba(214,160,92,0.25)" stroke="#d6a05c" stroke-width="1.3"/>
                     </svg>
                 </div>
             </div>
@@ -685,11 +698,11 @@
 // EDIT YOUR CONTENT HERE
 // ============================================================
 var ANSWERS = {
-    b1: ['SPECKSHOF'],
-    b2: ['150'],
-    b3: ['B3_PASSWORD'],
-    b4: ['B4_PASSWORD'],
-    lib: ['LIBRARY_PASSWORD']
+    b1: ['SPECKSHOF', ''],
+    b2: ['150', ''],
+    b3: ['B3_PASSWORD', ''],
+    b4: ['B4_PASSWORD', ''],
+    lib: ['LIBRARY_PASSWORD', '']
 };
 // ============================================================
 
