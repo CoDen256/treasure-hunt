@@ -416,14 +416,14 @@
             <p class="meet-sub">You have both completed your routes. Regroup and find the next stop. Enter what you find below together.</p>
 
             <!-- Campus Library icon -->
-            <div class="marker-scene" style="margin: 0 0 20px;">
+            <div class="marker-scene" style="margin: 0 0 20px; flex-direction: column; align-items: center;">
                 <div class="marker-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 860" width="460" height="860">
-                        <g fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+                        <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
 
 
                             <rect x="40" y="24" width="60" height="40" rx="2"></rect>
-                            <text x="70" y="44" fill="#d6a05c" stroke="none" font-family="Georgia, serif" font-size="26" text-anchor="middle" dominant-baseline="central">?</text>
+                            <text x="70" y="44" fill="#8fdba8" stroke="none" font-family="Georgia, serif" font-size="26" text-anchor="middle" dominant-baseline="central">?</text>
                             <path d="M100 44 H201" fill="none"></path>
                             <rect x="201" y="24" width="60" height="40" rx="2"></rect>
 
@@ -453,15 +453,37 @@
                             <path d="M221 764 V856 M241 764 V856" fill="none"></path>
                         </g>
                     </svg>
-                    <svg width="110" height="90" viewBox="0 0 72 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="8" y="24" width="56" height="28" fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5"/>
-                        <path d="M8 24 L36 9 L64 24" fill="rgba(143,219,168,0.09)" stroke="#8fdba8" stroke-width="1.5"/>
-                        <line x1="15" y1="24" x2="15" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
-                        <line x1="23" y1="24" x2="23" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
-                        <line x1="49" y1="24" x2="49" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
-                        <line x1="57" y1="24" x2="57" y2="52" stroke="rgba(143,219,168,0.45)" stroke-width="1.5"/>
-                        <rect x="30" y="38" width="12" height="14" rx="1" fill="rgba(143,219,168,0.14)" stroke="#8fdba8" stroke-width="1"/>
-                        <circle cx="39" cy="45" r="1.5" fill="#8fdba8" opacity="0.7"/>
+                </div>
+                <div class="marker-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="512" height="336">
+                        <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+
+
+                            <rect x="60" y="30" width="520" height="290"></rect>
+
+
+                            <rect x="150" y="180" width="60" height="140"></rect>
+                            <rect x="290" y="180" width="60" height="140"></rect>
+                            <rect x="430" y="180" width="60" height="140"></rect>
+
+
+                            <g fill="none">
+                                <path d="M200 236 V264"></path>
+                                <path d="M340 236 V264"></path>
+                                <path d="M480 236 V264"></path>
+                            </g>
+
+
+                            <g fill="none">
+                                <path d="M130 320 H510"></path>
+                                <path d="M108 338 H532"></path>
+                                <path d="M86 356 H554"></path>
+                                <path d="M64 374 H576"></path>
+                                <path d="M42 392 H598"></path>
+                                <path d="M20 410 H620"></path>
+                                <path d="M130 320 L20 410 M510 320 L620 410"></path>
+                            </g>
+                        </g>
                     </svg>
                 </div>
             </div>
@@ -469,7 +491,7 @@
             <div class="card" id="card-lib" style="text-align:left; background:rgba(0,0,0,0.18); border-color:rgba(143,219,168,0.3);">
                 <div class="stamp" id="stamp-lib">&amp;</div>
                 <div class="step-badge" style="color:var(--mint);">
-                    <div class="step-dot" style="background:var(--mint);"></div>Campus Library &nbsp;·&nbsp; Shared code
+                    <div class="step-dot" style="background:var(--mint);"></div>Where to go next?
                 </div>
                 <div class="input-row">
                     <input type="text" id="inp-lib" placeholder="Enter the code" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('lib')">
@@ -501,7 +523,7 @@ var ANSWERS = {
     a2:  ['1928', ''],
     a5:  ['Kunst', ''],
     a6:  ['Pädagogikerin', 'Padagogikerin', 'Pädagogiker', 'Paedagogikerin', ''],
-    lib: ['LIBRARY_PASSWORD', '']
+    lib: ['Campus Bibliothek', 'Bibliothek', 'Library']
 };
 // ============================================================
 
