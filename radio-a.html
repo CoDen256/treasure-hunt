@@ -203,11 +203,6 @@
             <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-1</div>
             <div class="marker-scene">
                 <div class="marker-icon">
-                    <!--
-                      Map sketch: fountain at top-right, south line going down (S),
-                      bearing line at 85.31° from south going left, ends at a horizontal wall.
-                      sin(85.31°)≈0.9967, cos(85.31°)≈0.0815
-                    -->
                     <svg width="128" height="88" viewBox="0 0 80 55" fill="none"
                          xmlns="http://www.w3.org/2000/svg"
                          style="font-family:'IBM Plex Mono',monospace">
@@ -215,24 +210,25 @@
                         <circle cx="62" cy="7"  r="5.5" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.4"/>
                         <circle cx="62" cy="7"  r="2.2" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="0.7"/>
                         <!-- South line: dashed, with downward arrowhead -->
-                        <line x1="62" y1="13" x2="62" y2="43"
-                              stroke="#d6a05c" stroke-width="1.2" stroke-dasharray="3 2.5"/>
-                        <path d="M59,41 L62,47 L65,41"
-                              stroke="#d6a05c" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
-                        <text x="66" y="50" font-size="8" fill="#d6a05c" opacity="0.9">S</text>
+                        <line x1="62" y1="13" x2="62" y2="47"
+                              stroke="#d6a05c" stroke-width="0.5" />
+                        <path d="M60,44 L62,47 L64,44"
+                              stroke="#d6a05c" stroke-width="0.5" stroke-linejoin="round" fill="none"/>
+                        <text x="66" y="35" font-size="8" fill="#d6a05c" opacity="0.9">S</text>
                         <!-- Bearing line: 85.31° from south going left (≈ horizontal)
                              L=58: dx=−57.8  dy=+4.7  → endpoint (4.2, 17.7) -->
-                        <line x1="62" y1="13" x2="4" y2="18"
-                              stroke="#d6a05c" stroke-width="1.2"/>
+                        <line x1="56" y1="8" x2="4" y2="19"
+                              stroke="#d6a05c" stroke-width="0.5"
+                        />
                         <!-- Horizontal wall at the left end of the bearing line -->
-                        <line x1="-2" y1="18" x2="10" y2="18"
-                              stroke="#d6a05c" stroke-width="4" stroke-linecap="butt"/>
+                        <line x1="2" y1="17" x2="5" y2="21"
+                              stroke="#d6a05c" stroke-width="0.4"/>
+                        <line x1="2" y1="21" x2="5" y2="17"
+                              stroke="#d6a05c" stroke-width="0.4"/>
                         <!-- Angle arc: counterclockwise from south (62,27) to bearing dir (48,14) -->
-                        <path d="M 62,27 A 14,14 0 0,0 48,14"
-                              stroke="#d6a05c" stroke-width="0.9" stroke-dasharray="2 1.5"
-                              fill="none" opacity="0.75"/>
+
                         <!-- Angle label -->
-                        <text x="26" y="34" font-size="6.5" fill="#d6a05c">85.31°</text>
+                        <text x="50" y="18" font-size="4.5" fill="#d6a05c">83.3°</text>
                     </svg>
                 </div>
             </div>
