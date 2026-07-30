@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Question — Break Every Seal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Stretch body to fill the full A4 page ── */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 297mm;
+        }
+
+        /* ── Grows to fill all space between header and footer ── */
+        .proposal-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2mm 0 3mm;
+        }
+
+        /* ── The centrepiece card ── */
+        .proposal-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5mm;
+            text-align: center;
+            background: #ede3cc;
+            border: 1.5px solid #b8853a;
+            border-radius: 4px;
+            padding: 10mm 14mm;
+            position: relative;
+        }
+
+        .proposal-card::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(184,133,58,0.32);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* Corner ornaments inside card */
+        .proposal-card::after {
+            content: '&';
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 8pt;
+            color: rgba(156,106,52,0.25);
+            position: absolute;
+            bottom: 6mm;
+            right: 7mm;
+        }
+
+        .proposal-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+        }
+
+        .proposal-seal {
+            width: 15mm;
+            height: 15mm;
+            border-radius: 50%;
+            background: #17101f;
+            color: #d6a05c;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 19pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .proposal-text {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 66pt;
+            line-height: 1.1;
+            color: #17101f;
+            letter-spacing: -0.015em;
+        }
+
+        .proposal-rule {
+            width: 40mm;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8853a, transparent);
+            flex-shrink: 0;
+        }
+
+        .proposal-caption {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 10pt;
+            color: #6b4d20;
+            line-height: 1.5;
+            max-width: 90mm;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ──────────────────────────────────────────── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">The Final Stop &nbsp;·&nbsp; Break Every Seal</div>
+            <h1 class="page-title">Trivia Question</h1>
+        </div>
+        <div class="header-meta">
+            One question<br>remains.
+        </div>
+    </div>
+
+    <div class="ornament">· · · ✦ · · ·</div>
+
+    <div class="section-tag">Your task for this stop</div>
+
+    <!-- ── Centrepiece ─────────────────────────────────────── -->
+    <div class="proposal-wrap">
+        <div class="proposal-card">
+
+
+            <div class="ornament" style="margin:0">· · · ✦ · · ·</div>
+
+            <div class="proposal-text">
+                Will you<br>marry me?
+            </div>
+
+            <div class="proposal-rule"></div>
+
+
+        </div>
+    </div>
+
+    <!-- ── Footer: QR + Verify ─────────────────────────────── -->
+    <div class="footer">
+        <div class="footer-text">
+            <strong>Verify Answers</strong>
+            Once you've decided, scan this code
+            to seal your answer and complete the hunt.
+        </div>
+        <div class="qr-wrap">
+            <!-- Replace with actual QR code image (e.g. a PNG pointing to the final stop verify page) -->
+            <img src="qr-code10.png" alt="Scan to verify">
+        </div>
+    </div>
+
+</body>
+</html>

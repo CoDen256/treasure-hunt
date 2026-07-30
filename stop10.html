@@ -38,18 +38,18 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     VerifyPage.init({
-        stopLabel:   "STOP 09 — [Bohemian Kids]",
+        stopLabel:   "STOP 09 — [HOME]",
         pageTitle:   "Verify Your Solutions",
-        pageSubtitle: "This leads to your next most difficult task!",
         sections: [
             {
                 items: [
-                    { type: 'text', label: "What is your next stop?", answers: ["HOME"], hint: "" },
+                    { type: 'text', label: "Will you marry me?", answers: ["YES", "DEFINITELY"],
+                        hint: "Yes, Ja, Ja, Да, Так, Definitely, Si, Oui" },
                     { type: 'photo', label: "Capture This Stop" }
                 ]
             }
         ],
-        successType: 'pre-final',
+        successType: 'final',
         nextPage:    ''
     });
 });

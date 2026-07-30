@@ -63,7 +63,7 @@ function burstConfetti(n) {
 }
 
 // ---- Global: inline celebration (confetti + button/message below the fields) ----
-// successType: 'normal' -> next-btn, 'scan-qr' -> find-qr message, 'final' -> end message
+// successType: 'normal' -> next-btn, 'scan-qr' -> find-qr message, 'pre-final' -> nearly complete, 'final' -> end message
 function revealInline(successType, nextPage) {
     burstConfetti(55);
     burstSparkles(28);
@@ -75,10 +75,13 @@ function revealInline(successType, nextPage) {
             inline.innerHTML =
                 '<p class="block-title">Find the QR code</p>' +
                 '<p class="block-sub">Scan it at the location to unlock the next stop and continue.</p>';
+        } else if (successType === 'pre-final') {
+            inline.innerHTML =
+                '<p class="block-title">The journey is nearly complete.</p>' +
+                '<p class="block-sub">Go to your next hardest task!</p>';
         } else if (successType === 'final') {
             inline.innerHTML =
-                '<p class="block-title">The journey is complete.</p>' +
-                '<p class="block-sub">Every seal has been broken. Well done, you made it!</p>';
+                '<p class="block-title">The journey is complete.</p>'
         } else if (successType === 'coin') {
             inline.innerHTML =
                 '<div class="coin-reveal">' +
