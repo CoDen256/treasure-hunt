@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <g fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+    
+    <path d="M2 2 L150 150 L150 292 L2 398 Z"></path>
+    <path d="M398 2 L250 150 L250 292 L398 398 Z"></path>
+    
+    <path d="M2 2 L150 150 L250 150 L398 2 Z"></path>
+    
+    <path d="M2 398 L150 292 L250 292 L398 398 Z"></path>
+    
+    <path d="M150 212 H250 V232 H150 Z"></path>
+    
+    <g fill="none">
+      <path d="M155 292 L175 232 M245 292 L225 232"></path>
+      <path d="M155 292 H245"></path>
+      <path d="M158.3 282 H241.7"></path>
+      <path d="M161.7 272 H238.3"></path>
+      <path d="M165 262 H235"></path>
+      <path d="M168.3 252 H231.7"></path>
+      <path d="M171.7 242 H228.3"></path>
+      <path d="M175 232 H225"></path>
+    </g>
+  </g>
+</svg>
