@@ -189,7 +189,7 @@
             <div class="stamp" id="stamp-a1">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop A-1</div>
             <div class="input-row">
-                <input type="text" id="inp-a1" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a1')">
+                <input type="text" id="inp-a1" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a1')">
                 <button class="btn-check" id="btn-a1" onclick="check('a1')">Unseal</button>
             </div>
             <div class="feedback" id="fb-a1"></div>
@@ -245,7 +245,7 @@
             <div class="stamp" id="stamp-a2">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop A-2</div>
             <div class="input-row">
-                <input type="text" id="inp-a2" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a2')">
+                <input type="text" id="inp-a2" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a2')">
                 <button class="btn-check" id="btn-a2" onclick="check('a2')">Unseal</button>
             </div>
             <div class="feedback" id="fb-a2"></div>
@@ -401,41 +401,10 @@
             <div class="stamp" id="stamp-a6">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop A-6 </div>
             <div class="input-row">
-                <input type="text" id="inp-a6" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a6')">
+                <input type="text" id="inp-a6" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a6')">
                 <button class="btn-check" id="btn-a6" onclick="check('a6')">Unseal</button>
             </div>
             <div class="feedback" id="fb-a6"></div>
-        </div>
-    </div>
-
-    <!-- ── B4 visual: Uni staircase entrance ────────────── -->
-    <div class="step" id="step-b4-vis">
-        <div class="radio-card">
-            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-4</div>
-            <div class="marker-scene">
-                <div class="marker-icon">
-                    <!-- Leipzig Uni staircase: arch with ascending steps inside -->
-                    <svg width="90" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 52 L8 26 Q8 8 28 8 Q48 8 48 26 L48 52" fill="rgba(214,160,92,0.05)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <rect x="10" y="44" width="36" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
-                        <rect x="15" y="36" width="26" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
-                        <rect x="20" y="28" width="16" height="8" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ── A7 ────────────────────────────────────────────── -->
-    <div class="step" id="step-a7">
-        <div class="card" id="card-a7">
-            <div class="stamp" id="stamp-a7">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop A-7 &nbsp;·&nbsp; </div>
-            <div class="input-row">
-                <input type="text" id="inp-a7" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('a7')">
-                <button class="btn-check" id="btn-a7" onclick="check('a7')">Unseal</button>
-            </div>
-            <div class="feedback" id="fb-a7"></div>
         </div>
     </div>
 
@@ -496,8 +465,7 @@ var ANSWERS = {
     a1:  ['09.10.1989', ''],
     a2:  ['1928', ''],
     a5:  ['Kunst', ''],
-    a6:  [, ''],
-    a7:  ['A7_PASSWORD', ''],
+    a6:  ['Pädagogikerin', 'Padagogikerin', 'Pädagogiker', 'Paedagogikerin', ''],
     lib: ['LIBRARY_PASSWORD', '']
 };
 // ============================================================
@@ -506,8 +474,7 @@ var REVEALS = {
     a1:  ['step-b1-vis', 'step-a2'],
     a2:  ['step-b2-vis', 'step-a5'],
     a5:  ['step-b3-vis', 'step-a6'],
-    a6:  ['step-b4-vis', 'step-a7'],
-    a7:  ['step-meeting'],
+    a6:  ['step-b4-vis', 'step-meeting'],
     lib: ['step-final-a']
 };
 
