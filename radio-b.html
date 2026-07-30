@@ -529,7 +529,7 @@
             <div class="stamp" id="stamp-b2">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop B-2 </div>
             <div class="input-row">
-                <input type="text" id="inp-b2" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b2')">
+                <input type="text" id="inp-b2" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b2')">
                 <button class="btn-check" id="btn-b2" onclick="check('b2')">Unseal</button>
             </div>
             <div class="feedback" id="fb-b2"></div>
@@ -575,7 +575,7 @@
             <div class="stamp" id="stamp-b3">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop B-3 </div>
             <div class="input-row">
-                <input type="text" id="inp-b3" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b3')">
+                <input type="text" id="inp-b3" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b3')">
                 <button class="btn-check" id="btn-b3" onclick="check('b3')">Unseal</button>
             </div>
             <div class="feedback" id="fb-b3"></div>
@@ -640,33 +640,12 @@
     <div class="step" id="step-b4">
         <div class="card" id="card-b4">
             <div class="stamp" id="stamp-b4">&amp;</div>
-            <div class="step-badge"><div class="step-dot"></div>Stop B-4 &nbsp;·&nbsp; Leipzig Uni staircase entrance</div>
+            <div class="radio-eyebrow"><div class="step-dot"></div>Stop A-6 &nbsp;·&nbsp; What did Alpha find? </div>
             <div class="input-row">
-                <input type="text" id="inp-b4" placeholder="Enter what you found" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b4')">
+                <input type="text" id="inp-b4" placeholder="Finding" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b4')">
                 <button class="btn-check" id="btn-b4" onclick="check('b4')">Unseal</button>
             </div>
             <div class="feedback" id="fb-b4"></div>
-        </div>
-    </div>
-
-    <!-- ── A7 visual: Leipzig Uni entrance (unlocked after B4) ── -->
-    <div class="step" id="step-a7-vis">
-        <div class="radio-card">
-            <div class="radio-eyebrow">Relay to Group Alpha &nbsp;&middot;&nbsp; A-7</div>
-            <div class="marker-scene">
-                <div class="marker-icon">
-                    <!-- Academic gate with pediment -->
-                    <svg width="90" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="5" y="14" width="9" height="38" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <rect x="42" y="14" width="9" height="38" rx="1" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <rect x="3" y="9" width="50" height="7" fill="rgba(214,160,92,0.18)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M3 9 L28 2 L53 9" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <path d="M16 52 L16 28 Q16 20 28 20 Q40 20 40 28 L40 52 Z" fill="rgba(10,5,20,0.25)"/>
-                        <path d="M16 28 Q16 20 28 20 Q40 20 40 28" stroke="#d6a05c" stroke-width="1" opacity="0.5"/>
-                        <line x1="3" y1="52" x2="53" y2="52" stroke="#d6a05c" stroke-width="1.5"/>
-                    </svg>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -727,7 +706,7 @@ var ANSWERS = {
     b1: ['SPECKSHOF', ''],
     b2: ['150', ''],
     b3: ['Leipzig Uni', 'Universität Leipzig', 'Uni Leipzig', 'Uni', ''],
-    b4: ['B4_PASSWORD', ''],
+    b4: ['Pädagogikerin', 'Padagogikerin', 'Pädagogiker', 'Paedagogikerin', ''],
     lib: ['LIBRARY_PASSWORD', '']
 };
 // ============================================================
