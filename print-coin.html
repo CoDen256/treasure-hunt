@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin — Break Every Seal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --seal:       #d6a05c;
+            --seal-light: #f0c988;
+            --seal-deep:  #9c6a34;
+            --parchment:  #f4ecdd;
+            --muted:      #b2a5c2;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Screen: dark theme preview ──────────────────────────────────── */
+        body {
+            background-image:
+                radial-gradient(circle, rgba(244,236,221,0.035) 1px, transparent 1.2px),
+                linear-gradient(165deg, #17101f, #2a1a34 55%, #3a1d30);
+            background-size: 3px 3px, cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            padding: 48px 24px;
+            font-family: 'Fraunces', serif;
+        }
+
+        .eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--seal);
+        }
+
+        .coin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            gap: 28px;
+        }
+
+        .coin-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .coin-cut-wrap {
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .coin-medal {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal-deep));
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-size: 56px; color: #3a2210;
+            box-shadow:
+                0 8px 40px rgba(214,160,92,0.55),
+                0 0 0 7px rgba(214,160,92,0.15),
+                0 0 0 10px rgba(214,160,92,0.07);
+        }
+
+        .coin-label {
+            font-style: italic;
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--muted);
+            text-align: center;
+            max-width: 150px;
+        }
+
+        .print-hint {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        /* ── Print: A4 sheet, 4 cut-out coins ───────────────────────────── */
+        @media print {
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            @page {
+                size: A4;
+                margin: 18mm;
+            }
+
+            body {
+                background-color: #f4effb !important;
+                background-image: radial-gradient(circle, rgba(42,26,52,0.08) 1px, transparent 1.2px) !important;
+                background-size: 3px 3px !important;
+                background-attachment: local !important;
+                min-height: 0;
+                padding: 0;
+                display: block;
+                gap: 0;
+            }
+
+            .eyebrow,
+            .print-hint { display: none; }
+
+            .coin-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0;
+                width: 100%;
+            }
+
+            .coin-slot {
+                padding: 12mm 8mm;
+                gap: 7mm;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            /* Dashed circle = cut guide */
+            .coin-cut-wrap {
+                border: 1.5px dashed rgba(156,106,52,0.5);
+                padding: 5mm;
+            }
+
+            .coin-medal {
+                width: 58mm; height: 58mm;
+                font-size: 27mm;
+                box-shadow:
+                    0 0 0 2.5mm rgba(214,160,92,0.25),
+                    0 0 0 3mm   rgba(214,160,92,0.1);
+            }
+
+            .coin-label {
+                color: #574a68;
+                font-size: 11px;
+                max-width: 72mm;
+                line-height: 1.6;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="eyebrow">Printable coin — 4 per page</div>
+
+<div class="coin-grid">
+    <div class="coin-slot">
+        <div class="coin-cut-wrap">
+            <div class="coin-medal">&amp;</div>
+        </div>
+    </div>
+    <div class="coin-slot">
+        <div class="coin-cut-wrap">
+            <div class="coin-medal">&amp;</div>
+        </div>
+    </div>
+    <div class="coin-slot">
+        <div class="coin-cut-wrap">
+            <div class="coin-medal">&amp;</div>
+        </div>
+    </div>
+    <div class="coin-slot">
+        <div class="coin-cut-wrap">
+            <div class="coin-medal">&amp;</div>
+        </div>
+    </div>
+</div>
+
+<p class="print-hint">Ctrl/Cmd + P · disable "Headers and footers" before printing</p>
+
+</body>
+</html>
