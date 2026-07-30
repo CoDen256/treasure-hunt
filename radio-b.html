@@ -309,7 +309,10 @@
             <div class="stamp" id="stamp-b1">&amp;</div>
             <div class="step-badge"><div class="step-dot"></div>Stop B-1</div>
             <div class="input-row">
-                <input type="text" id="inp-b1" placeholder="___________ Passage" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b1')">
+                <div class="inp-with-prefix" id="prefix-wrap-b1">
+                    <input type="text" id="inp-b1" placeholder="___________" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="go" onkeydown="if(event.key==='Enter')check('b1')">
+                    <span class="inp-suffix addon-visible">PASSAGE</span>
+                </div>
                 <button class="btn-check" id="btn-b1" onclick="check('b1')">Unseal</button>
             </div>
             <div class="feedback" id="fb-b1"></div>
@@ -323,29 +326,29 @@
             <div class="radio-card">
                 <div class="radio-eyebrow">Relay to Group Alpha &nbsp;&middot;&nbsp; A-2</div>
                 <div class="marker-scene">
-                    <!-- Building facade -->
+                    <!-- Building facade (scaled to icon size) -->
                     <div class="marker-icon">
-                        <svg width="64" height="64" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5" y="16" width="46" height="32" fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5"/>
-                            <rect x="4" y="12" width="48" height="5" fill="rgba(214,160,92,0.18)" stroke="#d6a05c" stroke-width="1.5"/>
-                            <rect x="10" y="22" width="9" height="8" fill="rgba(214,160,92,0.16)" stroke="#d6a05c" stroke-width="1"/>
-                            <rect x="24" y="22" width="9" height="8" fill="rgba(214,160,92,0.16)" stroke="#d6a05c" stroke-width="1"/>
-                            <rect x="38" y="22" width="9" height="8" fill="rgba(214,160,92,0.16)" stroke="#d6a05c" stroke-width="1"/>
-                            <rect x="10" y="33" width="9" height="7" fill="rgba(214,160,92,0.16)" stroke="#d6a05c" stroke-width="1"/>
-                            <rect x="38" y="33" width="9" height="7" fill="rgba(214,160,92,0.16)" stroke="#d6a05c" stroke-width="1"/>
-                            <rect x="23" y="36" width="10" height="12" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1"/>
+                        <svg width="56" height="60" viewBox="0 0 56 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Portal arch: arch peaks at top, body fills to base -->
+                            <path d="M7,15 Q28,3 49,15 L49,54 L7,54 Z"
+                                  fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.5"/>
+                            <!-- Inner arch echo -->
+                            <path d="M11,19 Q28,9 45,19"
+                                  fill="none" stroke="#d6a05c" stroke-width="1" opacity="0.6"/>
+                            <!-- Three doors -->
+                            <rect x="11" y="30" width="9" height="22" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.2"/>
+                            <rect x="23" y="30" width="9" height="22" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.2"/>
+                            <rect x="35" y="30" width="9" height="22" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.2"/>
+                            <!-- Two steps -->
+                            <rect x="5" y="54" width="46" height="3" fill="rgba(214,160,92,0.14)" stroke="#d6a05c" stroke-width="1"/>
+                            <rect x="2" y="57" width="52" height="3" fill="rgba(214,160,92,0.11)" stroke="#d6a05c" stroke-width="0.8"/>
                         </svg>
                     </div>
-                    <!-- White rose (Geschwister-Scholl symbol) -->
+                    <!-- Right-pointing arrow -->
                     <div class="marker-icon">
-                        <svg width="48" height="64" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="5" fill="rgba(214,160,92,0.2)" stroke="#d6a05c" stroke-width="1.5"/>
-                            <ellipse cx="20" cy="9" rx="4" ry="7" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1"/>
-                            <ellipse cx="31" cy="20" rx="7" ry="4" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1"/>
-                            <ellipse cx="20" cy="31" rx="4" ry="7" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1"/>
-                            <ellipse cx="9" cy="20" rx="7" ry="4" fill="rgba(214,160,92,0.1)" stroke="#d6a05c" stroke-width="1"/>
-                            <line x1="20" y1="38" x2="20" y2="50" stroke="#d6a05c" stroke-width="1.5"/>
-                            <path d="M20 46 Q26 42 24 40" stroke="#d6a05c" stroke-width="1" fill="none"/>
+                        <svg width="56" height="60" viewBox="0 0 56 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="6" y1="30" x2="38" y2="30" stroke="#d6a05c" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M32,22 L44,30 L32,38" fill="none" stroke="#d6a05c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                 </div>
