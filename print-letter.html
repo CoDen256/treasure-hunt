@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Cards — Break Every Seal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        body {
+            padding: 12mm 14mm;
+        }
+
+        /* ── Grid of cut-out slots ── */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        /* ── Dashed cut guide around each slot ── */
+        .card-slot {
+            padding: 5mm 6mm;
+            border: 1px dashed rgba(156,106,52,0.38);
+        }
+
+        /* ── The physical card inside the cut guide ── */
+        .tag-card {
+            display: flex;
+            align-items: center;
+            gap: 4mm;
+            padding: 3.5mm 5mm 3.5mm 4mm;
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        /* Inner double-border */
+        .tag-card::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(184,133,58,0.28);
+            border-radius: 1px;
+            pointer-events: none;
+        }
+
+        /* ── Seal — the "&" medallion on the left ── */
+        .tag-seal {
+            width: 13mm;
+            height: 13mm;
+            min-width: 13mm;
+            border-radius: 50%;
+            color: #d6a05c;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 17pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Thin vertical divider between seal and line ── */
+        .tag-divider {
+            width: 1px;
+            height: 10mm;
+            background: rgba(184,133,58,0.45);
+            flex-shrink: 0;
+        }
+
+        /* ── Writing line ── */
+        .tag-line-wrap {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 1.5mm;
+            height: 14mm;
+        }
+
+        .tag-line {
+            width: 100%;
+            border-bottom: 1px solid rgba(156,106,52,0.55);
+        }
+
+        /* ── Screen preview helper ── */
+        @media screen {
+            .card-grid {
+                max-width: 210mm;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-grid">
+
+    <div class="card-slot"><div class="tag-card">
+        <div class="tag-seal">&amp;</div>
+        <div class="tag-divider"></div>
+        <div class="tag-line-wrap"><div class="tag-line"></div></div>
+    </div></div>
+
+</div>
+
+</body>
+</html>
