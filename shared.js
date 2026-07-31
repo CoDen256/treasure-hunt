@@ -127,6 +127,7 @@ var VerifyPage = (function() {
         solved    = new Set();
         countable = [];
         var audioCount = 0;
+        var poemCount  = 0;
 
         cfg.sections.forEach(function(s) {
             s.items.forEach(function(item) {
@@ -136,6 +137,9 @@ var VerifyPage = (function() {
                 }
                 if (item.type === 'audio') {
                     item._num = ++audioCount;
+                }
+                if (item.type === 'poem') {
+                    item._poemIdx = poemCount++;
                 }
             });
         });
@@ -148,6 +152,7 @@ var VerifyPage = (function() {
         renderStrand();
         renderSections();
         attachAllAudio();
+        attachAllPoemAudio();
         initSparkles();
     }
 
@@ -202,10 +207,26 @@ var VerifyPage = (function() {
         }
 
         if (item.type === 'poem') {
+            var poemAudio = '';
+            if (item.audio) {
+                var pi = item._poemIdx;
+                poemAudio =
+                    '<div class="poem-player">' +
+                        '<audio id="poem-audio-' + pi + '" src="' + item.audio + '" preload="metadata"></audio>' +
+                        '<button class="poem-play-btn" id="poem-play-' + pi + '" onclick="VerifyPage.togglePoemPlay(' + pi + ')">' +
+                            '<span class="play-icon"></span>' +
+                        '</button>' +
+                        '<div class="poem-track" id="poem-track-' + pi + '" onclick="VerifyPage.seekPoem(event,' + pi + ')">' +
+                            '<div class="poem-fill" id="poem-fill-' + pi + '"></div>' +
+                        '</div>' +
+                        '<div class="poem-time" id="poem-time-' + pi + '">0:00</div>' +
+                    '</div>';
+            }
             return '<div class="card card-poem">' +
                 (item.label ? '<div class="item-label">' + item.label + '</div>' : '') +
                 '<div class="poem-text">' + (item.text || '').replace(/\n/g, '<br>') + '</div>' +
-                '</div>';
+                poemAudio +
+            '</div>';
         }
 
         if (item.type === 'photo') {
@@ -370,7 +391,7 @@ var VerifyPage = (function() {
         }
         var wasPaused = audio.paused;
         document.querySelectorAll('audio').forEach(function(a) { a.pause(); });
-        document.querySelectorAll('.play-btn').forEach(function(b) {
+        document.querySelectorAll('.play-btn, .poem-play-btn').forEach(function(b) {
             b.innerHTML = '<span class="play-icon"></span>';
         });
         if (wasPaused) {
@@ -378,6 +399,55 @@ var VerifyPage = (function() {
             document.getElementById('play-btn-' + idx).innerHTML =
                 '<span class="pause-icon"><span></span><span></span></span>';
         }
+    }
+
+    function togglePoemPlay(pi) {
+        var audio = document.getElementById('poem-audio-' + pi);
+        if (!audio) return;
+        var wasPaused = audio.paused;
+        document.querySelectorAll('audio').forEach(function(a) { a.pause(); });
+        document.querySelectorAll('.play-btn, .poem-play-btn').forEach(function(b) {
+            b.innerHTML = '<span class="play-icon"></span>';
+        });
+        if (wasPaused) {
+            audio.play().catch(function(){});
+            document.getElementById('poem-play-' + pi).innerHTML =
+                '<span class="pause-icon"><span></span><span></span></span>';
+        }
+    }
+
+    function seekPoem(evt, pi) {
+        var audio = document.getElementById('poem-audio-' + pi);
+        if (!audio || !audio.duration || !isFinite(audio.duration)) return;
+        var rect = document.getElementById('poem-track-' + pi).getBoundingClientRect();
+        audio.currentTime = Math.min(Math.max((evt.clientX - rect.left) / rect.width, 0), 1) * audio.duration;
+    }
+
+    function attachAllPoemAudio() {
+        cfg.sections.forEach(function(s) {
+            s.items.forEach(function(item) {
+                if (item.type !== 'poem' || !item.audio) return;
+                var pi    = item._poemIdx;
+                var audio = document.getElementById('poem-audio-' + pi);
+                if (!audio) return;
+                var fill  = document.getElementById('poem-fill-' + pi);
+                var timeL = document.getElementById('poem-time-' + pi);
+                var btn   = document.getElementById('poem-play-' + pi);
+                audio.addEventListener('timeupdate', function() {
+                    if (audio.duration && isFinite(audio.duration))
+                        fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+                    timeL.textContent = formatTime(audio.currentTime);
+                });
+                audio.addEventListener('ended', function() {
+                    btn.innerHTML     = '<span class="play-icon"></span>';
+                    fill.style.width  = '0%';
+                    timeL.textContent = '0:00';
+                });
+                audio.addEventListener('pause', function() {
+                    btn.innerHTML = '<span class="play-icon"></span>';
+                });
+            });
+        });
     }
 
     function seek(evt, idx) {
@@ -448,5 +518,5 @@ var VerifyPage = (function() {
         reader.readAsDataURL(file);
     }
 
-    return { init: init, check: check, toggleHint: toggleHint, togglePlay: togglePlay, seek: seek, triggerPhotoPicker: triggerPhotoPicker, pickPhoto: pickPhoto };
+    return { init: init, check: check, toggleHint: toggleHint, togglePlay: togglePlay, seek: seek, togglePoemPlay: togglePoemPlay, seekPoem: seekPoem, triggerPhotoPicker: triggerPhotoPicker, pickPhoto: pickPhoto };
 })();

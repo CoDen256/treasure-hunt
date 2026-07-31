@@ -389,6 +389,32 @@ input[type="date"].inp-date::-webkit-calendar-picker-indicator {
 
 .card-poem {
 }
+.poem-player {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 20px; padding-top: 16px;
+    border-top: 1px solid rgba(214,160,92,0.15);
+}
+.poem-play-btn {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--seal-light), var(--seal-deep));
+    border: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(214,160,92,0.3);
+}
+.poem-play-btn:active { transform: scale(0.9); }
+.poem-track {
+    flex: 1; height: 3px; background: rgba(255,255,255,0.10);
+    border-radius: 2px; cursor: pointer; position: relative;
+}
+.poem-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--seal-deep), var(--seal-light));
+    border-radius: 2px;
+}
+.poem-time {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    color: var(--muted); min-width: 30px; text-align: right; flex-shrink: 0;
+}
 .poem-text {
     font-family: 'Fraunces', serif;
     font-style: italic;
