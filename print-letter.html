@@ -6,7 +6,7 @@
     <title>Note Cards — Break Every Seal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="print-shared.css">
     <style>
         body {
@@ -86,6 +86,77 @@
             border-bottom: 1px solid rgba(156,106,52,0.55);
         }
 
+        /* ── Mirrored text card: auto-sizes to content ── */
+        .tag-text-card {
+            width: fit-content;
+        }
+
+        .tag-mirrored {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10.5pt;
+            font-weight: 500;
+            letter-spacing: 0.09em;
+            color: #17101f;
+            white-space: nowrap;
+            transform: scaleX(-1);
+            display: inline-block;
+        }
+
+        /* ── Anagram tiles — page 2 ── */
+        .anagram-section {
+            break-before: page;
+            page-break-before: always;
+            min-height: calc(297mm - 24mm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tile-rows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5mm;
+        }
+
+        .tile-row {
+            display: flex;
+            gap: 5mm;
+        }
+
+        .tile {
+            width: 36mm;
+            height: 50mm;
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid #b8853a;
+            border-radius: 2px;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .tile-letter {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 62pt;
+            color: #17101f;
+            line-height: 1;
+            margin-bottom: 2mm;
+        }
+
         /* ── Screen preview helper ── */
         @media screen {
             .card-grid {
@@ -105,6 +176,32 @@
         <div class="tag-line-wrap"><div class="tag-line"></div></div>
     </div></div>
 
+    <div class="card-slot"><div class="tag-card tag-text-card">
+        <div class="tag-seal">&amp;</div>
+        <div class="tag-divider"></div>
+        <div class="tag-mirrored">LISTEN TO THE COIN</div>
+    </div></div>
+
+</div>
+
+<!-- ── Anagram tiles — page 2 ───────────────────────────── -->
+<div class="anagram-section">
+    <div class="tile-rows">
+
+        <div class="tile-row">
+            <div class="tile"><span class="tile-letter">Y</span></div>
+            <div class="tile"><span class="tile-letter">E</span></div>
+            <div class="tile"><span class="tile-letter">S</span></div>
+            <div class="tile"><span class="tile-letter">Y</span></div>
+        </div>
+
+        <div class="tile-row">
+            <div class="tile"><span class="tile-letter">O</span></div>
+            <div class="tile"><span class="tile-letter">D</span></div>
+            <div class="tile"><span class="tile-letter">S</span></div>
+        </div>
+
+    </div>
 </div>
 
 </body>
