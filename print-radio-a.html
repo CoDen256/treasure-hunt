@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Dispatch — Print</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        /* ── Radio visual card ───────────────────────────── */
+        .radio-card {
+            background: rgba(214,160,92,0.06);
+            border: 1px solid rgba(184,133,58,0.55);
+            border-radius: 4px;
+            padding: 3.5mm 4.5mm;
+            position: relative;
+            break-inside: avoid;
+            margin-bottom: 0;
+        }
+        .radio-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(184,133,58,0.25);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .radio-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2mm;
+            display: flex;
+            align-items: center;
+            gap: 2mm;
+        }
+        .radio-eyebrow::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(184,133,58,0.35);
+        }
+
+        /* ── Marker scene / icons ────────────────────────── */
+        .marker-scene {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4mm;
+            padding: 2mm 0;
+        }
+        .marker-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 1;
+            min-width: 0;
+        }
+        .marker-icon svg {
+            display: block;
+            max-width: 45mm;
+            width: 45mm;
+            height: auto;
+        }
+        /* Wide SVGs (equation boxes, amphitheater, people sculptures) */
+        .marker-icon.wide svg {
+            max-width: 90mm;
+            width: 90mm;
+        }
+
+        /* ── Meet card ───────────────────────────────────── */
+        .meet-card {
+            background: rgba(60,130,90,0.06);
+            border: 1.5px solid rgba(60,130,90,0.4);
+            border-radius: 4px;
+            padding: 4mm 5mm;
+            margin-bottom: 3mm;
+            position: relative;
+            break-inside: avoid;
+        }
+        .meet-card::before {
+            content: ''; position: absolute; inset: 5px;
+            border: 1px solid rgba(60,130,90,0.2); border-radius: 2px; pointer-events: none;
+        }
+        .meet-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt; letter-spacing: 0.18em; text-transform: uppercase;
+            color: #387050; margin-bottom: 2mm;
+        }
+        .meet-title {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-size: 14pt; color: #17101f; margin: 0 0 2mm;
+        }
+        .meet-sub { font-size: 8.5pt; color: #2a3a2a; line-height: 1.6; margin: 0 0 3mm; }
+        .meet-visual { display: flex; justify-content: center; align-items: center; gap: 5mm; flex-wrap: wrap; margin-bottom: 4mm; }
+        .meet-visual .marker-icon svg { max-width: 35mm; width: 35mm; }
+        .meet-visual .marker-icon.building svg { max-width: 55mm; width: 55mm; }
+        .meet-visual .marker-icon.compass svg { max-width: 10mm; width: 10mm !important; height: 10mm !important; }
+
+        /* ── Meet card inner answer card ─────────────────── */
+        .meet-answer-card {
+            background: rgba(0,0,0,0.04);
+            border: 1px solid rgba(60,130,90,0.35);
+            border-radius: 4px;
+            padding: 3mm 4mm;
+            position: relative;
+            margin-top: 3mm;
+        }
+        .meet-answer-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(60,130,90,0.15);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .meet-answer-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #387050;
+            margin-bottom: 2mm;
+        }
+
+        /* ── Final clue card ─────────────────────────────── */
+        .final-clue-card {
+            background: rgba(214,160,92,0.07);
+            border: 1.5px solid rgba(184,133,58,0.6);
+            border-radius: 4px;
+            padding: 4mm 5mm;
+            position: relative;
+            break-inside: avoid;
+        }
+        .final-clue-card::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid rgba(184,133,58,0.25);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .final-body {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-size: 10pt; line-height: 1.65; color: #2a1a34;
+        }
+        .final-body img {
+            display: block; max-width: 40mm; width: 40mm;
+            margin: 3mm auto 0; border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">Alpha Dispatch</div>
+            <h1 class="page-title">Route Alpha</h1>
+        </div>
+        <div class="header-meta">
+            Listen for your signal. Walk. Relay.
+        </div>
+    </div>
+
+    <div class="ornament">· · · ✦ · · ·</div>
+
+    <div class="section-tag">Your route</div>
+
+    <div class="tasks-grid">
+
+        <!-- Stop A-1: input -->
+        <div class="card">
+            <div class="card-tag">Stop A-1</div>
+            <div class="answer-line"></div>
+        </div>
+
+        <!-- Relay to Group Beta · B-1: fountain/bearing/wall SVG -->
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-1</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <svg width="160" height="110" viewBox="0 0 80 55" fill="none"
+                         xmlns="http://www.w3.org/2000/svg"
+                         style="font-family:'IBM Plex Mono',monospace">
+                        <!-- Fountain: outer ring + inner filled dot -->
+                        <circle cx="62" cy="7"  r="5.5" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.4"/>
+                        <circle cx="62" cy="7"  r="2.2" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="0.7"/>
+                        <!-- South line: dashed, with downward arrowhead -->
+                        <line x1="62" y1="13" x2="62" y2="47"
+                              stroke="#d6a05c" stroke-width="0.5" />
+                        <path d="M60,44 L62,47 L64,44"
+                              stroke="#d6a05c" stroke-width="0.5" stroke-linejoin="round" fill="none"/>
+                        <text x="66" y="35" font-size="8" fill="#d6a05c" opacity="0.9">S</text>
+                        <!-- Bearing line: 85.31° from south going left (≈ horizontal)
+                             L=58: dx=−57.8  dy=+4.7  → endpoint (4.2, 17.7) -->
+                        <line x1="56" y1="8" x2="4" y2="19"
+                              stroke="#d6a05c" stroke-width="0.5"
+                        />
+                        <!-- Horizontal wall at the left end of the bearing line -->
+                        <line x1="2" y1="17" x2="5" y2="21"
+                              stroke="#d6a05c" stroke-width="0.4"/>
+                        <line x1="2" y1="21" x2="5" y2="17"
+                              stroke="#d6a05c" stroke-width="0.4"/>
+                        <!-- Entrance walls below X: two parallel lines = doorway -->
+                        <line x1="2" y1="21" x2="2" y2="34"
+                              stroke="#d6a05c" stroke-width="0.9" stroke-linecap="square"/>
+                        <line x1="5" y1="21" x2="5" y2="34"
+                              stroke="#d6a05c" stroke-width="0.9" stroke-linecap="square"/>
+                        <!-- Angle arc: counterclockwise from south (62,27) to bearing dir (48,14) -->
+
+                        <!-- Angle label -->
+                        <text x="50" y="18" font-size="4.5" fill="#d6a05c">83.3°</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stop A-2: input -->
+        <div class="card">
+            <div class="card-tag">Stop A-2</div>
+            <div class="answer-line"></div>
+        </div>
+
+        <!-- Relay to Group Beta · B-2: clock + water drop + equation SVGs -->
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-2</div>
+            <div class="marker-scene">
+                <!-- Clock icon (left) -->
+                <div class="marker-icon">
+                    <svg width="90" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Face -->
+                        <circle cx="28" cy="28" r="24" fill="rgba(214,160,92,0.06)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <!-- Cardinal ticks -->
+                        <line x1="28" y1="5"  x2="28" y2="9"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <line x1="51" y1="28" x2="47" y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <line x1="28" y1="51" x2="28" y2="47" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <line x1="5"  y1="28" x2="9"  y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <!-- Hour hand → ~10 o'clock -->
+                        <line x1="28" y1="28" x2="17" y2="22" stroke="#d6a05c" stroke-width="2.2" stroke-linecap="round"/>
+                        <!-- Minute hand → ~2 o'clock -->
+                        <line x1="28" y1="28" x2="44" y2="19" stroke="#d6a05c" stroke-width="1.6" stroke-linecap="round"/>
+                        <!-- Centre dot -->
+                        <circle cx="28" cy="28" r="2" fill="#d6a05c"/>
+                    </svg>
+                </div>
+                <!-- Water drop -->
+                <div class="marker-icon">
+                    <svg width="80" height="72" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Drop body -->
+                        <path d="M32,3 C27,10 16,22 16,31 C16,40 23,46 32,46 C41,46 48,40 48,31 C48,22 37,10 32,3 Z"
+                              fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
+                        <!-- Highlight -->
+                        <ellipse cx="25" cy="20" rx="4" ry="6" fill="rgba(214,160,92,0.22)"
+                                 transform="rotate(-20 25 20)"/>
+                        <!-- Ripples -->
+                        <path d="M20,49 Q32,46 44,49" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.5"/>
+                        <path d="M13,53 Q32,49 51,53" stroke="#d6a05c" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.35"/>
+                    </svg>
+                </div>
+                <div class="marker-icon wide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+                        <rect x="8" y="10" width="184" height="40"
+                              rx="5"
+                              fill="rgba(214,160,92,0.1)"
+                              stroke="#d6a05c"
+                              stroke-width="1.5"/>
+
+                        <text x="100" y="36"
+                              font-family="Fraunces', serif"
+                              font-size="20"
+                              font-weight="bold"
+                              text-anchor="middle"
+                              fill="#d6a05c">
+                            W + O + S + N = ?
+                        </text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stop A-5: input with subtext -->
+        <div class="card">
+            <div class="card-tag">Stop A-5</div>
+            <div class="card-subtext">Demokratie ist – in unendlicher Nähe – längst sichtbar als</div>
+            <div class="answer-line"></div>
+        </div>
+
+        <!-- Relay to Group Beta · B-3: map+amphitheater SVGs -->
+        <div class="radio-card">
+            <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-3</div>
+            <div class="marker-scene">
+                <div class="marker-icon">
+                    <!-- Mini-map: road → canal → waves / clock / book; bottom-left clock -->
+                    <svg width="240" height="180" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Road: two plain vertical lines -->
+                        <line x1="24" y1="4"  x2="24" y2="85" stroke="#d6a05c" stroke-width=".4"/>
+                        <line x1="60" y1="4"  x2="60" y2="85" stroke="#d6a05c" stroke-width=".4"/>
+                        <!-- Waves: full height, stacked from top -->
+                        <path d="M72,5  C74,3  77,5  79,3"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,9  C74,7  77,9  79,7"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,13 C74,11 77,13 79,11" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,17 C74,15 77,17 79,15" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,21 C74,19 77,21 79,19" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,25 C74,23 77,25 79,23" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M72,29 C74,27 77,29 79,27" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+                        <path d="M72,33 C74,31 77,33 79,31" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+                        <circle cx="79" cy="50" r="6.5" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
+                        <line x1="79" y1="50" x2="79"   y2="45.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <line x1="79" y1="50" x2="82.5" y2="50"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- Book (lower): open pages with spine, Thalia style -->
+                        <path d="M79,66 L73,68 L73,78 L79,77 Z" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2"/>
+                        <path d="M79,66 L85,68 L85,78 L79,77 Z" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2"/>
+                        <line x1="79" y1="66" x2="79" y2="77" stroke="#d6a05c" stroke-width="1.3" stroke-linecap="round"/>
+                        <!-- Bottom-left clock -->
+                        <circle cx="10" cy="76" r="6" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
+                        <line x1="10" y1="76" x2="10"   y2="71.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <line x1="10" y1="76" x2="13.5" y2="76"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="marker-icon wide">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="240" height="180">
+                        <g fill="rgba(214,160,92,0.07)" stroke="#d6a05c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+
+                            <path d="M2 2 L90 100 L90 320 L2 398 Z"></path>
+                            <path d="M398 2 L310 100 L310 320 L398 398 Z"></path>
+
+                            <path d="M2 2 L90 100 L310 100 L398 2 Z"></path>
+
+                            <path d="M2 398 L90 320 L310 320 L398 398 Z"></path>
+
+                            <path d="M90 176 H310 V206 H90 Z"></path>
+
+                            <!-- Question mark above the arc -->
+                            <text x="200" y="190" font-size="22" fill="#d6a05c" stroke="none"
+                                  text-anchor="middle" dominant-baseline="middle"
+                                  font-family="'IBM Plex Mono',monospace">?</text>
+
+
+                            <g fill="none">
+                                <path d="M90 320 L130 210 M310 320 L270 210"></path>
+                                <path d="M90 320 H310"></path>
+                                <path d="M95.7 304.3 H304.3"></path>
+                                <path d="M101.4 288.6 H298.6"></path>
+                                <path d="M107.1 272.9 H292.9"></path>
+                                <path d="M112.9 257.1 H287.1"></path>
+                                <path d="M118.6 241.4 H281.4"></path>
+                                <path d="M124.3 225.7 H275.7"></path>
+                                <path d="M130 210 H270"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stop A-6: input -->
+        <div class="card">
+            <div class="card-tag">Stop A-6</div>
+            <div class="answer-line"></div>
+        </div>
+
+        <!-- Convergence meet card -->
+        <div class="meet-card">
+            <div class="meet-eyebrow">Convergence</div>
+            <div class="meet-title">Find Group Beta.</div>
+            <p class="meet-sub">You have both completed your routes. Regroup and find the next stop. Enter what you find below together.</p>
+
+            <!-- Campus Library icons (sized small) -->
+            <div class="meet-visual">
+                <div class="marker-icon compass">
+                    <svg width="72" height="72" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="27" stroke="#8fdba8" stroke-width="1.2" fill="rgba(143,219,168,0.05)"/>
+                        <polygon points="32,7 28,32 36,32" fill="#8fdba8"/>
+                        <polygon points="32,57 28,32 36,32" fill="rgba(143,219,168,0.18)" stroke="#8fdba8" stroke-width="1"/>
+                        <circle cx="32" cy="32" r="3.5" fill="#17101f" stroke="#8fdba8" stroke-width="1"/>
+                        <text x="32" y="4" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8fdba8" font-weight="500">S</text>
+                        <text x="32" y="61" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(143,219,168,0.6)">N</text>
+                        <text x="5" y="32" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(143,219,168,0.5)">E</text>
+                        <text x="59" y="32" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(143,219,168,0.5)">W</text>
+                    </svg>
+                </div>
+                <div class="marker-icon building">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="512" height="336">
+                        <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+
+
+                            <rect x="60" y="30" width="520" height="290"></rect>
+
+
+                            <rect x="150" y="180" width="60" height="140"></rect>
+                            <rect x="290" y="180" width="60" height="140"></rect>
+                            <rect x="430" y="180" width="60" height="140"></rect>
+
+
+                            <g fill="none">
+                                <path d="M200 236 V264"></path>
+                                <path d="M340 236 V264"></path>
+                                <path d="M480 236 V264"></path>
+                            </g>
+
+
+                            <g fill="none">
+                                <path d="M130 320 H510"></path>
+                                <path d="M108 338 H532"></path>
+                                <path d="M86 356 H554"></path>
+                                <path d="M64 374 H576"></path>
+                                <path d="M42 392 H598"></path>
+                                <path d="M20 410 H620"></path>
+                                <path d="M130 320 L20 410 M510 320 L620 410"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <div class="marker-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 860" width="460" height="860">
+                        <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+
+
+                            <rect x="40" y="24" width="60" height="40" rx="2"></rect>
+                            <text x="70" y="44" fill="#8fdba8" stroke="none" font-family="Georgia, serif" font-size="26" text-anchor="middle" dominant-baseline="central">?</text>
+                            <path d="M100 44 H201" fill="none"></path>
+                            <rect x="201" y="24" width="60" height="40" rx="2"></rect>
+
+
+                            <path d="M221 64 V104 M241 64 V104" fill="none"></path>
+                            <rect x="201" y="104" width="60" height="40" rx="2"></rect>
+
+
+                            <path d="M221 144 V344 M241 144 V344" fill="none"></path>
+                            <rect x="201" y="344" width="60" height="40" rx="2"></rect>
+
+
+                            <path d="M221 384 V544 M241 384 V544" fill="none"></path>
+                            <rect x="201" y="544" width="60" height="40" rx="2"></rect>
+
+
+                            <path d="M221 584 V644 M241 584 V644" fill="none"></path>
+                            <rect x="201" y="644" width="60" height="40" rx="2"></rect>
+                            <path d="M261 658 H452 M261 674 H436" fill="none"></path>
+
+
+                            <path d="M221 684 V724 M241 684 V724" fill="none"></path>
+                            <rect x="201" y="724" width="60" height="40" rx="2"></rect>
+                            <path d="M201 738 H20 M201 754 H44" fill="none"></path>
+
+
+                            <path d="M221 764 V856 M241 764 V856" fill="none"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Answer line inside meet card -->
+            <div class="meet-answer-card">
+                <div class="meet-answer-tag">Where to go next?</div>
+                <div class="answer-line"></div>
+            </div>
+        </div>
+
+        <!-- Final clue card -->
+        <div class="final-clue-card">
+            <div class="card-tag">Your next clue</div>
+            <div class="final-body">Two bags. Two people. One clue split between them.
+
+Somewhere in this group, two of you have been carrying something all day without knowing it. Find the two people, find the two bags, and look inside — the next clue is waiting in both.
+
+                <img src="qr-code8.png" alt="QR code">
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
