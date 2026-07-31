@@ -43,6 +43,35 @@ document.addEventListener('DOMContentLoaded', function() {
         pageSubtitle: "Enter what you discovered to break the seals.",
         sections: [
             {
+                title: "The Challenges",
+                note:  "Solve these together — the answers point the way.",
+                items: [
+                    {
+                        type:  'poem',
+                        label: "Clue 1 · Riddle",
+                        text:  `Seek out the woman who wears no crown,
+Yet rules a palace here in town.
+Not a castle of stone and moat,
+But one where flickering stories float.
+Her name means "queen" in a language old,
+Her halls are dark, her tales are bold.
+
+Where we sit, we watch, we later debate —
+One studio brings us stories of fate,
+Its number is twenty, and four the rest,
+The strangest, boldest, and often the best.`
+                    },
+                    {
+                        type:  'display',
+                        label: "Clue 2 · Anagram",
+                        title: "Unscramble This",
+                        text:  "A word has been scattered like ash in the wind.\n" +
+                               "Piece it back together — the word is not the answer, it is the key. Return to the palace the first riddle named. Carry your unscrambled word — it will guide your eyes once you arrive.\n" +
+                               "YESDOSY"
+                    }
+                ]
+            },
+            {
                 items: [
                     { type: 'text',
                         label: "Where should you go next?",
@@ -57,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         label: "Password (Go to the location and find the password using the key)",
                         answers: ["16.07.2026"],
                         hint: ""},
+                    { type: 'photo', label: "Capture This Stop" }
                 ]
             }
         ],
