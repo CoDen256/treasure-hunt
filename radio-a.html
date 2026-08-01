@@ -383,19 +383,19 @@
                         <path d="M72,25 C74,23 77,25 79,23" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
                         <path d="M72,29 C74,27 77,29 79,27" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
                         <path d="M72,33 C74,31 77,33 79,31" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
-                        <circle cx="79" cy="50" r="5" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
-                        <line x1="79" y1="50" x2="79"   y2="46.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
-                        <line x1="79" y1="50" x2="82.5" y2="50"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
-                        <!-- Book (lower): open book with curved pages and text lines -->
-                        <path d="M79,65 C76,65 73,66.5 73,68 L73,79 C76,78 79,78.5 79,79" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2" stroke-linejoin="round"/>
-                        <path d="M79,65 C82,65 85,66.5 85,68 L85,79 C82,78 79,78.5 79,79" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2" stroke-linejoin="round"/>
-                        <line x1="79" y1="65" x2="79" y2="79" stroke="#d6a05c" stroke-width="1.4" stroke-linecap="round"/>
-                        <line x1="74" y1="70.5" x2="78" y2="70.5" stroke="#d6a05c" stroke-width="0.5" opacity="0.6"/>
-                        <line x1="74" y1="73"   x2="78" y2="73"   stroke="#d6a05c" stroke-width="0.5" opacity="0.6"/>
-                        <line x1="74" y1="75.5" x2="78" y2="75.5" stroke="#d6a05c" stroke-width="0.5" opacity="0.35"/>
-                        <line x1="80" y1="70.5" x2="84" y2="70.5" stroke="#d6a05c" stroke-width="0.5" opacity="0.6"/>
-                        <line x1="80" y1="73"   x2="84" y2="73"   stroke="#d6a05c" stroke-width="0.5" opacity="0.6"/>
-                        <line x1="80" y1="75.5" x2="84" y2="75.5" stroke="#d6a05c" stroke-width="0.5" opacity="0.35"/>
+                        <circle cx="67" cy="50" r="5" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
+                        <line x1="67" y1="50" x2="67"   y2="46.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <line x1="67" y1="50" x2="70.5" y2="50"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- Book: smaller open-book silhouette -->
+                        <path d="M79,68 L74,69.5 L74,78 L79,78 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1"/>
+                        <path d="M79,68 L84,69.5 L84,78 L79,78 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1"/>
+                        <line x1="79" y1="68" x2="79" y2="78" stroke="#d6a05c" stroke-width="1.4" stroke-linecap="round"/>
+                        <line x1="74.5" y1="71.5" x2="78" y2="71.5" stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
+                        <line x1="74.5" y1="74"   x2="78" y2="74"   stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
+                        <line x1="74.5" y1="76.5" x2="78" y2="76.5" stroke="#d6a05c" stroke-width="0.5"  opacity="0.4"/>
+                        <line x1="80"   y1="71.5" x2="83.5" y2="71.5" stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
+                        <line x1="80"   y1="74"   x2="83.5" y2="74"   stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
+                        <line x1="80"   y1="76.5" x2="83.5" y2="76.5" stroke="#d6a05c" stroke-width="0.5"  opacity="0.4"/>
                         <!-- Bottom-left water drop (smaller, moved down slightly) -->
                         <path d="M10,76 C9,78 7,80.5 7,82 C7,84 8.3,85.2 10,85.2 C11.7,85.2 13,84 13,82 C13,80.5 11,78 10,76 Z"
                               fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="0.9"/>
@@ -468,12 +468,13 @@
 
                             <rect x="40" y="24" width="60" height="40" rx="2"></rect>
                             <text x="70" y="44" fill="#8fdba8" stroke="none" font-family="Georgia, serif" font-size="26" text-anchor="middle" dominant-baseline="central">?</text>
-                            <path d="M100 44 H201" fill="none"></path>
+                            <path d="M100 38 H201 M100 54 H201" fill="none"></path>
                             <rect x="201" y="24" width="60" height="40" rx="2"></rect>
 
 
                             <path d="M221 64 V104 M241 64 V104" fill="none"></path>
                             <rect x="201" y="104" width="60" height="40" rx="2"></rect>
+                            <path d="M261 118 H452 M261 134 H436" fill="none"></path>
 
 
                             <path d="M221 144 V344 M241 144 V344" fill="none"></path>
@@ -499,22 +500,32 @@
                     </svg>
                 </div>
                 <div class="marker-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="512" height="336">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="380" height="250">
                         <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
 
 
                             <rect x="60" y="30" width="520" height="290"></rect>
 
 
-                            <rect x="150" y="180" width="60" height="140"></rect>
-                            <rect x="290" y="180" width="60" height="140"></rect>
-                            <rect x="430" y="180" width="60" height="140"></rect>
+                            <!-- Door 1: double panels -->
+                            <rect x="150" y="180" width="28" height="140"></rect>
+                            <rect x="182" y="180" width="28" height="140"></rect>
+                            <!-- Door 2: double panels -->
+                            <rect x="290" y="180" width="28" height="140"></rect>
+                            <rect x="322" y="180" width="28" height="140"></rect>
+                            <!-- Door 3: double panels -->
+                            <rect x="430" y="180" width="28" height="140"></rect>
+                            <rect x="462" y="180" width="28" height="140"></rect>
 
 
                             <g fill="none">
-                                <path d="M200 236 V264"></path>
-                                <path d="M340 236 V264"></path>
-                                <path d="M480 236 V264"></path>
+                                <!-- Mirrored handles: left panel (near seam) + right panel (mirror) -->
+                                <path d="M173 236 V264"></path>
+                                <path d="M187 236 V264"></path>
+                                <path d="M313 236 V264"></path>
+                                <path d="M327 236 V264"></path>
+                                <path d="M453 236 V264"></path>
+                                <path d="M467 236 V264"></path>
                             </g>
 
 
