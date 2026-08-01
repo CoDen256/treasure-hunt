@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunt — Invitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="print-shared.css">
+    <style>
+        body { padding: 8mm 10mm 8mm 10mm; }
+
+        /* ── Hero ─────────────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 5mm 0 4mm;
+            margin-bottom: 5mm;
+            border-bottom: 1px solid rgba(184,133,58,0.35);
+        }
+
+        .hero-over {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 3mm;
+        }
+
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 38pt;
+            color: #17101f;
+            line-height: 1;
+            margin-bottom: 2mm;
+        }
+
+        .hero-sub {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 10pt;
+            color: #6b4d20;
+            margin-top: 2mm;
+        }
+
+        /* ── Info row ─────────────────────────────────────── */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3mm;
+            margin-bottom: 5mm;
+        }
+
+        .info-card {
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            padding: 3.5mm 4mm;
+            text-align: center;
+            position: relative;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(184,133,58,0.28);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .info-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #8a6535;
+            margin-bottom: 2mm;
+        }
+
+        .info-value {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 14pt;
+            color: #17101f;
+            line-height: 1.25;
+        }
+
+        /* ── Meeting place ────────────────────────────────── */
+        .place-card {
+            background: #ede3cc;
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            padding: 3.5mm 4.5mm;
+            position: relative;
+            margin-bottom: 0;
+        }
+
+        .place-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(184,133,58,0.28);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .place-name {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 12.5pt;
+            color: #17101f;
+            margin-bottom: 1mm;
+        }
+
+        .place-address {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8.5pt;
+            color: #6b4d20;
+            line-height: 1.5;
+        }
+
+        /* ── Map ──────────────────────────────────────────── */
+        .map-wrap {
+            border: 1px solid #b8853a;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 2.5mm;
+            height: 62mm;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Make Leaflet tiles print */
+        .leaflet-tile,
+        .leaflet-tile-container,
+        .leaflet-overlay-pane,
+        .leaflet-pane {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .map-coords {
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 6pt;
+            letter-spacing: 0.12em;
+            color: #8a6535;
+            margin-top: 1.5mm;
+            opacity: 0.8;
+        }
+
+        /* ── Closing note ─────────────────────────────────── */
+        .invite-note {
+            margin-top: 5mm;
+            padding-top: 4mm;
+            border-top: 1px solid rgba(184,133,58,0.3);
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 11.5pt;
+            color: #6b4d20;
+            text-align: center;
+            line-height: 1.65;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="seal">&amp;</div>
+        <div class="header-body">
+            <div class="eyebrow">An Invitation</div>
+        </div>
+    </div>
+
+    <!-- ── Hero ── -->
+    <div class="hero">
+        <div class="hero-over">You are cordially invited to</div>
+        <div class="hero-title">Treasure Hunt</div>
+        <div class="ornament">· · &amp; · ·</div>
+        <div class="hero-sub">Through the streets of Leipzig — seven of us, one trail.</div>
+    </div>
+
+    <!-- ── When ── -->
+    <div class="section-tag" style="margin-bottom: 3mm;">When</div>
+    <div class="info-row">
+        <div class="info-card">
+            <div class="info-label">Date</div>
+            <div class="info-value"><span style="font-size:11pt;">02 August 2026</span></div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">Time</div>
+            <div class="info-value">14:00<br></div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">Duration</div>
+            <div class="info-value">approx.<br><span style="font-size:11pt;">3–4 hours</span></div>
+        </div>
+    </div>
+
+    <!-- ── Where ── -->
+    <div class="section-tag" style="margin-bottom: 2.5mm;">Where to Meet</div>
+    <div class="place-card">
+        <div class="card-tag">Meeting Point</div>
+        <div class="place-name">Veteran Park, Krieger Denkmal Reudnitz</div>
+        <div class="place-address">
+            Koehlerstraße &nbsp;·&nbsp; Leipzig 04317
+        </div>
+    </div>
+
+    <!-- ── Map ── -->
+    <div class="map-wrap">
+        <div id="map"></div>
+    </div>
+    <div class="map-coords">51.33886° N &nbsp;&nbsp;·&nbsp;&nbsp; 12.40331° E</div>
+
+    <!-- ── Closing ── -->
+    <div class="invite-note">
+        No preparation needed — just bring yourself and your curiosity.<br>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const LAT = 51.33886324108378;
+        const LNG = 12.40330985572655;
+
+        const map = L.map('map', {
+            center: [LAT, LNG],
+            zoom: 18,
+            zoomControl: false,
+            attributionControl: false,
+            dragging: false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            keyboard: false
+        });
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 20
+        }).addTo(map);
+
+        const pinIcon = L.divIcon({
+            className: '',
+            html: `<div style="font-size:32px; line-height:1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));">📍</div>`,
+            iconSize: [32, 32],
+            iconAnchor: [10, 32]
+        });
+
+        L.marker([51.33886324108378, 12.40320555572655], { icon: pinIcon }).addTo(map);
+
+        // Ensure tiles render correctly when the print dialog opens
+        window.addEventListener('beforeprint', () => {
+            map.invalidateSize();
+        });
+    </script>
+
+</body>
+</html>
