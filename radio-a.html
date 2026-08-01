@@ -227,6 +227,12 @@
                         <!-- Fountain: outer ring + inner filled dot -->
                         <circle cx="62" cy="7"  r="5.5" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.4"/>
                         <circle cx="62" cy="7"  r="2.2" fill="rgba(214,160,92,0.35)" stroke="#d6a05c" stroke-width="0.7"/>
+                        <!-- Water jets -->
+                        <path d="M61,4.5 C60,3 61,2.2 62,2.5" stroke="#d6a05c" stroke-width="0.5" fill="none" opacity="0.8" stroke-linecap="round"/>
+                        <path d="M63,4.5 C64,3 63,2.2 62,2.5" stroke="#d6a05c" stroke-width="0.5" fill="none" opacity="0.8" stroke-linecap="round"/>
+                        <circle cx="60.5" cy="2"   r="0.55" fill="rgba(214,160,92,0.75)"/>
+                        <circle cx="62"   cy="1.5" r="0.55" fill="rgba(214,160,92,0.75)"/>
+                        <circle cx="63.5" cy="2"   r="0.55" fill="rgba(214,160,92,0.75)"/>
                         <!-- South line: dashed, with downward arrowhead -->
                         <line x1="62" y1="13" x2="62" y2="47"
                               stroke="#d6a05c" stroke-width="0.5" />
@@ -239,6 +245,7 @@
                               stroke="#d6a05c" stroke-width="0.5"
                         />
                         <!-- Horizontal wall at the left end of the bearing line -->
+                        <text x="3.5" y="15.5" font-size="4.5" fill="#d6a05c" text-anchor="middle" opacity="0.9">?</text>
                         <line x1="2" y1="17" x2="5" y2="21"
                               stroke="#d6a05c" stroke-width="0.4"/>
                         <line x1="2" y1="21" x2="5" y2="17"
@@ -251,7 +258,7 @@
                         <!-- Angle arc: counterclockwise from south (62,27) to bearing dir (48,14) -->
 
                         <!-- Angle label -->
-                        <text x="50" y="18" font-size="4.5" fill="#d6a05c">83.3°</text>
+                        <text x="50" y="18" font-size="4.5" fill="#d6a05c">70°</text>
                     </svg>
                 </div>
             </div>
@@ -275,39 +282,56 @@
     <div class="step" id="step-b2-vis">
         <div class="radio-card">
             <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-2</div>
-            <div class="marker-scene">
-                <!-- Clock icon (left) -->
-                <div class="marker-icon">
-                    <svg width="90" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Face -->
-                        <circle cx="28" cy="28" r="24" fill="rgba(214,160,92,0.06)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <!-- Cardinal ticks -->
-                        <line x1="28" y1="5"  x2="28" y2="9"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
-                        <line x1="51" y1="28" x2="47" y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
-                        <line x1="28" y1="51" x2="28" y2="47" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
-                        <line x1="5"  y1="28" x2="9"  y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
-                        <!-- Hour hand → ~10 o'clock -->
-                        <line x1="28" y1="28" x2="17" y2="22" stroke="#d6a05c" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Minute hand → ~2 o'clock -->
-                        <line x1="28" y1="28" x2="44" y2="19" stroke="#d6a05c" stroke-width="1.6" stroke-linecap="round"/>
-                        <!-- Centre dot -->
-                        <circle cx="28" cy="28" r="2" fill="#d6a05c"/>
-                    </svg>
+            <div class="marker-scene" style="flex-direction: column; align-items: center; gap: 14px;">
+                <div style="display: flex; gap: 20px; align-items: flex-end; justify-content: center;">
+                    <!-- Bowl -->
+                    <div class="marker-icon">
+                        <svg width="75" height="62" viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Sound arcs above bowl -->
+                            <path d="M16,11 Q28,5 40,11" stroke="#d6a05c" stroke-width="0.8" fill="none" opacity="0.55" stroke-linecap="round"/>
+                            <path d="M12,7  Q28,0 44,7"  stroke="#d6a05c" stroke-width="0.6" fill="none" opacity="0.35" stroke-linecap="round"/>
+                            <!-- Rim -->
+                            <ellipse cx="28" cy="16" rx="20" ry="4" fill="rgba(214,160,92,0.08)" stroke="#d6a05c" stroke-width="1.3"/>
+                            <!-- Bowl body -->
+                            <path d="M8,16 Q8,36 28,38 Q48,36 48,16" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2"/>
+                            <!-- Base ring -->
+                            <ellipse cx="28" cy="38" rx="10" ry="2.2" fill="rgba(214,160,92,0.06)" stroke="#d6a05c" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <!-- Clock icon -->
+                    <div class="marker-icon">
+                        <svg width="90" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Face -->
+                            <circle cx="28" cy="28" r="24" fill="rgba(214,160,92,0.06)" stroke="#d6a05c" stroke-width="1.5"/>
+                            <!-- Cardinal ticks -->
+                            <line x1="28" y1="5"  x2="28" y2="9"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                            <line x1="51" y1="28" x2="47" y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                            <line x1="28" y1="51" x2="28" y2="47" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                            <line x1="5"  y1="28" x2="9"  y2="28" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
+                            <!-- Hour hand → ~10 o'clock -->
+                            <line x1="28" y1="28" x2="17" y2="22" stroke="#d6a05c" stroke-width="2.2" stroke-linecap="round"/>
+                            <!-- Minute hand → ~2 o'clock -->
+                            <line x1="28" y1="28" x2="44" y2="19" stroke="#d6a05c" stroke-width="1.6" stroke-linecap="round"/>
+                            <!-- Centre dot -->
+                            <circle cx="28" cy="28" r="2" fill="#d6a05c"/>
+                        </svg>
+                    </div>
+                    <!-- Water drop -->
+                    <div class="marker-icon">
+                        <svg width="80" height="72" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Drop body -->
+                            <path d="M32,3 C27,10 16,22 16,31 C16,40 23,46 32,46 C41,46 48,40 48,31 C48,22 37,10 32,3 Z"
+                                  fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
+                            <!-- Highlight -->
+                            <ellipse cx="25" cy="20" rx="4" ry="6" fill="rgba(214,160,92,0.22)"
+                                     transform="rotate(-20 25 20)"/>
+                            <!-- Ripples -->
+                            <path d="M20,49 Q32,46 44,49" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.5"/>
+                            <path d="M13,53 Q32,49 51,53" stroke="#d6a05c" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.35"/>
+                        </svg>
+                    </div>
                 </div>
-                <!-- Water drop -->
-                <div class="marker-icon">
-                    <svg width="80" height="72" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Drop body -->
-                        <path d="M32,3 C27,10 16,22 16,31 C16,40 23,46 32,46 C41,46 48,40 48,31 C48,22 37,10 32,3 Z"
-                              fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1.5"/>
-                        <!-- Highlight -->
-                        <ellipse cx="25" cy="20" rx="4" ry="6" fill="rgba(214,160,92,0.22)"
-                                 transform="rotate(-20 25 20)"/>
-                        <!-- Ripples -->
-                        <path d="M20,49 Q32,46 44,49" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.5"/>
-                        <path d="M13,53 Q32,49 51,53" stroke="#d6a05c" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.35"/>
-                    </svg>
-                </div>
+                <!-- Formula below -->
                 <div class="marker-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
                         <rect x="8" y="10" width="184" height="40"
@@ -315,7 +339,6 @@
                               fill="rgba(214,160,92,0.1)"
                               stroke="#d6a05c"
                               stroke-width="1.5"/>
-
                         <text x="100" y="36"
                               font-family="Fraunces', serif"
                               font-size="20"
@@ -348,7 +371,7 @@
     <div class="step" id="step-b3-vis">
         <div class="radio-card">
             <div class="radio-eyebrow">Relay to Group Beta &nbsp;&middot;&nbsp; B-3</div>
-            <div class="marker-scene">
+            <div class="marker-scene" style="flex-direction: column; align-items: center; gap: 16px;">
                 <div class="marker-icon">
                     <!-- Mini-map: road → canal → waves / clock / book; bottom-left clock -->
                     <svg width="240" height="180" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -356,6 +379,7 @@
                         <line x1="24" y1="4"  x2="24" y2="85" stroke="#d6a05c" stroke-width=".4"/>
                         <line x1="60" y1="4"  x2="60" y2="85" stroke="#d6a05c" stroke-width=".4"/>
                         <!-- Waves: full height, stacked from top -->
+                        <text x="75.5" y="3.5" font-size="4" fill="#d6a05c" text-anchor="middle" opacity="0.9">?</text>
                         <path d="M72,5  C74,3  77,5  79,3"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
                         <path d="M72,9  C74,7  77,9  79,7"  stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
                         <path d="M72,13 C74,11 77,13 79,11" stroke="#d6a05c" stroke-width="1.2" stroke-linecap="round"/>
@@ -371,10 +395,10 @@
                         <path d="M79,66 L73,68 L73,78 L79,77 Z" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2"/>
                         <path d="M79,66 L85,68 L85,78 L79,77 Z" fill="rgba(214,160,92,0.10)" stroke="#d6a05c" stroke-width="1.2"/>
                         <line x1="79" y1="66" x2="79" y2="77" stroke="#d6a05c" stroke-width="1.3" stroke-linecap="round"/>
-                        <!-- Bottom-left clock -->
-                        <circle cx="10" cy="76" r="6" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
-                        <line x1="10" y1="76" x2="10"   y2="71.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
-                        <line x1="10" y1="76" x2="13.5" y2="76"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
+                        <!-- Bottom-left water drop (moved down slightly) -->
+                        <path d="M10,73 C8,76 4.5,80 4.5,83 C4.5,86.5 6.9,88.5 10,88.5 C13.1,88.5 15.5,86.5 15.5,83 C15.5,80 12,76 10,73 Z"
+                              fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1"/>
+                        <ellipse cx="8" cy="78.5" rx="1.2" ry="2" fill="rgba(214,160,92,0.25)" transform="rotate(-20 8 78.5)"/>
                     </svg>
                 </div>
                 <div class="marker-icon">
