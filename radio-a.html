@@ -386,16 +386,27 @@
                         <circle cx="67" cy="50" r="5" stroke="#d6a05c" stroke-width="1.2" fill="rgba(214,160,92,0.07)"/>
                         <line x1="67" y1="50" x2="67"   y2="46.5" stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
                         <line x1="67" y1="50" x2="70.5" y2="50"   stroke="#d6a05c" stroke-width="1.1" stroke-linecap="round"/>
-                        <!-- Book: smaller open-book silhouette -->
-                        <path d="M79,68 L74,69.5 L74,78 L79,78 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1"/>
-                        <path d="M79,68 L84,69.5 L84,78 L79,78 Z" fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="1"/>
-                        <line x1="79" y1="68" x2="79" y2="78" stroke="#d6a05c" stroke-width="1.4" stroke-linecap="round"/>
-                        <line x1="74.5" y1="71.5" x2="78" y2="71.5" stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
-                        <line x1="74.5" y1="74"   x2="78" y2="74"   stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
-                        <line x1="74.5" y1="76.5" x2="78" y2="76.5" stroke="#d6a05c" stroke-width="0.5"  opacity="0.4"/>
-                        <line x1="80"   y1="71.5" x2="83.5" y2="71.5" stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
-                        <line x1="80"   y1="74"   x2="83.5" y2="74"   stroke="#d6a05c" stroke-width="0.55" opacity="0.65"/>
-                        <line x1="80"   y1="76.5" x2="83.5" y2="76.5" stroke="#d6a05c" stroke-width="0.5"  opacity="0.4"/>
+                        <!-- Book: closed-book silhouette -->
+                        <g transform="translate(68,61) scale(0.25)">
+                            <path d="M16 14 C16 12 17 11 19 11 L21 11 L21 53 C21 55 20 56 18 56 L16 56 Z"
+                                  stroke="#d6a05c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="rgba(214,160,92,0.06)"/>
+                            <path d="M21 11 L48 9 C50 9 51 10 51 12 L51 52 C51 54 50 55 48 55 L21 53 Z"
+                                  stroke="#d6a05c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="rgba(214,160,92,0.06)"/>
+                            <path d="M51 12 L54 13.5 L54 53.5 L51 52 Z"
+                                  stroke="#d6a05c" stroke-width="1.75" stroke-linejoin="round" fill="rgba(214,160,92,0.06)"/>
+                            <g stroke="#d6a05c" stroke-width="1" opacity="0.55" stroke-linecap="round">
+                                <line x1="52" y1="18" x2="53.2" y2="18.6"/>
+                                <line x1="52" y1="24" x2="53.2" y2="24.6"/>
+                                <line x1="52" y1="30" x2="53.2" y2="30.6"/>
+                                <line x1="52" y1="36" x2="53.2" y2="36.6"/>
+                                <line x1="52" y1="42" x2="53.2" y2="42.6"/>
+                                <line x1="52" y1="48" x2="53.2" y2="48.6"/>
+                            </g>
+                            <g stroke="#d6a05c" stroke-linecap="round" opacity="0.75">
+                                <line x1="28" y1="24" x2="44" y2="22.8" stroke-width="1.75"/>
+                                <line x1="28" y1="29" x2="41" y2="28" stroke-width="1.25"/>
+                            </g>
+                        </g>
                         <!-- Bottom-left water drop (smaller, moved down slightly) -->
                         <path d="M10,76 C9,78 7,80.5 7,82 C7,84 8.3,85.2 10,85.2 C11.7,85.2 13,84 13,82 C13,80.5 11,78 10,76 Z"
                               fill="rgba(214,160,92,0.12)" stroke="#d6a05c" stroke-width="0.9"/>
@@ -462,7 +473,7 @@
             <!-- Campus Library icon -->
             <div class="marker-scene" style="margin: 0 0 20px; flex-direction: column; align-items: center;">
                 <div class="marker-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 860" width="460" height="860">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 940" width="460" height="940">
                         <g fill="rgba(143,219,168,0.07)" stroke="#8fdba8" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
 
 
@@ -496,6 +507,25 @@
 
 
                             <path d="M221 764 V856 M241 764 V856" fill="none"></path>
+
+                            <g stroke="#8fdba8" stroke-width="1.5" stroke-linecap="round" opacity="0.4">
+                                <line x1="20"  y1="878" x2="20"  y2="908"/>
+                                <line x1="48"  y1="878" x2="48"  y2="908"/>
+                                <line x1="76"  y1="878" x2="76"  y2="908"/>
+                                <line x1="104" y1="878" x2="104" y2="908"/>
+                                <line x1="132" y1="878" x2="132" y2="908"/>
+                                <line x1="160" y1="878" x2="160" y2="908"/>
+                                <line x1="188" y1="878" x2="188" y2="908"/>
+                                <line x1="216" y1="878" x2="216" y2="908"/>
+                                <line x1="244" y1="878" x2="244" y2="908"/>
+                                <line x1="272" y1="878" x2="272" y2="908"/>
+                                <line x1="300" y1="878" x2="300" y2="908"/>
+                                <line x1="328" y1="878" x2="328" y2="908"/>
+                                <line x1="356" y1="878" x2="356" y2="908"/>
+                                <line x1="384" y1="878" x2="384" y2="908"/>
+                                <line x1="412" y1="878" x2="412" y2="908"/>
+                                <line x1="440" y1="878" x2="440" y2="908"/>
+                            </g>
                         </g>
                     </svg>
                 </div>
